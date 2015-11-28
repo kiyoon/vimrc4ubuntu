@@ -1,3 +1,23 @@
+
+" settings profile based on OS name
+"let os = 'fc'
+let os = 'ubuntu'
+
+if os == 'fc'
+	let use_ycm				= 1
+	let use_ycm_spellcheck	= 0
+elseif os == 'ubuntu'
+	let use_ycm				= 0
+	let use_ycm_spellcheck	= 0
+endif
+
+" directory path where the vimrc is installed
+let installed_dir = "~/vimrc4ubuntu"
+
+if use_ycm 
+	exec "source " . installed_dir . "/ycm.vim"
+endif
+
 " If you prefer the Omni-Completion tip window to close when a selection is
 " made, these lines close it on movement in insert mode or when leaving
 " insert mode
@@ -19,6 +39,10 @@ set scrolloff=2
 
 " highlight cursor line
 "set cursorline
+
+" set each buffer store up to 1000 lines(<1000), maximum buffer size
+" 1000kb(s1000)
+set viminfo='20,<1000,s1000
 
 " backup
 set backup
@@ -65,11 +89,14 @@ function! InitBackupDir()
 endfunction
 call InitBackupDir()
 
-" YouCompleteMe : syntax checker off
-"let g:ycm_show_diagnostics_ui = 0
-
+if !use_ycm_spellcheck
+	" YouCompleteMe : syntax checker off
+	let g:ycm_show_diagnostics_ui = 0
+endif
+" YCM : for compiler option
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 " YCM : no highlight
-let g:ycm_enable_diagnostic_highlighting = 0
+" let g:ycm_enable_diagnostic_highlighting = 0
 " YCM : change warning symbol
 let g:ycm_warning_symbol = '??'
 
