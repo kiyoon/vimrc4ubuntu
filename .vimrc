@@ -25,7 +25,6 @@ endif
 "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 "
 set nu
-set smartindent
 set hlsearch
 
 " search as characters are entered
