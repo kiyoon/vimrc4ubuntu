@@ -24,7 +24,15 @@ endif
 "autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 "
+
+" Open new split panes to right and bottom, which feels more natural than Vim’s default:
+set splitbelow
+set splitright
+
+" show line numbers
 set nu
+
+" highlight search
 set hlsearch
 
 " search as characters are entered
