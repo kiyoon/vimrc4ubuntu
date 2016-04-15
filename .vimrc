@@ -117,6 +117,9 @@ filetype plugin indent on
 " use tab as spaces in python
 autocmd FileType python set expandtab
 
+" turn off automatic new line when the text is too long in a line (e.g. SML)
+set textwidth=0 wrapmargin=0
+
 set wildmenu
 
 set foldmethod=marker
