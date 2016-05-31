@@ -8,7 +8,7 @@ if os == 'fc'
 	let use_ycm_spellcheck	= 0
 elseif os == 'ubuntu'
 	let use_ycm				= 0
-	let use_ycm_spellcheck	= 0
+	let use_ycm_spellcheck	= 1
 endif
 
 " directory path where the vimrc is installed
@@ -24,6 +24,9 @@ endif
 "autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 "
+
+" set the colorscheme to ron. When using screen or tmux, colorscheme is changed to default. To prevent this, it should be written.
+color ron
 
 " Open new split panes to right and bottom, which feels more natural than Vim’s default:
 set splitbelow
@@ -101,7 +104,12 @@ if !use_ycm_spellcheck
 	let g:ycm_show_diagnostics_ui = 0
 endif
 " YCM : for compiler option
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+
+if os == 'ubuntu'
+	let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+else
+	let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+endif
 " YCM : no highlight
 " let g:ycm_enable_diagnostic_highlighting = 0
 " YCM : change warning symbol
@@ -118,7 +126,8 @@ filetype plugin indent on
 autocmd FileType python set expandtab
 
 " turn off automatic new line when the text is too long in a line (e.g. SML)
-set textwidth=0 wrapmargin=0
+autocmd FileType sml set textwidth=0 wrapmargin=0
+autocmd FileType vim set textwidth=0 wrapmargin=0
 
 set wildmenu
 
@@ -129,6 +138,7 @@ set commentstring=%s
 autocmd FileType c,cpp,java,html,php setl commentstring=//%s 
 autocmd FileType sh,python setl commentstring=#%s 
 autocmd FileType matlab setl commentstring=%%s
+autocmd FileType sml setl commentstring=(*%s*)
 "autocmd FileType html,php setl commentstring=<!--%s-->
 
 " set foldcolumn automatically if there is at least one fold
