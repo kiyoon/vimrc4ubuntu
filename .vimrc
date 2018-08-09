@@ -1,7 +1,7 @@
 
 " settings profile based on OS name
-let os = 'fc'
-"let os = 'ubuntu'
+"let os = 'fc'
+let os = 'ubuntu'
 
 if os == 'fc'
 	let use_ycm				= 1
