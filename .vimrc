@@ -1,7 +1,7 @@
 
 " settings profile based on OS name
-"let os = 'fc'
-let os = 'ubuntu'
+let os = 'fc'
+"let os = 'ubuntu'
 
 if os == 'fc'
 	let use_ycm				= 1
@@ -142,6 +142,8 @@ function HasFolds()
 		return 0
 	endfunction
 
+	" suppress all sounds when this function calls
+	set belloff=all
 	let l:winview=winsaveview() "save window and cursor position
 	let foldsexist=HasFoldsInner()
 	if foldsexist
@@ -164,6 +166,9 @@ function HasFolds()
 		endif
 	end
 	call winrestview(l:winview) "restore window/cursor position
+
+	" enable bell sounds again
+	set belloff=
 endfunction
 
 au CursorHold,BufWinEnter ?* call HasFolds()
