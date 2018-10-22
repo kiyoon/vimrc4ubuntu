@@ -25,7 +25,10 @@ endif
 "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 "
 
+syntax on
+
 " set the colorscheme to ron. When using screen or tmux, colorscheme is changed to default. To prevent this, it should be written.
+"color default
 color ron
 
 " Open new split panes to right and bottom, which feels more natural than Vim’s default:
@@ -115,6 +118,9 @@ endif
 " YCM : change warning symbol
 let g:ycm_warning_symbol = '??'
 
+" make backspace working properly
+set backspace=indent,eol,start
+
 " set tab length to 4 spaces
 set tabstop=4
 set shiftwidth=4
@@ -122,8 +128,16 @@ set shiftwidth=4
 " automatic indent on bash
 filetype plugin indent on
 
-" use tab as spaces in python
-autocmd FileType python set expandtab
+" use tab as spaces in python, tex
+autocmd FileType python,tex set expandtab
+
+" latex settings (global values require vim-latex plugin)
+autocmd FileType tex set tabstop=2
+autocmd FileType tex set shiftwidth=2
+autocmd FileType tex set iskeyword+=:
+let g:tex_flavor='latex'
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_MultipleCompileFormats='pdf, aux'
 
 " turn off automatic new line when the text is too long in a line (e.g. SML)
 autocmd FileType sml set textwidth=0 wrapmargin=0
@@ -163,7 +177,8 @@ function HasFolds()
 	endfunction
 
 	" suppress all sounds when this function calls
-	set belloff=all
+"	set belloff=all
+	set noeb vb t_vb=
 	let l:winview=winsaveview() "save window and cursor position
 	let foldsexist=HasFoldsInner()
 	if foldsexist
@@ -188,7 +203,8 @@ function HasFolds()
 	call winrestview(l:winview) "restore window/cursor position
 
 	" enable bell sounds again
-	set belloff=
+"	set belloff=
+	set novb eb
 endfunction
 
 au CursorHold,BufWinEnter ?* call HasFolds()
