@@ -69,7 +69,6 @@ function! InitUndoDir()
   endif
   let l:parent = $HOME . '/' . l:separator . 'vim/'
   let l:undo = l:parent . 'undo/'
-  let l:tmp = l:parent . 'tmp/'
   if exists('*mkdir')
     if !isdirectory(l:parent)
       call mkdir(l:parent)
@@ -77,27 +76,17 @@ function! InitUndoDir()
     if !isdirectory(l:undo)
       call mkdir(l:undo)
     endif
-    if !isdirectory(l:tmp)
-      call mkdir(l:tmp)
-    endif
   endif
   let l:missing_dir = 0
-  if isdirectory(l:tmp)
+  if isdirectory(l:undo)
     execute 'set undodir=' . escape(l:undo, ' ') . '/,.'
   else
     let l:missing_dir = 1
   endif
-  if isdirectory(l:undo)
-    execute 'set directory=' . escape(l:tmp, ' ') . '/,.'
-  else
-    let l:missing_dir = 1
-  endif
   if l:missing_dir
-    echo 'Warning: Unable to create undo directories:' l:undo 'and' l:tmp
+    echo 'Warning: Unable to create undo directories:' l:undo
     echo 'Try: mkdir -p' l:undo
-    echo 'and: mkdir -p' l:tmp
     set undodir=.
-    set directory=.
   endif
 endfunction
 call InitUndoDir()
@@ -111,7 +100,8 @@ set viminfo='20,<1000,s1000
 
 " backup
 set backup
-"set backupdir=./.backup//
+" backup ext to date
+:au BufWritePre * let &bex = '-' . strftime("%Y%m%d_%H%M%S") . '~'
 " set auto backupdir to ~/.vim/backup
 function! InitBackupDir()
   if has('win32') || has('win32unix') "windows/cygwin
@@ -134,12 +124,12 @@ function! InitBackupDir()
     endif
   endif
   let l:missing_dir = 0
-  if isdirectory(l:tmp)
+  if isdirectory(l:backup)
     execute 'set backupdir=' . escape(l:backup, ' ') . '/,.'
   else
     let l:missing_dir = 1
   endif
-  if isdirectory(l:backup)
+  if isdirectory(l:tmp)
     execute 'set directory=' . escape(l:tmp, ' ') . '/,.'
   else
     let l:missing_dir = 1
