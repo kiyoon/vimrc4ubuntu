@@ -6,9 +6,11 @@ let os = 'ubuntu'
 if os == 'fc'
 	let use_ycm				= 1
 	let use_ycm_spellcheck	= 0
+	let use_pathogen        = 0
 elseif os == 'ubuntu'
 	let use_ycm				= 0
 	let use_ycm_spellcheck	= 1
+	let use_pathogen        = 1
 endif
 
 " directory path where the vimrc is installed
@@ -16,6 +18,10 @@ let installed_dir = "~/vimrc4ubuntu"
 
 if use_ycm 
 	exec "source " . installed_dir . "/ycm.vim"
+endif
+
+if use_pathogen
+	execute pathogen#infect()
 endif
 
 " If you prefer the Omni-Completion tip window to close when a selection is
@@ -49,6 +55,52 @@ set sm
 
 " scroll offset
 set scrolloff=2
+
+" number of undo history
+set history=100
+
+" Maintain undo history between sessions (persistent undo)
+set undofile 
+function! InitUndoDir()
+  if has('win32') || has('win32unix') "windows/cygwin
+    let l:separator = '_'
+  else
+    let l:separator = '.'
+  endif
+  let l:parent = $HOME . '/' . l:separator . 'vim/'
+  let l:undo = l:parent . 'undo/'
+  let l:tmp = l:parent . 'tmp/'
+  if exists('*mkdir')
+    if !isdirectory(l:parent)
+      call mkdir(l:parent)
+    endif
+    if !isdirectory(l:undo)
+      call mkdir(l:undo)
+    endif
+    if !isdirectory(l:tmp)
+      call mkdir(l:tmp)
+    endif
+  endif
+  let l:missing_dir = 0
+  if isdirectory(l:tmp)
+    execute 'set undodir=' . escape(l:undo, ' ') . '/,.'
+  else
+    let l:missing_dir = 1
+  endif
+  if isdirectory(l:undo)
+    execute 'set directory=' . escape(l:tmp, ' ') . '/,.'
+  else
+    let l:missing_dir = 1
+  endif
+  if l:missing_dir
+    echo 'Warning: Unable to create undo directories:' l:undo 'and' l:tmp
+    echo 'Try: mkdir -p' l:undo
+    echo 'and: mkdir -p' l:tmp
+    set undodir=.
+    set directory=.
+  endif
+endfunction
+call InitUndoDir()
 
 " highlight cursor line
 "set cursorline
