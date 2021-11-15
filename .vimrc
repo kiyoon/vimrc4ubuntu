@@ -264,3 +264,32 @@ augroup resCur
   autocmd!
   autocmd BufWinEnter * call ResCur()
 augroup END
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Press <num>; to copy and paste lines to screen window <num>.
+" For example, 1; will paste selection (or current line)
+" to window 1 on GNU Screen.
+" If number not specified, then it will paste to window named `-console`.
+function! ChooseScreenWindow(vcount)
+  if a:vcount == 0
+	" No number given. By default, paste to -console window.
+    return "-console"
+  else
+    return a:vcount
+  endif
+endfunction
+
+" nnoremap : normal mode map
+" vnoremap : visual mode map
+"
+" 1. save count to pasteWindow
+" 2. yank using @s register.
+" 3. execute screen command.
+" substitute : change ^M (newline) to explicit string \n.
+:nnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:exe '!screen -p ' . pasteWindow . ' -X stuff "' . substitute(strtrans(@s),'\^@','\\n','g') . '"'<CR><CR>
+:vnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:exe '!screen -p ' . pasteWindow . ' -X stuff "' . substitute(strtrans(@s),'\^@','\\n','g') . '\n"'<CR><CR>
+" pasting to window 0 is not 0; but \;. Explicit separate command because v:count is 0 for no count, and also 0 is a command that moves the cursor.
+:nnoremap <silent> <leader>; "syy:<C-U>exe '!screen -p 0 -X stuff "' . substitute(strtrans(@s),'\^@','\\n','g') . '"'<CR><CR>
+:vnoremap <silent> <leader>; "syy:<C-U>exe '!screen -p 0 -X stuff "' . substitute(strtrans(@s),'\^@','\\n','g') . '\n"'<CR><CR>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
