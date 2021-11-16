@@ -14,9 +14,10 @@ Otherwise, you should turn off pathogen in `.vimrc`.
 
 
 # Custom commands
-- `;`: Paste line or selection to Screen window called `-console`.  
-- `<num>;`: Paste line or selection to Screen window \<num\>.  
-- `\;`: For window 0, use this instead of `0;`.
+- `-`: Paste line or selection to Screen window called `-console`.  
+- `<num>-`: Paste line or selection to Screen window \<num\>.  
+- `\-`: For window 0, use this instead of `0;`.
+- `_`, `<num>_`, `\_`: same as `-` but does not paste newline at the end.
 
 
 
