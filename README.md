@@ -7,3 +7,23 @@ Key features:
 - Detect file extension, and change behaviour accordingly
   - Python - expand tabs to space
   - Comment string (#, //, ...): used to make folds
+
+# Before you use
+If you want Python autocompletion, install Pathogen and Jedi-VIM.  
+Otherwise, you should turn off pathogen in `.vimrc`.
+
+
+# Custom commands
+- `;`: Paste line or selection to Screen window called `-console`.  
+- `<num>;`: Paste line or selection to Screen window \<num\>.  
+- `\;`: For window 0, use this instead of `0;`.
+
+
+
+# Useful VIM commands
+
+- `va(`, `va{`, `va"`, ...: select opening to closing of parentheses (do more `a(` for wider range)
+- `vi(`: same as above but exclude parentheses.
+- `viw` : select a word
+
+
