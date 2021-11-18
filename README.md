@@ -18,6 +18,7 @@ Otherwise, you should turn off pathogen in `.vimrc`.
 - `<num>-`: Paste line or selection to Screen window \<num\>.  
 - `\-`: For window 0, use this instead of `0;`.
 - `_`, `<num>_`, `\_`: same as `-` but does not paste newline at the end.
+- `;`, `<num>;`, `\;`: same as `-` but use when the destination is VIM.
 
 
 

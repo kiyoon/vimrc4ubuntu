@@ -270,58 +270,103 @@ augroup END
 nnoremap Y y$
 vnoremap Y $y
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Press <num>- to copy and paste lines to screen window <num>.
-" For example, 1- will paste selection (or current line)
-" to window 1 on GNU Screen.
-" If number not specified, then it will paste to window named `-console`.
-function! ChooseScreenWindow(vcount)
-  if a:vcount == 0
-	" No number given. By default, paste to -console window.
-    return "-console"
-  else
-    return a:vcount
-  endif
-endfunction
+" paste mode by <F3>, and leave automatically
+set pastetoggle=<F3>
+autocmd InsertLeave * set nopaste
 
 
-function! ScreenPaste(pasteWindow, content, addNewLine)
-	function! EscapeForScreenStuff(content)
-		" Escape string for GNU Screen (stuff).
-		" By doing this, Screen stuff will be operating the literal string, not evaluating environment variables.
-		" For example, without this, $HOME will be pasted as /home/user.
-		" \ -> \\
-		" $ -> \$
-		" ' -> '"'"'
-		" newline -> ^@ -> \n (literal string)
-		" no space escaping
-		let strsub = substitute(a:content,'\\','\\\\','g')
-		let strsub = substitute(strsub,'\$','\\$','g')
-		let strsub = substitute(strsub,'''','''"''"''','g')
-		let strsub = substitute(strtrans(strsub),'\^@','\\n','g')
-		return strsub
+" Commands that only work in a GNU Screen session.
+if $STY
+
+	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+	" Press <num>- to copy and paste lines to screen window <num>.
+	" For example, 1- will paste selection (or current line)
+	" to window 1 on GNU Screen.
+	" If number not specified, then it will paste to window named `-console`.
+	function! ChooseScreenWindow(vcount)
+		if a:vcount == 0
+			" No number given. By default, paste to -console window.
+			return "-console"
+		else
+			return a:vcount
+		endif
 	endfunction
-	let escapedContent = EscapeForScreenStuff(a:content)
-	let newlinestr = a:addNewLine ? "\n" : ''
-	let screenPasteCommand = 'screen -p ' . a:pasteWindow . ' -X stuff ''' . escapedContent . newlinestr . ''''
-	call system(screenPasteCommand)
-	echom 'Pasted to Screen window ' . a:pasteWindow
-endfunction
 
-" 1. save count to pasteWindow
-" 2. yank using @s register.
-" 4. execute screen command.
-nnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0)<CR><CR>
-vnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 1)<CR><CR>
-" pasting to window 0 is not 0; but \;. Explicit separate command because v:count is 0 for no count, and also 0 is a command that moves the cursor.
-nnoremap <silent> <leader>- "syy:<C-U>call ScreenPaste(0, @s, 0)<CR><CR>
-vnoremap <silent> <leader>- "sy:<C-U>call ScreenPaste(0, @s, 1)<CR><CR>
-"""""""""""""""
-" Same thing but <num>_ to paste without the return at the end.
-nnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>0"sy$:call ScreenPaste(pasteWindow, @s, 0)<CR><CR>
-vnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0)<CR><CR>
-" pasting to window 0 is not 0; but \;. Explicit separate command because v:count is 0 for no count, and also 0 is a command that moves the cursor.
-nnoremap <silent> <leader>_ 0"sy$:<C-U>call ScreenPaste(0, @s, 0)<CR><CR>
-vnoremap <silent> <leader>_ "sy:<C-U>call ScreenPaste(0, @s, 0)<CR><CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+	function! ScreenPaste(pasteWindow, content, addNewLine, pasteToVim)
+"		function! EscapeForScreenStuff(content)
+"			" Escape string for GNU Screen (stuff).
+"			" By doing this, Screen stuff will be operating the literal string, not evaluating environment variables.
+"			" For example, without this, $HOME will be pasted as /home/user.
+"			" \ -> \\
+"			" $ -> \$
+"			" ^ -> \^
+"			" ' -> '"'"'
+"			" newline -> ^@ -> \n (literal string)
+"			" no space escaping
+"			let strsub = substitute(a:content,'\\','\\\\','g')
+"			let strsub = substitute(strsub,'\$','\\$','g')
+"			let strsub = substitute(strsub,'\^','\\^','g')
+"			let strsub = substitute(strsub,'''','''"''"''','g')
+"			let strsub = substitute(strtrans(strsub),'\^@','\\n','g')
+"			return strsub
+"		endfunction
+"		let escapedContent = EscapeForScreenStuff(a:content)
+"		let newlinestr = a:addNewLine ? "\n" : ''
+"		let screenPasteCommand = 'screen -p ' . a:pasteWindow . ' -X stuff ''' . escapedContent . newlinestr . ''''
+
+		let tempname = tempname()
+		call writefile(split(a:content, "\n"), tempname, 'b')
+
+
+		" msgwait: Suppress messages like 'Slurped 300 characters to buffer'
+		let screenMsgWaitCommand = 'screen -X msgwait 0'
+		let screenRegCommand = 'screen -X readreg s ' . tempname
+		let screenMsgWaitUndoCommand = 'screen -X msgwait 5'
+		let screenPasteCommand = 'screen -p ' . a:pasteWindow . ' -X paste s'
+		call system(screenMsgWaitCommand)
+		call system(screenRegCommand)
+		if a:pasteToVim == 1
+			" ^[ => Ctrl+[ = ESC
+			" Enter paste mode
+			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^[:set paste\no''')
+		endif
+		call system(screenPasteCommand)
+		call system(screenMsgWaitUndoCommand)
+
+		if a:addNewLine == 1
+			call system('screen -p ' . a:pasteWindow . ' -X stuff ''\n''')
+		endif
+		echom 'Pasted to Screen window ' . a:pasteWindow
+		if a:pasteToVim == 1
+			" ^[ => Ctrl+[ = ESC
+			" Exit paste mode and force redraw (need to redraw if pasting to same screen)
+			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^[:set nopaste\n:redraw!\n''')
+		endif
+		call delete(tempname)
+	endfunction
+
+	" 1. save count to pasteWindow
+	" 2. yank using @s register.
+	" 4. execute screen command.
+	nnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 1, 0)<CR>
+	vnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 1, 0)<CR>
+	" pasting to window 0 is not 0; but \;. Explicit separate command because v:count is 0 for no count, and also 0 is a command that moves the cursor.
+	nnoremap <silent> <leader>- "syy:<C-U>call ScreenPaste(0, @s, 1, 0)<CR>
+	vnoremap <silent> <leader>- "sy:<C-U>call ScreenPaste(0, @s, 1, 0)<CR>
+	"""""""""""""""
+	" Same thing but <num>_ to paste without the return at the end.
+	nnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 0)<CR>
+	vnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 0)<CR>
+	nnoremap <silent> <leader>_ "syy:<C-U>call ScreenPaste(0, @s, 0, 0)<CR>
+	vnoremap <silent> <leader>_ "sy:<C-U>call ScreenPaste(0, @s, 0, 0)<CR>
+
+	"""""""""""""""
+	" Paste to VIM
+	
+	nnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 1)<CR>
+	vnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 1)<CR>
+	nnoremap <silent> <leader>; "syy:<C-U>call ScreenPaste(0, @s, 0, 1)<CR>
+	vnoremap <silent> <leader>; "sy:<C-U>call ScreenPaste(0, @s, 0, 1)<CR>
+	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+endif
