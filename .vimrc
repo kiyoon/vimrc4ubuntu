@@ -364,9 +364,9 @@ if $STY
 	"""""""""""""""
 	" Paste to VIM
 	
-	nnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 1)<CR>
-	vnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 1)<CR>
-	nnoremap <silent> <leader>; "syy:<C-U>call ScreenPaste(0, @s, 0, 1)<CR>
-	vnoremap <silent> <leader>; "sy:<C-U>call ScreenPaste(0, @s, 0, 1)<CR>
+	nnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 1)<CR>
+	vnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 1)<CR>
+	nnoremap <silent> <leader><C-_> "syy:<C-U>call ScreenPaste(0, @s, 0, 1)<CR>
+	vnoremap <silent> <leader><C-_> "sy:<C-U>call ScreenPaste(0, @s, 0, 1)<CR>
 	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 endif

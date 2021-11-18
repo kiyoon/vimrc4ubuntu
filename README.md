@@ -15,10 +15,10 @@ Otherwise, you should turn off pathogen in `.vimrc`.
 
 # Custom commands
 - `-`: Paste line or selection to Screen window called `-console`.  
-- `<num>-`: Paste line or selection to Screen window \<num\>.  
+- `[num]-`: Paste line or selection to Screen window \<num\>.  
 - `\-`: For window 0, use this instead of `0;`.
-- `_`, `<num>_`, `\_`: same as `-` but does not paste newline at the end.
-- `;`, `<num>;`, `\;`: same as `-` but use when the destination is VIM.
+- `_`, `[num]_`, `\_`: same as `-` but does not paste newline at the end.
+- `<C-_>`, `[num]<C-_>`, `\<C-_>`: same as `-` but use when the destination is VIM.
 
 
 
