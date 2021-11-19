@@ -293,7 +293,7 @@ if $STY
 	endfunction
 
 
-	function! ScreenPaste(pasteWindow, content, addNewLine, pasteToVim)
+	function! ScreenPaste(pasteWindow, content, addNewLine, pasteTo)
 "		function! EscapeForScreenStuff(content)
 "			" Escape string for GNU Screen (stuff).
 "			" By doing this, Screen stuff will be operating the literal string, not evaluating environment variables.
@@ -326,10 +326,12 @@ if $STY
 		let screenPasteCommand = 'screen -p ' . a:pasteWindow . ' -X paste s'
 		call system(screenMsgWaitCommand)
 		call system(screenRegCommand)
-		if a:pasteToVim == 1
+		if a:pasteTo == 'vim'
 			" ^[ => Ctrl+[ = ESC
 			" Enter paste mode
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^[:set paste\no''')
+		elseif a:pasteTo == 'ipython'
+			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^U%cpaste\n''')
 		endif
 		call system(screenPasteCommand)
 		call system(screenMsgWaitUndoCommand)
@@ -338,10 +340,12 @@ if $STY
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''\n''')
 		endif
 		echom 'Pasted to Screen window ' . a:pasteWindow
-		if a:pasteToVim == 1
+		if a:pasteTo == 'vim'
 			" ^[ => Ctrl+[ = ESC
 			" Exit paste mode and force redraw (need to redraw if pasting to same screen)
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^[:set nopaste\n:redraw!\n''')
+		elseif a:pasteTo == 'ipython'
+			call system('screen -p ' . a:pasteWindow . ' -X stuff ''\n--\n''')
 		endif
 		call delete(tempname)
 	endfunction
@@ -364,9 +368,17 @@ if $STY
 	"""""""""""""""
 	" Paste to VIM
 	
-	nnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 1)<CR>
-	vnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 1)<CR>
-	nnoremap <silent> <leader><C-_> "syy:<C-U>call ScreenPaste(0, @s, 0, 1)<CR>
-	vnoremap <silent> <leader><C-_> "sy:<C-U>call ScreenPaste(0, @s, 0, 1)<CR>
+	nnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 'vim')<CR>
+	vnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 'vim')<CR>
+	nnoremap <silent> <leader><C-_> "syy:<C-U>call ScreenPaste(0, @s, 0, 'vim')<CR>
+	vnoremap <silent> <leader><C-_> "sy:<C-U>call ScreenPaste(0, @s, 0, 'vim)<CR>
+
+	"""""""""""""""
+	" Paste to iPython
+	
+	nnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 'ipython')<CR>
+	vnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 'ipython')<CR>
+	nnoremap <silent> <leader>; "syy:<C-U>call ScreenPaste(0, @s, 0, 'ipython')<CR>
+	vnoremap <silent> <leader>; "sy:<C-U>call ScreenPaste(0, @s, 0, 'ipython)<CR>
 	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 endif
