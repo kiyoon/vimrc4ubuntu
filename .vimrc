@@ -3,11 +3,11 @@
 "let os = 'fc'
 let os = 'ubuntu'
 
-if os == 'fc'
+if os ==? 'fc'
 	let use_ycm				= 1
 	let use_ycm_spellcheck	= 0
 	let use_pathogen        = 0
-elseif os == 'ubuntu'
+elseif os ==? 'ubuntu'
 	let use_ycm				= 0
 	let use_ycm_spellcheck	= 1
 	let use_pathogen        = 1
@@ -150,7 +150,7 @@ if !use_ycm_spellcheck
 endif
 " YCM : for compiler option
 
-if os == 'ubuntu'
+if os ==? 'ubuntu'
 	let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 else
 	let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
@@ -297,7 +297,9 @@ if $STY
 		" Returns: 'vim', 'ipython', or 'others'
 		"
 		let runningProgram = system('bash ''' . g:vimrc_installed_dir . '/scripts/display_screen_window_commands.sh'' | grep ''^' . a:windowIdx . ' '' | awk ''{for(i=2;i<=NF;++i)printf $i" "}'' ')
-		if runningProgram[0:2] == 'vi ' || runningProgram[0:3] == 'vim '
+		if empty(runningProgram)
+			return '-bash'
+		elseif runningProgram[0:2] ==# 'vi ' || runningProgram[0:3] ==# 'vim '
 			return 'vim'
 		elseif runningProgram->stridx('/ipython ') > 0
 			return 'ipython'
@@ -354,11 +356,11 @@ if $STY
 		let screenPasteCommand = 'screen -p ' . a:pasteWindow . ' -X paste s'
 		call system(screenMsgWaitCommand)
 		call system(screenRegCommand)
-		if a:pasteTo == 'vim'
+		if a:pasteTo ==? 'vim'
 			" ^[ => Ctrl+[ = ESC
 			" Enter paste mode
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^[:set paste\no''')
-		elseif a:pasteTo == 'ipython'
+		elseif a:pasteTo ==? 'ipython'
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^U%cpaste\n''')
 			" Without sleep, sometimes you don't see what's being pasted.
 			execute 'sleep 100m'
@@ -367,14 +369,17 @@ if $STY
 		call system(screenMsgWaitUndoCommand)
 
 		if a:addNewLine == 1
-			call system('screen -p ' . a:pasteWindow . ' -X stuff ''\n''')
+			" vim already adds line by typing 'o'
+			if a:pasteTo != 'vim'
+				call system('screen -p ' . a:pasteWindow . ' -X stuff ''\n''')
+			endif
 		endif
 		echom 'Paste to Screen window ' . a:pasteWindow . ' (' . a:pasteTo . ')'
-		if a:pasteTo == 'vim'
+		if a:pasteTo ==? 'vim'
 			" ^[ => Ctrl+[ = ESC
 			" Exit paste mode and force redraw (need to redraw if pasting to same screen)
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^[:set nopaste\n:redraw!\n''')
-		elseif a:pasteTo == 'ipython'
+		elseif a:pasteTo ==? 'ipython'
 			execute 'sleep 100m'
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''\n--\n''')
 		endif
@@ -383,6 +388,7 @@ if $STY
 
 	" 1. save count to pasteWindow
 	" 2. yank using @s register.
+	" 3. detect if vim or ipython is running
 	" 4. execute screen command.
 	nnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 1, DetectRunningProgram(pasteWindow))<CR>
 	vnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 1, DetectRunningProgram(pasteWindow))<CR>
@@ -390,11 +396,11 @@ if $STY
 	nnoremap <silent> <leader>- "syy:<C-U>call ScreenPaste(0, @s, 1, DetectRunningProgram(0))<CR>
 	vnoremap <silent> <leader>- "sy:<C-U>call ScreenPaste(0, @s, 1, DetectRunningProgram(0))<CR>
 	"""""""""""""""
-	" Same thing but <num>_ to paste without the return at the end.
-	nnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, DetectRunningProgram(pasteWindow))<CR>
-	vnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, DetectRunningProgram(pasteWindow))<CR>
-	nnoremap <silent> <leader>_ "syy:<C-U>call ScreenPaste(0, @s, 0, DetectRunningProgram(0))<CR>
-	vnoremap <silent> <leader>_ "sy:<C-U>call ScreenPaste(0, @s, 0, DetectRunningProgram(0))<CR>
+	" Same thing but <num>_ to paste without detecting running programs and without the return at the end.
+	nnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 'nodetect')<CR>
+	vnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 'nodetect')<CR>
+	nnoremap <silent> <leader>_ "syy:<C-U>call ScreenPaste(0, @s, 0, 'nodetect')<CR>
+	vnoremap <silent> <leader>_ "sy:<C-U>call ScreenPaste(0, @s, 0, 'nodetect')<CR>
 
 	"""""""""""""""
 	" Copy to Screen buffer
