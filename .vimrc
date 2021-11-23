@@ -14,10 +14,10 @@ elseif os == 'ubuntu'
 endif
 
 " directory path where the vimrc is installed
-let installed_dir = "~/vimrc4ubuntu"
+let vimrc_installed_dir = system('dirname "$(realpath "$MYVIMRC")" | tr -d ''\n''')
 
 if use_ycm 
-	exec "source " . installed_dir . "/ycm.vim"
+	exec "source " . vimrc_installed_dir . "/ycm.vim"
 endif
 
 if use_pathogen
@@ -292,6 +292,34 @@ if $STY
 		endif
 	endfunction
 
+	function! DetectRunningProgram(windowIdx)
+		" Detects if VIM or iPython is running on a Screen window.
+		" Returns: 'vim', 'ipython', or 'others'
+		"
+		let runningProgram = system('bash ''' . g:vimrc_installed_dir . '/scripts/display_screen_window_commands.sh'' | grep ''^' . a:windowIdx . ' '' | awk ''{for(i=2;i<=NF;++i)printf $i" "}'' ')
+		if runningProgram[0:2] == 'vi ' || runningProgram[0:3] == 'vim '
+			return 'vim'
+		elseif runningProgram->stridx('/ipython ') > 0
+			return 'ipython'
+		endif
+		return 'others'
+	endfunction
+
+	function! ScreenAddBuffer(content)
+		" Add content to the GNU Screen buffer.
+		" Paste using C-a ]
+		"
+		let tempname = tempname()
+		call writefile(split(a:content, "\n"), tempname, 'b')
+
+		" msgwait: Suppress messages like 'Slurped 300 characters to buffer'
+		let screenMsgWaitCommand = 'screen -X msgwait 0'
+		let screenRegCommand = 'screen -X readbuf ' . tempname
+		let screenMsgWaitUndoCommand = 'screen -X msgwait 5'
+		call system(screenMsgWaitCommand)
+		call system(screenRegCommand)
+		call system(screenMsgWaitUndoCommand)
+	endfunction
 
 	function! ScreenPaste(pasteWindow, content, addNewLine, pasteTo)
 "		function! EscapeForScreenStuff(content)
@@ -332,6 +360,8 @@ if $STY
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^[:set paste\no''')
 		elseif a:pasteTo == 'ipython'
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^U%cpaste\n''')
+			" Without sleep, sometimes you don't see what's being pasted.
+			execute 'sleep 100m'
 		endif
 		call system(screenPasteCommand)
 		call system(screenMsgWaitUndoCommand)
@@ -339,12 +369,13 @@ if $STY
 		if a:addNewLine == 1
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''\n''')
 		endif
-		echom 'Pasted to Screen window ' . a:pasteWindow
+		echom 'Paste to Screen window ' . a:pasteWindow . ' (' . a:pasteTo . ')'
 		if a:pasteTo == 'vim'
 			" ^[ => Ctrl+[ = ESC
 			" Exit paste mode and force redraw (need to redraw if pasting to same screen)
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''^[:set nopaste\n:redraw!\n''')
 		elseif a:pasteTo == 'ipython'
+			execute 'sleep 100m'
 			call system('screen -p ' . a:pasteWindow . ' -X stuff ''\n--\n''')
 		endif
 		call delete(tempname)
@@ -353,32 +384,26 @@ if $STY
 	" 1. save count to pasteWindow
 	" 2. yank using @s register.
 	" 4. execute screen command.
-	nnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 1, 0)<CR>
-	vnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 1, 0)<CR>
+	nnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 1, DetectRunningProgram(pasteWindow))<CR>
+	vnoremap <silent> - :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 1, DetectRunningProgram(pasteWindow))<CR>
 	" pasting to window 0 is not 0; but \;. Explicit separate command because v:count is 0 for no count, and also 0 is a command that moves the cursor.
-	nnoremap <silent> <leader>- "syy:<C-U>call ScreenPaste(0, @s, 1, 0)<CR>
-	vnoremap <silent> <leader>- "sy:<C-U>call ScreenPaste(0, @s, 1, 0)<CR>
+	nnoremap <silent> <leader>- "syy:<C-U>call ScreenPaste(0, @s, 1, DetectRunningProgram(0))<CR>
+	vnoremap <silent> <leader>- "sy:<C-U>call ScreenPaste(0, @s, 1, DetectRunningProgram(0))<CR>
 	"""""""""""""""
 	" Same thing but <num>_ to paste without the return at the end.
-	nnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 0)<CR>
-	vnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 0)<CR>
-	nnoremap <silent> <leader>_ "syy:<C-U>call ScreenPaste(0, @s, 0, 0)<CR>
-	vnoremap <silent> <leader>_ "sy:<C-U>call ScreenPaste(0, @s, 0, 0)<CR>
+	nnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, DetectRunningProgram(pasteWindow))<CR>
+	vnoremap <silent> _ :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, DetectRunningProgram(pasteWindow))<CR>
+	nnoremap <silent> <leader>_ "syy:<C-U>call ScreenPaste(0, @s, 0, DetectRunningProgram(0))<CR>
+	vnoremap <silent> <leader>_ "sy:<C-U>call ScreenPaste(0, @s, 0, DetectRunningProgram(0))<CR>
 
 	"""""""""""""""
-	" Paste to VIM
+	" Copy to Screen buffer
 	
-	nnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 'vim')<CR>
-	vnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 'vim')<CR>
-	nnoremap <silent> <leader><C-_> "syy:<C-U>call ScreenPaste(0, @s, 0, 'vim')<CR>
-	vnoremap <silent> <leader><C-_> "sy:<C-U>call ScreenPaste(0, @s, 0, 'vim)<CR>
+	nnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenAddBuffer(@s)<CR>
+	vnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenAddBuffer(@s)<CR>
+	nnoremap <silent> <leader><C-_> "syy:<C-U>call ScreenAddBuffer(@s)<CR>
+	vnoremap <silent> <leader><C-_> "sy:<C-U>call ScreenAddBuffer(@s)<CR>
 
-	"""""""""""""""
-	" Paste to iPython
-	
-	nnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenPaste(pasteWindow, @s, 0, 'ipython')<CR>
-	vnoremap <silent> ; :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenPaste(pasteWindow, @s, 0, 'ipython')<CR>
-	nnoremap <silent> <leader>; "syy:<C-U>call ScreenPaste(0, @s, 0, 'ipython')<CR>
-	vnoremap <silent> <leader>; "sy:<C-U>call ScreenPaste(0, @s, 0, 'ipython)<CR>
 	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 endif
+
