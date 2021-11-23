@@ -14,11 +14,10 @@ Otherwise, you should turn off pathogen in `.vimrc`.
 
 
 # Custom commands
-- `-`: Paste line or selection to Screen window called `-console`.  
-- `[num]-`: Paste line or selection to Screen window \<num\>.  
-- `\-`: For window 0, use this instead of `0;`.
-- `_`, `[num]_`, `\_`: same as `-` but does not paste newline at the end.
-- `<C-_>`, `[num]<C-_>`, `\<C-_>`: same as `-` but use when the destination is VIM.
+- `[num]-`: Paste line or selection to Screen window \<num\>. If num is not specified, paste to `-console` window. Detect if Vim or iPython is running on the window, and paste accordingly.
+- `\-`: For window 0, use this instead of `0-`.
+- `[num]_`, `\_`: Same as `-` but does not detect program nor add newline at the end.
+- `<C-_>`: Copy to Screen paste buffer. You can paste it with \<C-a\> \] anywhere.
 
 
 

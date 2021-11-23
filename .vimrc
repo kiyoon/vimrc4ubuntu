@@ -407,9 +407,6 @@ if $STY
 	
 	nnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>"syy:call ScreenAddBuffer(@s)<CR>
 	vnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenAddBuffer(@s)<CR>
-	nnoremap <silent> <leader><C-_> "syy:<C-U>call ScreenAddBuffer(@s)<CR>
-	vnoremap <silent> <leader><C-_> "sy:<C-U>call ScreenAddBuffer(@s)<CR>
-
 	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 endif
 
