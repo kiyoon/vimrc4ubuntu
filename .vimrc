@@ -301,7 +301,7 @@ if $STY
 			return '-bash'
 		elseif runningProgram[0:2] ==# 'vi ' || runningProgram[0:3] ==# 'vim '
 			return 'vim'
-		elseif runningProgram->stridx('/ipython ') > 0
+		elseif stridx(runningProgram, '/ipython ') > 0
 			return 'ipython'
 		endif
 		return 'others'
