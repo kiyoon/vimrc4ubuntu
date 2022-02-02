@@ -10,7 +10,7 @@ if os ==? 'fc'
 elseif os ==? 'ubuntu'
 	let use_ycm				= 0
 	let use_ycm_spellcheck	= 1
-	let use_pathogen        = 1
+	let use_pathogen        = 0
 endif
 
 " directory path where the vimrc is installed
