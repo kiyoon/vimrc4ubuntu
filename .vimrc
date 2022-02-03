@@ -8,7 +8,7 @@ if os ==? 'fc'
 	let use_ycm_spellcheck	= 0
 	let use_pathogen        = 0
 elseif os ==? 'ubuntu'
-	let use_ycm				= 0
+	let use_ycm				= 1
 	let use_ycm_spellcheck	= 1
 	let use_pathogen        = 0
 endif
@@ -18,6 +18,9 @@ let vimrc_installed_dir = system('dirname "$(realpath "$MYVIMRC")" | tr -d ''\n'
 
 if use_ycm 
 	exec "source " . vimrc_installed_dir . "/ycm.vim"
+	nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+	nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+	nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 endif
 
 if use_pathogen
@@ -274,6 +277,9 @@ vnoremap Y $y
 set pastetoggle=<F3>
 autocmd InsertLeave * set nopaste
 
+" Select last pasted
+" https://vim.fandom.com/wiki/Selecting_your_pasted_text
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " Commands that only work in a GNU Screen session.
 if $STY
