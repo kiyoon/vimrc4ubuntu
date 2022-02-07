@@ -11,7 +11,13 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'Valloric/YouCompleteMe'
+if has('patch-8.1.2269')
+	" Latest YCM needs at least this version of vim
+	Plug 'ycm-core/YouCompleteMe'
+else
+	" Version compatible with the vim in Debian 10 buster, Ubuntu 18.04
+	Plug 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
+endif
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
