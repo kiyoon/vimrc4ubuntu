@@ -9,11 +9,30 @@ Key features:
   - Comment string (#, //, ...): used to make folds
 
 # Before you use
-If you want Python autocompletion, install Pathogen and Jedi-VIM.  
-Otherwise, you should turn off pathogen in `.vimrc`.
+If you want autocompletion, install YouCompleteMe.  
+Otherwise, you should set `use_ycm` to 0 in `.vimrc`.
+
+## Installing YouCompleteMe
+- Install Vundle  
+`git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`  
+- Launch vim and run `:PluginInstall`  
+To install from command line: `vim +PluginInstall +qall`  
+- Compile YouCompleteMe (cmake required):  
+(If you don't have camke 3.13): `pip install --user cmake`  
+```bash
+cd ~/.vim/bundle/YouCompleteMe
+python3 install.py
+```
+
+
 
 
 # Custom commands
+
+- `<F3>`: Toggle paste mode
+- `gp`: Select last pasted text
+
+## GNU Screen paste
 - `[num]-`: Paste line or selection to Screen window \<num\>. If num is not specified, paste to `-console` window. Detect if Vim or iPython is running on the window, and paste accordingly.
 - `\-`: For window 0, use this instead of `0-`.
 - `[num]_`, `\_`: Same as `-` but does not detect program nor add newline at the end.
