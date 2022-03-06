@@ -25,6 +25,22 @@ python3 install.py
 ```
 
 
+## Using Syntastic syntax checker (for Python)
+
+1. Install Pathogen  
+```bash
+mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+```  
+2. Install Syntastic  
+```bash
+cd ~/.vim/bundle && \
+git clone --depth=1 https://github.com/vim-syntastic/syntastic.git
+```  
+3. Install flake8  
+`pip3 install --user flake8`  
+
+4. Set `use_pathogen=1` and `use_syntastic=1` in `.vimrc`.  
 
 
 # Custom commands

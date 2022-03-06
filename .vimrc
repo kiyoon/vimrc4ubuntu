@@ -7,10 +7,12 @@ if os ==? 'fc'
 	let use_ycm				= 1
 	let use_ycm_spellcheck	= 0
 	let use_pathogen        = 0
+	let use_syntastic       = 0
 elseif os ==? 'ubuntu'
 	let use_ycm				= 1
 	let use_ycm_spellcheck	= 1
 	let use_pathogen        = 0
+	let use_syntastic       = 0
 endif
 
 " directory path where the vimrc is installed
@@ -25,6 +27,21 @@ endif
 
 if use_pathogen
 	execute pathogen#infect()
+endif
+
+if use_syntastic
+	set statusline+=%#warningmsg#
+	set statusline+=%{SyntasticStatuslineFlag()}
+	set statusline+=%*
+
+	let g:syntastic_always_populate_loc_list = 1
+	let g:syntastic_auto_loc_list = 1
+	let g:syntastic_check_on_open = 1
+	let g:syntastic_check_on_wq = 0
+	let g:syntastic_python_python_exec = 'python3'
+	let g:syntastic_python_checkers = ['flake8']
+	" Ignore style warnings
+	let g:syntastic_python_flake8_args='--select=E,F --ignore=E501,E203,E202,E272,E251,E211,E222,E701,E303,E265,E231,E126,E128,E401,E305,E302'
 endif
 
 " If you prefer the Omni-Completion tip window to close when a selection is
