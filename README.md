@@ -42,6 +42,11 @@ git clone --depth=1 https://github.com/vim-syntastic/syntastic.git
 
 4. Set `use_pathogen=1` and `use_syntastic=1` in `.vimrc`.  
 
+### This .vimrc adds these functionalities:
+
+1. `<F6>` to toggle Syntastic, which will remove all the signs and highlights.
+2. `\l` to toggle location list (quick fix list).
+
 
 # Custom commands
 

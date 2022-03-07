@@ -11,8 +11,8 @@ if os ==? 'fc'
 elseif os ==? 'ubuntu'
 	let use_ycm				= 1
 	let use_ycm_spellcheck	= 1
-	let use_pathogen        = 0
-	let use_syntastic       = 0
+	let use_pathogen        = 1
+	let use_syntastic       = 1
 endif
 
 " directory path where the vimrc is installed
@@ -29,20 +29,6 @@ if use_pathogen
 	execute pathogen#infect()
 endif
 
-if use_syntastic
-	set statusline+=%#warningmsg#
-	set statusline+=%{SyntasticStatuslineFlag()}
-	set statusline+=%*
-
-	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_auto_loc_list = 1
-	let g:syntastic_check_on_open = 1
-	let g:syntastic_check_on_wq = 0
-	let g:syntastic_python_python_exec = 'python3'
-	let g:syntastic_python_checkers = ['flake8']
-	" Ignore style warnings
-	let g:syntastic_python_flake8_args='--select=E,F --ignore=E501,E203,E202,E272,E251,E211,E222,E701,E303,E265,E231,E126,E128,E401,E305,E302'
-endif
 
 " If you prefer the Omni-Completion tip window to close when a selection is
 " made, these lines close it on movement in insert mode or when leaving
@@ -56,6 +42,71 @@ syntax on
 " set the colorscheme to ron. When using screen or tmux, colorscheme is changed to default. To prevent this, it should be written.
 "color default
 color ron
+
+" This needs to be defined after colourscheme definition because it maps colours.
+if use_syntastic
+	set statusline+=%#warningmsg#
+	set statusline+=%{SyntasticStatuslineFlag()}
+	set statusline+=%*
+
+	let g:syntastic_mode_map = {
+	    \ "mode": "active",
+	    \ "active_filetypes": ["python"],
+	    \ "passive_filetypes": [] }
+
+	let g:syntastic_always_populate_loc_list = 1
+	let g:syntastic_auto_loc_list = 1
+	let g:syntastic_check_on_open = 1
+	let g:syntastic_check_on_wq = 0
+	let g:syntastic_python_python_exec = 'python3'
+	let g:syntastic_python_checkers = ['flake8']
+	" Ignore style warnings
+	let g:syntastic_python_flake8_args='--select=E,F --ignore=E501,E203,E202,E272,E251,E211,E222,E701,E303,E265,E231,E126,E128,E401,E305,E302'
+
+	let g:syntastic_error_symbol = "\u2717"
+	let g:syntastic_style_error_symbol = "\u203C"
+	"let g:syntastic_warning_symbol = "\u26A0"
+	"let g:syntastic_style_warning_symbol = "S\u26A0"
+
+	" https://stackoverflow.com/questions/17677441/changing-error-highlight-color-used-by-syntastic
+	" https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+	highlight SyntasticErrorSign cterm=NONE ctermfg=125
+	highlight SyntasticError cterm=NONE ctermfg=white ctermbg=125
+	highlight SyntasticStyleErrorSign cterm=NONE ctermfg=grey
+	highlight SyntasticStyleError cterm=NONE ctermfg=black ctermbg=grey
+
+	nnoremap <C-j> :lnext<CR>
+	nnoremap <C-k> :lprevious<CR>
+
+	" From official Syntastic doc
+	" Shrink the location list height when fewer than 10 errors are found.
+    function! SyntasticCheckHook(errors)
+        if !empty(a:errors)
+            let g:syntastic_loc_list_height = min([len(a:errors), 10])
+        endif
+    endfunction
+
+	" https://vi.stackexchange.com/questions/16927/open-and-close-syntastic-window-with-one-mapping
+	function! ToggleSyntastic()
+		for i in range(1, winnr('$'))
+			let bnum = winbufnr(i)
+			if getbufvar(bnum, '&buftype') == 'quickfix'
+				lclose
+				SyntasticToggleMode
+				return
+			endif
+		endfor
+		SyntasticCheck
+	endfunction
+	silent! nnoremap <F6> :call ToggleSyntastic()<CR>
+
+
+	" YouCompleteMe : syntax checker off
+	" YCM dosesn't support syntax checker for python anyway,
+	" and because of the checker it clears out the location list when first loading a file,
+	" which should not happen.
+	autocmd FileType python let g:ycm_show_diagnostics_ui = 0
+endif
 
 " Open new split panes to right and bottom, which feels more natural than Vim’s default:
 set splitbelow
@@ -79,37 +130,40 @@ set scrolloff=2
 " number of undo history
 set history=100
 
-" Maintain undo history between sessions (persistent undo)
-set undofile 
-function! InitUndoDir()
-  if has('win32') || has('win32unix') "windows/cygwin
-    let l:separator = '_'
-  else
-    let l:separator = '.'
-  endif
-  let l:parent = $HOME . '/' . l:separator . 'vim/'
-  let l:undo = l:parent . 'undo/'
-  if exists('*mkdir')
-    if !isdirectory(l:parent)
-      call mkdir(l:parent)
+
+
+"""""""""""""""""
+" <leader>l to toggle location list
+" https://vim.fandom.com/wiki/Toggle_to_open_or_close_the_quickfix_window
+function! GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname, pfx)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      return
     endif
-    if !isdirectory(l:undo)
-      call mkdir(l:undo)
-    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
   endif
-  let l:missing_dir = 0
-  if isdirectory(l:undo)
-    execute 'set undodir=' . escape(l:undo, ' ') . '/,.'
-  else
-    let l:missing_dir = 1
-  endif
-  if l:missing_dir
-    echo 'Warning: Unable to create undo directories:' l:undo
-    echo 'Try: mkdir -p' l:undo
-    set undodir=.
+  let winnr = winnr()
+  exec(a:pfx.'open')
+  if winnr() != winnr
+    wincmd p
   endif
 endfunction
-call InitUndoDir()
+
+nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
+nmap <silent> <leader>e :call ToggleList("Quickfix List", 'c')<CR>
 
 " highlight cursor line
 "set cursorline
@@ -118,6 +172,8 @@ call InitUndoDir()
 " 1000kb(s1000)
 set viminfo='20,<1000,s1000
 
+" Maintain undo history between sessions (persistent undo)
+set undofile 
 " backup
 set backup
 " backup ext to date
@@ -131,6 +187,7 @@ function! InitBackupDir()
   endif
   let l:parent = $HOME . '/' . l:separator . 'vim/'
   let l:backup = l:parent . 'backup/'
+  let l:undo = l:parent . 'undo/'
   let l:tmp = l:parent . 'tmp/'
   if exists('*mkdir')
     if !isdirectory(l:parent)
@@ -138,6 +195,9 @@ function! InitBackupDir()
     endif
     if !isdirectory(l:backup)
       call mkdir(l:backup)
+    endif
+    if !isdirectory(l:undo)
+      call mkdir(l:undo)
     endif
     if !isdirectory(l:tmp)
       call mkdir(l:tmp)
@@ -149,36 +209,45 @@ function! InitBackupDir()
   else
     let l:missing_dir = 1
   endif
+  if isdirectory(l:undo)
+    execute 'set undodir=' . escape(l:undo, ' ') . '/,.'
+  else
+    let l:missing_dir = 1
+  endif
   if isdirectory(l:tmp)
     execute 'set directory=' . escape(l:tmp, ' ') . '/,.'
   else
     let l:missing_dir = 1
   endif
   if l:missing_dir
-    echo 'Warning: Unable to create backup directories:' l:backup 'and' l:tmp
+    echo 'Warning: Unable to create backup directories:' l:backup 'and' l:undo 'and' l:tmp
     echo 'Try: mkdir -p' l:backup
+    echo 'and: mkdir -p' l:undo
     echo 'and: mkdir -p' l:tmp
     set backupdir=.
     set directory=.
+    set undodir=.
   endif
 endfunction
 call InitBackupDir()
 
-if !use_ycm_spellcheck
-	" YouCompleteMe : syntax checker off
-	let g:ycm_show_diagnostics_ui = 0
-endif
-" YCM : for compiler option
+if use_ycm
+	if !use_ycm_spellcheck
+		" YouCompleteMe : syntax checker off
+		let g:ycm_show_diagnostics_ui = 0
+	endif
+	" YCM : for compiler option
 
-if os ==? 'ubuntu'
-	let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-else
-	let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+	if os ==? 'ubuntu'
+		let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+	else
+		let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+	endif
+	" YCM : no highlight
+	" let g:ycm_enable_diagnostic_highlighting = 0
+	" YCM : change warning symbol
+	let g:ycm_warning_symbol = '??'
 endif
-" YCM : no highlight
-" let g:ycm_enable_diagnostic_highlighting = 0
-" YCM : change warning symbol
-let g:ycm_warning_symbol = '??'
 
 " make backspace working properly
 set backspace=indent,eol,start
@@ -432,4 +501,5 @@ if $STY
 	vnoremap <silent> <C-_> :<C-U>let pasteWindow=ChooseScreenWindow(v:count)<CR>gv"sy:call ScreenAddBuffer(@s)<CR>
 	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 endif
+
 
