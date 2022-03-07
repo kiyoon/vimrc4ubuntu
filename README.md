@@ -44,8 +44,9 @@ git clone --depth=1 https://github.com/vim-syntastic/syntastic.git
 
 ### This .vimrc adds these functionalities:
 
-1. `<F6>` to toggle Syntastic, which will remove all the signs and highlights.
-2. `\l` to toggle location list (quick fix list).
+1. `<C-k>` and `<C-j>` to navigate errors up and down.
+2. `<F6>` to toggle Syntastic, which will remove all the signs and highlights.
+3. `\l` to toggle location list (quick fix list).
 
 
 # Custom commands
