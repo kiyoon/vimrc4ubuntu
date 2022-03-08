@@ -55,7 +55,7 @@ if use_syntastic
 	    \ "passive_filetypes": [] }
 
 	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_auto_loc_list = 1
+	let g:syntastic_auto_loc_list = 0
 	let g:syntastic_check_on_open = 1
 	let g:syntastic_check_on_wq = 0
 	let g:syntastic_python_python_exec = 'python3'
@@ -75,9 +75,6 @@ if use_syntastic
 	highlight SyntasticStyleErrorSign cterm=NONE ctermfg=grey
 	highlight SyntasticStyleError cterm=NONE ctermfg=black ctermbg=grey
 
-	nnoremap <C-j> :lnext<CR>
-	nnoremap <C-k> :lprevious<CR>
-
 	" From official Syntastic doc
 	" Shrink the location list height when fewer than 10 errors are found.
     function! SyntasticCheckHook(errors)
@@ -87,16 +84,40 @@ if use_syntastic
     endfunction
 
 	" https://vi.stackexchange.com/questions/16927/open-and-close-syntastic-window-with-one-mapping
+"	function! ToggleSyntastic()
+"		for i in range(1, winnr('$'))
+"			let bnum = winbufnr(i)
+"			if getbufvar(bnum, '&buftype') == 'quickfix'
+"				lclose
+"				SyntasticToggleMode
+"				let g:syntastic_mode_map = {
+"					\ "mode": "passive",
+"					\ "active_filetypes": [],
+"					\ "passive_filetypes": [] }
+"				return
+"			endif
+"		endfor
+"		let g:syntastic_mode_map = {
+"			\ "mode": "active",
+"			\ "active_filetypes": ["python"],
+"			\ "passive_filetypes": [] }
+"		SyntasticCheck
+"	endfunction
 	function! ToggleSyntastic()
-		for i in range(1, winnr('$'))
-			let bnum = winbufnr(i)
-			if getbufvar(bnum, '&buftype') == 'quickfix'
-				lclose
-				SyntasticToggleMode
-				return
-			endif
-		endfor
-		SyntasticCheck
+		if g:syntastic_mode_map["mode"] == "active"
+			lclose
+			SyntasticToggleMode
+			let g:syntastic_mode_map = {
+				\ "mode": "passive",
+				\ "active_filetypes": [],
+				\ "passive_filetypes": [] }
+		else
+			let g:syntastic_mode_map = {
+				\ "mode": "active",
+				\ "active_filetypes": ["python"],
+				\ "passive_filetypes": [] }
+			SyntasticCheck
+		endif
 	endfunction
 	silent! nnoremap <F6> :call ToggleSyntastic()<CR>
 
@@ -164,6 +185,9 @@ endfunction
 
 nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
 nmap <silent> <leader>e :call ToggleList("Quickfix List", 'c')<CR>
+nnoremap <C-j> :lnext<CR>
+nnoremap <C-k> :lprevious<CR>
+
 
 " highlight cursor line
 "set cursorline
