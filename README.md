@@ -40,6 +40,11 @@ git clone --depth=1 https://github.com/vim-syntastic/syntastic.git
 3. Install flake8  
 `pip3 install --user flake8`  
 
+Add flake8 to `$PATH`. In `~/.bashrc`,  
+```bash
+PATH="$HOME/.local/bin:$PATH"
+```
+
 4. Set `use_pathogen=1` and `use_syntastic=1` in `.vimrc`.  
 
 ### This .vimrc adds these functionalities:
