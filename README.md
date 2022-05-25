@@ -42,7 +42,7 @@ git clone --depth=1 https://github.com/vim-syntastic/syntastic.git
 
 Add flake8 to `$PATH`. In `~/.bashrc`,  
 ```bash
-export PATH="$HOME/.local/bin:$PATH"
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 ```
 
 4. Set `use_pathogen=1` and `use_syntastic=1` in `.vimrc`.  
