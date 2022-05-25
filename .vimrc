@@ -23,6 +23,10 @@ if use_ycm
 	nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 	nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 	nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+	" Change pop-up window colour to blue background and yellow text
+	highlight Pmenu ctermfg=190 ctermbg=17 guifg=#AACCFF guibg=#222233
+	highlight PmenuSel ctermfg=17 ctermbg=190 guifg=#AACCFF guibg=#222233
 endif
 
 if use_pathogen
