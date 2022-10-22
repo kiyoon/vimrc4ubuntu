@@ -6,11 +6,13 @@ let os = 'ubuntu'
 if os ==? 'fc'
 	let use_ycm				= 1
 	let use_ycm_spellcheck	= 0
+	let use_isort           = 0
 	let use_pathogen        = 0
 	let use_syntastic       = 0
 elseif os ==? 'ubuntu'
 	let use_ycm				= 1
 	let use_ycm_spellcheck	= 1
+	let use_isort           = 1
 	let use_pathogen        = 1
 	let use_syntastic       = 1
 endif
@@ -27,6 +29,10 @@ if use_ycm
 	" Change pop-up window colour to blue background and yellow text
 	highlight Pmenu ctermfg=190 ctermbg=17 guifg=#AACCFF guibg=#222233
 	highlight PmenuSel ctermfg=17 ctermbg=190 guifg=#AACCFF guibg=#222233
+endif
+
+if use_isort
+	let g:vim_isort_map = '<C-i>'
 endif
 
 if use_pathogen
@@ -394,6 +400,37 @@ autocmd InsertLeave * set nopaste
 " Select last pasted
 " https://vim.fandom.com/wiki/Selecting_your_pasted_text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+
+" Add python import at the beginning of the file.
+" Copy the word, find the first import statement and attach import before the first one.
+" If the first line first word of the file is import, it will search the second import statement.
+" It will also try to restore the previous search string (@/).
+function! AddPythonImport(module)
+	normal! gg
+	let import_searched = search('import')
+	if import_searched
+		normal! O
+	else
+		normal! gg
+		" comment check: https://stackoverflow.com/questions/73356266/how-can-i-check-if-the-current-line-is-commented-in-vim-script
+		let commented = ! match(getline('.'), ' *#.*')
+		if commented
+			normal! o
+		else
+			normal! O
+		endif
+	endif
+	call setline('.', 'import ' . a:module)
+	"call feedkeys('iimport ' . a:module)
+	"call feedkeys("\<ESC>")
+endfunction
+
+autocmd FileType python nnoremap <leader>i "syiw:call AddPythonImport(@s)<CR>
+autocmd FileType python vnoremap <leader>i "sy:call AddPythonImport(@s)<CR>
+
+" Below <expr> example will behave differently when there is no 'import' in the file.
+" This is not a practical common but it's for example sake.
+"nnoremap <expr> + search('import') > 0 ? 'Oimport os' : 'ggOimport os'
 
 " Commands that only work in a GNU Screen session.
 if $STY

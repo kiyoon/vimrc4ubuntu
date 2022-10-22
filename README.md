@@ -24,6 +24,15 @@ cd ~/.vim/bundle/YouCompleteMe
 python3 install.py
 ```
 
+## Installing vim-isort
+This enables sorting import modules for python.  
+It follows similar procedure as the YouCompleteMe.  
+`pip install isort`
+
+### Two functions
+- Select lines and press `<C-i>` to sort the lines.
+- :Isort to sort the entire file imports.
+
 
 ## Using Syntastic syntax checker (for Python)
 
@@ -58,6 +67,7 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
 - `<F3>`: Toggle paste mode
 - `gp`: Select last pasted text
+- `\i`: Insert import statement at the beginning of the file. (Only for Python). Use it with normal or visual mode.
 
 ## GNU Screen paste
 - `[num]-`: Paste line or selection to Screen window \<num\>. If num is not specified, paste to `-console` window. Detect if Vim or iPython is running on the window, and paste accordingly.

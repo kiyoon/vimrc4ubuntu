@@ -19,6 +19,8 @@ else
 	Plugin 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
 endif
 
+Plugin 'fisadev/vim-isort'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
