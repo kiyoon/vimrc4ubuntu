@@ -221,7 +221,11 @@ function! InitBackupDir()
   endif
   let l:parent = $HOME . '/' . l:separator . 'vim/'
   let l:backup = l:parent . 'backup/'
-  let l:undo = l:parent . 'undo/'
+  if has('nvim')
+    let l:undo = l:parent . 'neovimundo/'
+  else
+    let l:undo = l:parent . 'undo/'
+  endif
   let l:tmp = l:parent . 'tmp/'
   if exists('*mkdir')
     if !isdirectory(l:parent)
@@ -463,7 +467,7 @@ if $STY
 		let runningProgram = system('bash ''' . g:vimrc_installed_dir . '/scripts/display_screen_window_commands.sh'' | grep ''^' . a:windowIdx . ' '' | awk ''{for(i=2;i<=NF;++i)printf $i" "}'' ')
 		if empty(runningProgram)
 			return '-bash'
-		elseif runningProgram[0:2] ==# 'vi ' || runningProgram[0:3] ==# 'vim '
+		elseif runningProgram[0:2] ==# 'vi ' || runningProgram[0:3] ==# 'vim ' || runningProgram[0:4] ==# 'nvim '
 			return 'vim'
 		elseif stridx(runningProgram, '/ipython ') > 0
 			return 'ipython'

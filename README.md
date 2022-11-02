@@ -84,3 +84,36 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 - `viw` : select a word
 
 
+# Neovim support
+
+## Install nvim
+```bash
+cd ~/bin/executables
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+./nvim.appimage --appimage-extract
+ln -s squashfs-root/AppRun nvim
+rm nvim.appimage
+```
+
+## Configure nvim to default vim
+```bash
+mkdir ~/.config/nvim -p
+cd ~/.config/nvim
+ln -s ~/bin/vimrc4ubuntu/init.vim .
+
+echo "alias vi='nvim'" >> ~/.bash_aliases
+echo "alias vim='nvim'" >> ~/.bash_aliases
+echo "alias vimdiff='nvim -d'" >> ~/.bash_aliases
+echo "export EDITOR=nvim" >> ~/.bashrc
+source ~/.bashrc
+```
+
+## Install Github Copilot
+```bash
+git clone https://github.com/github/copilot.vim \
+   ~/.config/nvim/pack/github/start/copilot.vim
+
+nvim '+Copilot setup'
+nvim '+Copilot enable'
+```
