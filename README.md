@@ -79,9 +79,7 @@ git config --global user.name "Kiyoon Kim"
 git config --global core.editor nvim
 
 ##### Neovim Github Copilot (I do it at the end as it's optional)
-git clone https://github.com/github/copilot.vim \
-   ~/.config/nvim/pack/github/start/copilot.vim
-
+nvim +PlugInstall +qall
 nvim '+Copilot setup' +q
 nvim '+Copilot enable' +q
 
