@@ -106,8 +106,10 @@ Key features:
 - `\i`: Insert import statement at the beginning of the file. (Only for Python). Use it with normal or visual mode.
 
 ## GNU Screen paste
-- `[num]-`: Paste line or selection to Screen window \<num\>. If num is not specified, paste to `-console` window. Detect if Vim or iPython is running on the window, and paste accordingly.
-- `\-`: For window 0, use this instead of `0-`.
+See [kiyoon/vim-screenpaste](https://github.com/kiyoon/vim-screenpaste).  
+
+- `[num]-`: Paste line or selection to Screen window \<num\>. If [num] is not specified, paste to window 0. Detect if Vim or iPython is running on the window, and paste accordingly.
+- `\-`: Paste to window named -console.
 - `[num]_`, `\_`: Same as `-` but does not detect program nor add newline at the end.
 - `<C-_>`: Copy to Screen paste buffer. You can paste it with \<C-a\> \] anywhere.
 

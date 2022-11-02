@@ -13,6 +13,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin()
 
+Plug 'kiyoon/vim-screenpaste'
 Plug 'fisadev/vim-isort'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -28,6 +29,7 @@ filetype plugin indent on    " required
 call coc#add_extension('coc-pyright')
 call coc#add_extension('coc-sh')
 call coc#add_extension('coc-clangd')
+call coc#add_extension('coc-vimlsp')
 call coc#add_extension('coc-java')
 call coc#add_extension('coc-html')
 call coc#add_extension('coc-css')
