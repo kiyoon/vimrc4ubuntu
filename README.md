@@ -111,6 +111,14 @@ source ~/.bashrc
 
 ## Install Github Copilot
 ```bash
+# Node.js
+cd ~/bin/executables
+wget https://nodejs.org/dist/v17.9.1/node-v17.9.1-linux-x64.tar.gz
+tar xvfz node-v17.9.1-linux-x64.tar.gz
+ln -s node-v17.9.1-linux-x64/bin/node .
+rm node-v17.9.1-linux-x64.tar.gz
+
+# Copilot
 git clone https://github.com/github/copilot.vim \
    ~/.config/nvim/pack/github/start/copilot.vim
 
