@@ -7,3 +7,4 @@ let &packpath = &runtimepath
 set laststatus=0 ruler
 
 source ~/.vimrc
+

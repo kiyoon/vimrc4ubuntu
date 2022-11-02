@@ -11,16 +11,13 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-if has('patch-8.1.2269')
+if has('patch-8.1.2269') || has('nvim')
 	" Latest YCM needs at least this version of vim
 	Plugin 'ycm-core/YouCompleteMe'
 else
 	" Version compatible with the vim in Debian 10 buster, Ubuntu 18.04
 	Plugin 'ycm-core/YouCompleteMe', { 'commit':'d98f896' }
 endif
-
-Plugin 'fisadev/vim-isort'
-Plugin 'tpope/vim-commentary'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

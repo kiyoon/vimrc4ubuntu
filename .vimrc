@@ -4,21 +4,26 @@
 let os = 'ubuntu'
 
 if os ==? 'fc'
-	let use_ycm				= 1
-	let use_ycm_spellcheck	= 0
+	let use_vimplug         = 0
 	let use_isort           = 0
-	let use_pathogen        = 0
+	let use_ycm				= 0
+	let use_ycm_spellcheck	= 0
 	let use_syntastic       = 0
 elseif os ==? 'ubuntu'
-	let use_ycm				= 1
-	let use_ycm_spellcheck	= 1
+	let use_vimplug         = 1
 	let use_isort           = 1
-	let use_pathogen        = 1
-	let use_syntastic       = 1
+	let use_ycm				= 0
+	let use_ycm_spellcheck	= 0
+	let use_syntastic       = 0
 endif
 
 " directory path where the vimrc is installed
 let vimrc_installed_dir = system('dirname "$(realpath "$MYVIMRC")" | tr -d ''\n''')
+
+if use_vimplug
+	exec "source " . vimrc_installed_dir . "/plugins.vim"
+endif
+
 
 if use_ycm 
 	exec "source " . vimrc_installed_dir . "/ycm.vim"
@@ -33,10 +38,6 @@ endif
 
 if use_isort
 	let g:vim_isort_map = '<C-i>'
-endif
-
-if use_pathogen
-	execute pathogen#infect()
 endif
 
 
