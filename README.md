@@ -94,6 +94,7 @@ chmod u+x nvim.appimage
 ./nvim.appimage --appimage-extract
 ln -s squashfs-root/AppRun nvim
 rm nvim.appimage
+pip3 install pynvim		# python support, required for YCM
 ```
 
 ## Configure nvim to default vim
@@ -122,6 +123,6 @@ rm node-v17.9.1-linux-x64.tar.gz
 git clone https://github.com/github/copilot.vim \
    ~/.config/nvim/pack/github/start/copilot.vim
 
-nvim '+Copilot setup'
-nvim '+Copilot enable'
+nvim '+Copilot setup' +q
+nvim '+Copilot enable' +q
 ```
