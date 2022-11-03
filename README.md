@@ -1,5 +1,5 @@
 # Vim setup tips (2022)
-1. Use Neovim over Vim. Faster, and better plugin support. Largely compatible with most vim scripts and plugins.
+1. Use Neovim over Vim. Faster, and better plugin support. Largely compatible with most vim scripts and plugins. It also enabled full mouse control inside tmux, whilst the original vim did not work for me at least.
 2. Use Vim-Plug over Vundle, pathogen etc. Easier to install plugins (no need extra setup like source compilation)
 3. Use Coc over YouCompleteMe, Syntastic etc. Much easier plugin handling with very good default code completion and linting.
 
