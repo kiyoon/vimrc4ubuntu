@@ -13,7 +13,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin()
 
-Plug 'kiyoon/vim-screenpaste'
+Plug 'kiyoon/vim-tmuxpaste'
 Plug 'fisadev/vim-isort'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'

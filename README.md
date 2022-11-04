@@ -3,45 +3,39 @@
 2. Use Vim-Plug over Vundle, pathogen etc. Easier to install plugins (no need extra setup like source compilation)
 3. Use Coc over YouCompleteMe, Syntastic etc. Much easier plugin handling with very good default code completion and linting.
 
-# TL; DR: Install everything 
+# Installing
+
+This vimrc will install vim-plug and many plugins automatically when you first launch vim.  
+
 ```bash
-# Requirements: git, pip3, curl, screen
-# optional: xclip (neovim clipboard support)
+mkdir ~/bin -p
+mkdir ~/.local/bin -p
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
-##### Locally-installed programs go here.
-mkdir ~/bin/executables -p
-echo 'export PATH="$HOME/bin/executables:$HOME/bin/executables/bin:$PATH"' >> ~/.bashrc
-. ~/.bashrc
-
-##### vimrc, screenrc
 cd ~/bin
 git clone https://github.com/kiyoon/vimrc4ubuntu
-git clone https://github.com/kiyoon/screenrc4ubuntu
+git clone https://github.com/kiyoon/tmux-conf
 cd
 ln -s bin/vimrc4ubuntu/.vimrc
-ln -s bin/screenrc4ubuntu/.screenrc
-
-# Necessary for screen on WSL
-if grep -qi microsoft /proc/version; then
-   echo "export SCREENDIR=\"$HOME/.screen\"" >> ~/.bashrc
-   . ~/.bashrc
-fi
-
-# Vim Isort
-pip3 install --user isort
+ln -s bin/tmux-conf/.tmux.conf
 
 ##### Node.js (for Coc, Github Copilot)
 curl -sL install-node.vercel.app/17 | bash -s -- --prefix="$HOME/bin/executables" -y
 
-##### Neovim
-cd ~/bin/executables
+##### Neovim (local install)
+# You can just do
+# sudo apt install neovim
+# below is to locally install without sudo.
+cd ~/bin
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
 ./nvim.appimage --appimage-extract
-ln -s squashfs-root/AppRun nvim
-rm nvim.appimage
-pip3 install pynvim		# python support, required for YCM
+cd ~/.local/bin
+ln -s ~/bin/squashfs-root/AppRun nvim
+rm ~/bin/nvim.appimage
+pip3 install --user pynvim    # add python support
 
+## init.vim, alias
 mkdir ~/.config/nvim -p
 cd ~/.config/nvim
 ln -s ~/bin/vimrc4ubuntu/init.vim .
@@ -51,39 +45,23 @@ echo "alias vim='nvim'" >> ~/.bash_aliases
 echo "alias vimdiff='nvim -d'" >> ~/.bash_aliases
 echo "export EDITOR=nvim" >> ~/.bashrc
 source ~/.bashrc
+```
 
-##### Starship
-cd
-sh -c "$(curl -fsSL https://starship.rs/install.sh)" sh -b "$HOME/bin/executables" -y
-echo 'eval "$(starship init bash)"' >> .bashrc
-wget https://gist.githubusercontent.com/kiyoon/53dae21ecd6c35c24c88bcce88b89d27/raw/21e8e98917a08a9cb6d1ab85c0fb6fe39b4c28b5/starship.toml -P .config
-. ~/.bashrc
+Optionally,  
 
-##### Install MiniConda
-cd
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-CONDADIR="$HOME/bin/miniconda3"
-bash Miniconda3-latest-Linux-x86_64.sh -b -p "$CONDADIR"
-$CONDADIR/bin/conda init
+```bash
+sudo apt install xclip		# neovim, tmux clipboard support
 
-. ~/.bashrc
-conda config --set auto_activate_base false
+# Vim Isort
+pip3 install --user isort
 
-# alias `ca` -> `conda activate`
-echo "alias ca='conda activate'" >> ~/.bash_aliases
-. ~/.bashrc
-
-##### Config git
-git config --global user.email "yoonkr33@gmail.com"
-git config --global user.name "Kiyoon Kim"
-git config --global core.editor nvim
-
-##### Neovim Github Copilot (I do it at the end as it's optional)
+# Github Copilot
 nvim +PlugInstall +qall
 nvim '+Copilot setup' +q
 nvim '+Copilot enable' +q
-
 ```
+
+Check out my [full terminal setup guide](https://gist.github.com/kiyoon/fc1573ed3edf61c142d925e1712940e9).
 
 # vimrc4ubuntu
 Key features:
