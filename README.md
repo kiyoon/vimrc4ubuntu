@@ -97,8 +97,8 @@ See [kiyoon/vim-tmuxpaste](https://github.com/kiyoon/vim-tmuxpaste).
 - Use \<C-\_\> to copy into the tmux buffer. You can paste using C-b \] (or commonly C-a \] depending on your setup.).
 
 ## Plugins
-- Select lines and press `<C-i>` to sort the lines.
-- :Isort to sort the entire file imports.
+- Select lines and press `<C-i>` to sort the Python import lines.
+- :Isort to sort the entire Python imports.
 - Alt + [ or ] to see next suggestions for Github Copilot.
 - [tpope/vim-commentary](https://github.com/tpope/vim-commentary)
 - [tpope/vim-surround](https://github.com/tpope/vim-surround)
