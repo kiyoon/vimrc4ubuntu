@@ -102,6 +102,8 @@ See [kiyoon/vim-tmuxpaste](https://github.com/kiyoon/vim-tmuxpaste).
 - Alt + [ or ] to see next suggestions for Github Copilot.
 - [tpope/vim-commentary](https://github.com/tpope/vim-commentary)
 - [tpope/vim-surround](https://github.com/tpope/vim-surround)
+- `\ff`: open Fern file explorer. Type `?` to see commands.
+- `\fg`: same as `\ff` but to see the current file immediately.
 
 # Useful VIM commands
 

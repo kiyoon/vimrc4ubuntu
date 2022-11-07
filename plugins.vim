@@ -24,6 +24,36 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'LumaKernel/fern-mapping-fzf.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+let g:fern#renderer = "nerdfont"
+
+function! s:init_fern() abort
+  " Use 'select' instead of 'edit' for default 'open' action
+  "nmap <buffer> <Plug>(fern-action-open) <Plug>(fern-action-open:select)
+  " Even if some other plugins set foldcolumn, fern should not increase the fold column.
+  set foldcolumn=0
+endfunction
+
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+augroup END
+
+nnoremap <Leader>ff :Fern . -drawer -toggle<CR>
+nnoremap <Leader>fg :Fern . -drawer -toggle -reveal=%<CR>
+nnoremap <Leader>fh :Fern . -drawer -toggle -reveal=%:h<CR>
+nnoremap <Leader>fs :Fern . -drawer -toggle -reveal=%:p:h<CR>
+nnoremap <Leader>ft :Fern . -drawer -toggle -reveal=%:t<CR>
+nnoremap <Leader>fr :Fern . -drawer -toggle -reveal=%:r<CR>
+nnoremap <Leader>fe :Fern . -drawer -toggle -reveal=%:e<CR>
+nnoremap <Leader>fn :Fern . -drawer -toggle -reveal=%:p<CR>
+
+
 Plug 'github/copilot.vim'
 
 " All of your Plugins must be added before the following line

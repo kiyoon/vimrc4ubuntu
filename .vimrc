@@ -326,7 +326,7 @@ autocmd FileType matlab setl commentstring=%%s
 autocmd FileType sml setl commentstring=(*%s*)
 "autocmd FileType html,php setl commentstring=<!--%s-->
 
-" set foldcolumn automatically if there is at least one fold
+"" set foldcolumn automatically if there is at least one fold
 function HasFolds()
 	"Attempt to move between folds, checking line numbers to see if it worked.
 	"If it did, there are folds.
@@ -378,7 +378,9 @@ function HasFolds()
 	set novb eb
 endfunction
 
-au CursorHold,BufWinEnter ?* call HasFolds()
+" This HasFolds function doesn't work well with the fern plugin.
+let fold_blacklist = ['fern']
+autocmd CursorHold,BufWinEnter ?* if index(fold_blacklist, &ft) < 0 | call HasFolds() | endif
 
 
 " restore the cursor position
