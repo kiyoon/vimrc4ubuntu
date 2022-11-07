@@ -81,13 +81,20 @@ Key features:
 - `gp`: Select last pasted text
 - `\i`: Insert import statement at the beginning of the file. (Only for Python). Use it with normal or visual mode.
 
-## GNU Screen paste
-See [kiyoon/vim-screenpaste](https://github.com/kiyoon/vim-screenpaste).  
+## Paste to tmux
+See [kiyoon/vim-tmuxpaste](https://github.com/kiyoon/vim-tmuxpaste).  
 
-- `[num]-`: Paste line or selection to Screen window \<num\>. If [num] is not specified, paste to window 0. Detect if Vim or iPython is running on the window, and paste accordingly.
-- `\-`: Paste to window named -console.
-- `[num]_`, `\_`: Same as `-` but does not detect program nor add newline at the end.
-- `<C-_>`: Copy to Screen paste buffer. You can paste it with \<C-a\> \] anywhere.
+- Press \<num\>- to copy and paste lines to tmux pane \<num\>.
+  - For example, `1-` will paste selection (or current line) to pane 1 on the current window.
+- If number not specified, then it will paste to pane 0.
+- If the number is >= 10, it will paste to the pane on another window.
+  - For example, 12- will paste selection (or current line) to window 1 pane 2.
+  - 123- will paste selection (or current line) to window 12 pane 3.
+- Use \<leader\>- (typically `\-`) to copy using the unique pane identifier.
+  - For example, `5\-` will paste selection (or current line) to the %5 pane.
+  - Use `set -g pane-border-format "#D"` in the tmux.conf to see the pane identifier.
+- Use _ instead of - to copy without hitting Return.
+- Use \<C-\_\> to copy into the tmux buffer. You can paste using C-b \] (or commonly C-a \] depending on your setup.).
 
 ## Plugins
 - Select lines and press `<C-i>` to sort the lines.
