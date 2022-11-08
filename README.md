@@ -110,4 +110,6 @@ See [kiyoon/vim-tmuxpaste](https://github.com/kiyoon/vim-tmuxpaste).
 - `va(`, `va{`, `va"`, ...: select opening to closing of parentheses (do more `a(` for wider range)
 - `vi(`: same as above but exclude parentheses.
 - `viw` : select a word
+- `qq<command>q`: record macro at @q, then quit.
+- `10@q`: run macro @q 10 times.
 
