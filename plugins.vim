@@ -11,16 +11,45 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   \| PlugInstall --sync | source $MYVIMRC
 \| endif
 
+" Plugin install at once but activate conditionally
+function! Cond(Cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:Cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+
 call plug#begin()
 
 Plug 'kiyoon/vim-tmuxpaste'
 Plug 'fisadev/vim-isort'
 let g:vim_isort_map = '<C-i>'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 "Plug 'tpope/vim-fugitive'
 
+" use normal easymotion when in VIM mode
+Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
+" use VSCode easymotion when in VSCode mode
+Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
+" Use uppercase target labels and type as a lower case
+"let g:EasyMotion_use_upper = 1
+ " type `l` and match `l`&`L`
+let g:EasyMotion_smartcase = 1
+" Smartsign (type `3` and match `3`&`#`)
+let g:EasyMotion_use_smartsign_us = 1
+
+" \f{char} to move to {char}
+" within line
+map  <Leader>f <Plug>(easymotion-bd-fl)
+map  <Leader>t <Plug>(easymotion-bd-tl)
+map  <Leader>w <Plug>(easymotion-bd-wl)
+"nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" \s{char}{char} to move to {char}{char}
+" anywhere, even across windows
+map  <Leader>s <Plug>(easymotion-bd-f2)
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
+
 if !exists('g:vscode')
+	Plug 'tpope/vim-commentary'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
@@ -55,6 +84,12 @@ if !exists('g:vscode')
 	nnoremap <Leader>fn :Fern . -drawer -toggle -reveal=%:p<CR>
 
 	Plug 'github/copilot.vim'
+else
+	" tpope/vim-commentary behaviour for VSCode-neovim
+	xmap gc  <Plug>VSCodeCommentary
+	nmap gc  <Plug>VSCodeCommentary
+	omap gc  <Plug>VSCodeCommentary
+	nmap gcc <Plug>VSCodeCommentaryLine
 endif
 
 " All of your Plugins must be added before the following line
