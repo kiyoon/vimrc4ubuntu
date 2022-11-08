@@ -5,15 +5,9 @@ let os = 'ubuntu'
 
 if os ==? 'fc'
 	let use_vimplug         = 0
-	let use_isort           = 0
-	let use_ycm				= 0
-	let use_ycm_spellcheck	= 0
 	let use_syntastic       = 0
 elseif os ==? 'ubuntu'
 	let use_vimplug         = 1
-	let use_isort           = 1
-	let use_ycm				= 0
-	let use_ycm_spellcheck	= 0
 	let use_syntastic       = 0
 endif
 
@@ -25,21 +19,6 @@ if use_vimplug
 	exec "source " . vimrc_installed_dir . "/plugins.vim"
 endif
 
-
-if use_ycm 
-	exec "source " . vimrc_installed_dir . "/ycm.vim"
-	nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
-	nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
-	nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-	" Change pop-up window colour to blue background and yellow text
-	highlight Pmenu ctermfg=190 ctermbg=17 guifg=#AACCFF guibg=#222233
-	highlight PmenuSel ctermfg=17 ctermbg=190 guifg=#AACCFF guibg=#222233
-endif
-
-if use_isort
-	let g:vim_isort_map = '<C-i>'
-endif
 
 
 " If you prefer the Omni-Completion tip window to close when a selection is
@@ -270,24 +249,6 @@ function! InitBackupDir()
   endif
 endfunction
 call InitBackupDir()
-
-if use_ycm
-	if !use_ycm_spellcheck
-		" YouCompleteMe : syntax checker off
-		let g:ycm_show_diagnostics_ui = 0
-	endif
-	" YCM : for compiler option
-
-	if os ==? 'ubuntu'
-		let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-	else
-		let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-	endif
-	" YCM : no highlight
-	" let g:ycm_enable_diagnostic_highlighting = 0
-	" YCM : change warning symbol
-	let g:ycm_warning_symbol = '??'
-endif
 
 " make backspace working properly
 set backspace=indent,eol,start
