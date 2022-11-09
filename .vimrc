@@ -408,5 +408,5 @@ autocmd FileType python vnoremap <leader>i "sy:call AddPythonImport(@s)<CR>
 " This is not a practical common but it's for example sake.
 "nnoremap <expr> + search('import') > 0 ? 'Oimport os' : 'ggOimport os'
 
-
-
+" Neovim python support
+let g:python3_host_prog = '/usr/bin/python3'
