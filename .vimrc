@@ -30,9 +30,9 @@ endif
 
 syntax on
 
-" set the colorscheme to ron. When using screen or tmux, colorscheme is changed to default. To prevent this, it should be written.
-"color default
-color ron
+" From Neovim 0.8.1, colorscheme default works like it used to as ron.
+"color ron
+color default
 
 " This needs to be defined after colourscheme definition because it maps colours.
 if use_syntastic
