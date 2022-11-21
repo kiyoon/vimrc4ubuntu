@@ -25,6 +25,9 @@ let g:vim_isort_map = '<C-i>'
 Plug 'tpope/vim-surround'
 "Plug 'tpope/vim-fugitive'
 
+Plug 'chaoren/vim-wordmotion'
+let g:wordmotion_prefix = ','
+
 " use normal easymotion when in VIM mode
 Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
 " use VSCode easymotion when in VSCode mode
