@@ -32,6 +32,9 @@ Plug 'kana/vim-textobj-indent'		" vii, vai, viI, vaI to select indent
 Plug 'vim-python/python-syntax'
 let g:python_highlight_all = 1
 
+Plug 'chaoren/vim-wordmotion'
+let g:wordmotion_prefix = ','
+
 " use normal easymotion when in VIM mode
 Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
 " use VSCode easymotion when in VSCode mode

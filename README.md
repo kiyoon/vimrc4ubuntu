@@ -104,6 +104,8 @@ See [kiyoon/vim-tmuxpaste](https://github.com/kiyoon/vim-tmuxpaste).
 - [tpope/vim-surround](https://github.com/tpope/vim-surround)
 - `\ff`: open Fern file explorer. Type `?` to see commands.
 - `\fg`: same as `\ff` but to see the current file immediately.
+- `\s', `\w`, `\b`, `\e`: easy motion
+- `,w`, `,b`, `,e`: word motion
 
 # Useful VIM commands
 
