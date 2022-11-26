@@ -175,9 +175,9 @@ function! ToggleList(bufname, pfx)
 endfunction
 
 nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
-nmap <silent> <leader>e :call ToggleList("Quickfix List", 'c')<CR>
-nnoremap <C-j> :lnext<CR>
-nnoremap <C-k> :lprevious<CR>
+" nmap <silent> <leader>e :call ToggleList("Quickfix List", 'c')<CR>
+" nnoremap <C-j> :lnext<CR>
+" nnoremap <C-k> :lprevious<CR>
 
 
 " highlight cursor line

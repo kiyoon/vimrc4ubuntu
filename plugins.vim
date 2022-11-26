@@ -1,4 +1,3 @@
-
 " Automatic installation of vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -24,6 +23,14 @@ Plug 'fisadev/vim-isort'
 let g:vim_isort_map = '<C-i>'
 Plug 'tpope/vim-surround'
 "Plug 'tpope/vim-fugitive'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-line'		" vil, val to select line
+Plug 'kana/vim-textobj-entire'	    " vie, vae to select entire buffer (file)
+Plug 'kana/vim-textobj-fold'		" viz, vaz to select fold
+Plug 'kana/vim-textobj-indent'		" vii, vai, viI, vaI to select indent
+
+Plug 'vim-python/python-syntax'
+let g:python_highlight_all = 1
 
 " use normal easymotion when in VIM mode
 Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
@@ -50,7 +57,31 @@ nmap <Leader>s <Plug>(easymotion-overwin-f2)
 
 if !exists('g:vscode')
 	Plug 'tpope/vim-commentary'
+
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	" (Default binding) Use <C-e> and <C-y> to cancel and confirm completion
+	" I personally use <C-n> <C-p> to confirm completion without closing the popup.
+	"
+	" Toggle CoC diagnostics
+	"nnoremap <silent> <F6> :call CocActionAsync('diagnosticToggle')<CR>
+	" Show CoC diagnostics window
+	nnoremap <silent> <F6> :CocDiagnostics<CR>
+	" navigate diagnostics
+	nmap <silent> <C-j> <Plug>(coc-diagnostic-next)
+	nmap <silent> <C-k> <Plug>(coc-diagnostic-prev)
+	" Use <c-space> to trigger completion.
+	if has('nvim')
+		inoremap <silent><expr> <c-space> coc#refresh()
+	else
+		inoremap <silent><expr> <c-@> coc#refresh()
+	endif
+	" Remap keys for gotos
+	nmap <silent> gd <Plug>(coc-definition)
+	nmap <silent> gy <Plug>(coc-type-definition)
+	nmap <silent> gi <Plug>(coc-implementation)
+	nmap <silent> gr <Plug>(coc-references)
+	
+
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 
