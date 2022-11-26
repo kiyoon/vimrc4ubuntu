@@ -31,8 +31,11 @@ endif
 syntax on
 
 " From Neovim 0.8.1, colorscheme default works like it used to as ron.
-"color ron
-color default
+if has('nvim')
+	color default
+else
+	color ron
+endif
 
 " This needs to be defined after colourscheme definition because it maps colours.
 if use_syntastic
