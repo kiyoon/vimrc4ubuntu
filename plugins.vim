@@ -61,7 +61,8 @@ nmap <Leader>s <Plug>(easymotion-overwin-f2)
 if !exists('g:vscode')
 	Plug 'tpope/vim-commentary'
 
-	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'neoclide/coc.nvim', {'tag': 'v0.0.81'}
 	" (Default binding) Use <C-e> and <C-y> to cancel and confirm completion
 	" I personally use <C-n> <C-p> to confirm completion without closing the popup.
 	"
@@ -138,7 +139,7 @@ if !exists('g:vscode')
 	call coc#add_extension('coc-vimlsp')
 	call coc#add_extension('coc-java')
 	call coc#add_extension('coc-html')
-	call coc#add_extension('coc-css')
+	"call coc#add_extension('coc-css')
 	call coc#add_extension('coc-json')
 	call coc#add_extension('coc-yaml')
 	call coc#add_extension('coc-markdownlint')
