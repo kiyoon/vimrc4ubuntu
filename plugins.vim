@@ -90,29 +90,6 @@ if !exists('g:vscode')
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 
-	Plug 'lambdalisue/fern.vim'
-	Plug 'lambdalisue/nerdfont.vim'
-	Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-	Plug 'LumaKernel/fern-mapping-fzf.vim'
-	Plug 'lambdalisue/glyph-palette.vim'
-	Plug 'lambdalisue/fern-git-status.vim'
-	let g:fern#renderer = "nerdfont"
-
-	function! s:init_fern() abort
-	  " Use 'select' instead of 'edit' for default 'open' action
-	  "nmap <buffer> <Plug>(fern-action-open) <Plug>(fern-action-open:select)
-	  " Even if some other plugins set foldcolumn, fern should not increase the fold column.
-	  set foldcolumn=0
-	endfunction
-
-	augroup fern-custom
-	  autocmd! *
-	  autocmd FileType fern call s:init_fern()
-	augroup END
-
-	nnoremap <space>f :Fern . -drawer -toggle<CR>
-	nnoremap <space>g :Fern . -drawer -toggle -reveal=%<CR>
-
 	Plug 'github/copilot.vim'
 else
 	" tpope/vim-commentary behaviour for VSCode-neovim
@@ -120,6 +97,22 @@ else
 	nmap gc  <Plug>VSCodeCommentary
 	omap gc  <Plug>VSCodeCommentary
 	nmap gcc <Plug>VSCodeCommentaryLine
+endif
+
+if has("nvim")
+	Plug 'nvim-lua/plenary.nvim'
+	Plug 'sindrets/diffview.nvim'
+	nnoremap <leader>dv :DiffviewOpen<CR>
+	nnoremap <leader>dc :DiffviewClose<CR>
+
+	Plug 'lewis6991/gitsigns.nvim'
+
+	Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
+	Plug 'nvim-tree/nvim-tree.lua'
+
+	nnoremap <leader>nt :NvimTreeToggle<CR>
+	nnoremap <leader>nr :NvimTreeRefresh<CR>
+	nnoremap <leader>nf :NvimTreeFindFile<CR>
 endif
 
 " All of your Plugins must be added before the following line
@@ -138,4 +131,37 @@ if !exists('g:vscode')
 	call coc#add_extension('coc-json')
 	call coc#add_extension('coc-yaml')
 	call coc#add_extension('coc-markdownlint')
+endif
+
+if has("nvim")
+	lua require('gitsigns').setup()
+
+lua << EOF
+	-- disable netrw at the very start of your init.lua (strongly advised)
+	--vim.g.loaded_netrw = 1
+	--vim.g.loaded_netrwPlugin = 1
+
+	-- set termguicolors to enable highlight groups
+	vim.opt.termguicolors = true
+
+	-- setup with some options
+	require("nvim-tree").setup({
+	  sort_by = "case_sensitive",
+	  view = {
+		adaptive_size = true,
+		mappings = {
+		  list = {
+			{ key = "u", action = "dir_up" },
+		  },
+		},
+	  },
+	  renderer = {
+		group_empty = true,
+	  },
+	  filters = {
+		dotfiles = true,
+	  },
+	})
+EOF
+
 endif
