@@ -51,6 +51,7 @@ let g:EasyMotion_use_smartsign_us = 1
 map  <Leader>f <Plug>(easymotion-bd-fl)
 map  <Leader>t <Plug>(easymotion-bd-tl)
 map  <Leader>w <Plug>(easymotion-bd-wl)
+map  <Leader>e <Plug>(easymotion-bd-el)
 "nmap <Leader>f <Plug>(easymotion-overwin-f)
 
 " \s{char}{char} to move to {char}{char}
@@ -109,14 +110,8 @@ if !exists('g:vscode')
 	  autocmd FileType fern call s:init_fern()
 	augroup END
 
-	nnoremap <Leader>ff :Fern . -drawer -toggle<CR>
-	nnoremap <Leader>fg :Fern . -drawer -toggle -reveal=%<CR>
-	nnoremap <Leader>fh :Fern . -drawer -toggle -reveal=%:h<CR>
-	nnoremap <Leader>fs :Fern . -drawer -toggle -reveal=%:p:h<CR>
-	nnoremap <Leader>ft :Fern . -drawer -toggle -reveal=%:t<CR>
-	nnoremap <Leader>fr :Fern . -drawer -toggle -reveal=%:r<CR>
-	nnoremap <Leader>fe :Fern . -drawer -toggle -reveal=%:e<CR>
-	nnoremap <Leader>fn :Fern . -drawer -toggle -reveal=%:p<CR>
+	nnoremap <space>f :Fern . -drawer -toggle<CR>
+	nnoremap <space>g :Fern . -drawer -toggle -reveal=%<CR>
 
 	Plug 'github/copilot.vim'
 else
