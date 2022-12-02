@@ -55,6 +55,9 @@ sudo apt install xclip		# neovim, tmux clipboard support
 # Vim Isort
 pip3 install --user isort
 
+# Nvim lsp
+npm i -g pyright
+
 # Github Copilot
 nvim +PlugInstall +qall
 nvim '+Copilot setup' +q
@@ -102,10 +105,11 @@ See [kiyoon/vim-tmuxpaste](https://github.com/kiyoon/vim-tmuxpaste).
 - Alt + [ or ] to see next suggestions for Github Copilot.
 - [tpope/vim-commentary](https://github.com/tpope/vim-commentary)
 - [tpope/vim-surround](https://github.com/tpope/vim-surround)
-- `<space>f`: open Fern file explorer. Type `?` to see commands.
-- `<space>g`: same as above but to see the current file immediately.
-- `\s', `\w`, `\b`, `\e`, `\f`: easy motion
+- `\nt`: open Nvim Tree. `g?` to open help.
+- `\s`, `\w`, `\b`, `\e`, `\f`: easy motion
 - `,w`, `,b`, `,e`: word motion
+- vil/val to select line, vie/vae to select file, vii/vai to select indent.
+- treesitter-textobjects: `vif` to select function, `vic` to select class, `\a`, `\A` to swap parameters, `]m`, `]]` etc. to move between functions/classes, `\df`, `\dF` to show popup definitions.
 
 # Useful VIM commands
 

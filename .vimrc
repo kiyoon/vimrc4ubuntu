@@ -5,10 +5,8 @@ let os = 'ubuntu'
 
 if os ==? 'fc'
 	let use_vimplug         = 0
-	let use_syntastic       = 0
 elseif os ==? 'ubuntu'
 	let use_vimplug         = 1
-	let use_syntastic       = 0
 endif
 
 " directory path where the vimrc is installed
@@ -18,7 +16,6 @@ let vimrc_installed_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 if use_vimplug
 	exec "source " . vimrc_installed_dir . "/plugins.vim"
 endif
-
 
 
 " If you prefer the Omni-Completion tip window to close when a selection is
@@ -32,97 +29,24 @@ syntax on
 
 " From Neovim 0.8.1, colorscheme default works like it used to as ron.
 if has('nvim')
-	color tokyonight-night
+	"color tokyonight-night
+	color carbonfox
 	"color default
 	set cursorline
+
+lua << EOF
+	require('lualine').setup()
+--	require('lualine').setup {
+--	  options = {
+--		-- ... your lualine config
+--		theme = 'tokyonight'
+--		-- ... your lualine config
+--	  }
+--	}
+EOF
+
 else
 	color ron
-endif
-
-" This needs to be defined after colourscheme definition because it maps colours.
-if use_syntastic
-	set statusline+=%#warningmsg#
-	set statusline+=%{SyntasticStatuslineFlag()}
-	set statusline+=%*
-
-	let g:syntastic_mode_map = {
-	    \ "mode": "active",
-	    \ "active_filetypes": ["python"],
-	    \ "passive_filetypes": [] }
-
-	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_auto_loc_list = 0
-	let g:syntastic_check_on_open = 1
-	let g:syntastic_check_on_wq = 0
-	let g:syntastic_python_python_exec = 'python3'
-	let g:syntastic_python_checkers = ['flake8']
-	" Ignore style warnings
-	let g:syntastic_python_flake8_args='--select=E,F --ignore=E501,E203,E202,E272,E251,E211,E222,E701,E303,E265,E231,E126,E128,E401,E305,E302'
-
-	let g:syntastic_error_symbol = "\u2717"
-	let g:syntastic_style_error_symbol = "\u203C"
-	"let g:syntastic_warning_symbol = "\u26A0"
-	"let g:syntastic_style_warning_symbol = "S\u26A0"
-
-	" https://stackoverflow.com/questions/17677441/changing-error-highlight-color-used-by-syntastic
-	" https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-	highlight SyntasticErrorSign cterm=NONE ctermfg=125
-	highlight SyntasticError cterm=NONE ctermfg=white ctermbg=125
-	highlight SyntasticStyleErrorSign cterm=NONE ctermfg=grey
-	highlight SyntasticStyleError cterm=NONE ctermfg=black ctermbg=grey
-
-	" From official Syntastic doc
-	" Shrink the location list height when fewer than 10 errors are found.
-    function! SyntasticCheckHook(errors)
-        if !empty(a:errors)
-            let g:syntastic_loc_list_height = min([len(a:errors), 10])
-        endif
-    endfunction
-
-	" https://vi.stackexchange.com/questions/16927/open-and-close-syntastic-window-with-one-mapping
-"	function! ToggleSyntastic()
-"		for i in range(1, winnr('$'))
-"			let bnum = winbufnr(i)
-"			if getbufvar(bnum, '&buftype') == 'quickfix'
-"				lclose
-"				SyntasticToggleMode
-"				let g:syntastic_mode_map = {
-"					\ "mode": "passive",
-"					\ "active_filetypes": [],
-"					\ "passive_filetypes": [] }
-"				return
-"			endif
-"		endfor
-"		let g:syntastic_mode_map = {
-"			\ "mode": "active",
-"			\ "active_filetypes": ["python"],
-"			\ "passive_filetypes": [] }
-"		SyntasticCheck
-"	endfunction
-	function! ToggleSyntastic()
-		if g:syntastic_mode_map["mode"] == "active"
-			lclose
-			SyntasticToggleMode
-			let g:syntastic_mode_map = {
-				\ "mode": "passive",
-				\ "active_filetypes": [],
-				\ "passive_filetypes": [] }
-		else
-			let g:syntastic_mode_map = {
-				\ "mode": "active",
-				\ "active_filetypes": ["python"],
-				\ "passive_filetypes": [] }
-			SyntasticCheck
-		endif
-	endfunction
-	silent! nnoremap <F6> :call ToggleSyntastic()<CR>
-
-
-	" YouCompleteMe : syntax checker off
-	" YCM dosesn't support syntax checker for python anyway,
-	" and because of the checker it clears out the location list when first loading a file,
-	" which should not happen.
-	autocmd FileType python let g:ycm_show_diagnostics_ui = 0
 endif
 
 " Open new split panes to right and bottom, which feels more natural than Vim’s default:
@@ -147,6 +71,21 @@ set scrolloff=2
 " number of undo history
 set history=100
 
+" case insensitive search
+"
+set ignorecase
+set smartcase
+"/copyright      : Case insensitive
+"/Copyright      : Case sensitive
+"/copyright\C    : Case sensitive
+"/Copyright\c    : Case insensitive
+
+
+" map common mistakes: :W, :Q, :Wq, :WQ 
+command! -bang -range=% -complete=file -nargs=* W <line1>,<line2>write<bang> <args>
+command! -bang -range=% -complete=file -nargs=* Wq <line1>,<line2>write<bang> <args> | quit
+command! -bang -range=% -complete=file -nargs=* WQ <line1>,<line2>write<bang> <args> | quit
+command! -bang Q quit<bang>
 
 
 """""""""""""""""
