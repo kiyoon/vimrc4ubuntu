@@ -29,8 +29,8 @@ Plug 'kana/vim-textobj-entire'	    " vie, vae to select entire buffer (file)
 Plug 'kana/vim-textobj-fold'		" viz, vaz to select fold
 Plug 'kana/vim-textobj-indent'		" vii, vai, viI, vaI to select indent
 
-Plug 'vim-python/python-syntax'
-let g:python_highlight_all = 1
+"Plug 'vim-python/python-syntax'
+"let g:python_highlight_all = 1
 
 Plug 'chaoren/vim-wordmotion'
 let g:wordmotion_prefix = ','
@@ -100,6 +100,9 @@ else
 endif
 
 if has("nvim")
+	Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+	Plug 'nvim-lualine/lualine.nvim'
+
 	Plug 'nvim-lua/plenary.nvim'
 	Plug 'sindrets/diffview.nvim'
 	nnoremap <leader>dv :DiffviewOpen<CR>
@@ -109,10 +112,14 @@ if has("nvim")
 
 	Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
 	Plug 'nvim-tree/nvim-tree.lua'
-
 	nnoremap <leader>nt :NvimTreeToggle<CR>
 	nnoremap <leader>nr :NvimTreeRefresh<CR>
 	nnoremap <leader>nf :NvimTreeFindFile<CR>
+
+	Plug 'lukas-reineke/indent-blankline.nvim'
+
+	" Better syntax highlighting
+	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 endif
 
 " All of your Plugins must be added before the following line
@@ -162,6 +169,79 @@ lua << EOF
 		dotfiles = true,
 	  },
 	})
+EOF
+
+	"lua require('feline').setup()
+	
+
+
+lua << EOF
+
+	require('nvim-treesitter.configs').setup {
+	  -- A list of parser names, or "all"
+	  ensure_installed = { "c", "lua", "rust", "python", "bash", "json", "yaml", "html", "css", "vim", "java" },
+
+	  -- Install parsers synchronously (only applied to `ensure_installed`)
+	  sync_install = false,
+
+	  -- Automatically install missing parsers when entering buffer
+	  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+	  auto_install = true,
+
+	  -- List of parsers to ignore installing (for "all")
+	  ignore_install = { "javascript" },
+
+	  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+	  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+	  highlight = {
+		-- `false` will disable the whole extension
+		enable = true,
+
+		-- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+		-- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+		-- the name of the parser)
+		-- list of language that will be disabled
+		disable = { "c", "rust" },
+		-- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+		disable = function(lang, buf)
+			local max_filesize = 100 * 1024 -- 100 KB
+			local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+			if ok and stats and stats.size > max_filesize then
+				return true
+			end
+		end,
+
+		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+		-- Using this option may slow down your editor, and you may see some duplicate highlights.
+		-- Instead of true it can also be a list of languages
+		additional_vim_regex_highlighting = false,
+	  },
+	}
+EOF
+
+
+lua << EOF
+	vim.opt.list = true
+	vim.opt.listchars:append "space:⋅"
+	--vim.opt.listchars:append "eol:↴"
+
+	require("indent_blankline").setup {
+		space_char_blankline = " ",
+		show_current_context = true,
+		show_current_context_start = true,
+	}
+EOF
+
+lua << EOF
+	require('lualine').setup {
+	  options = {
+		-- ... your lualine config
+		theme = 'tokyonight'
+		-- ... your lualine config
+	  }
+	}
 EOF
 
 endif
