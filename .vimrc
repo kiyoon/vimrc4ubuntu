@@ -35,8 +35,8 @@ syntax on
 
 " From Neovim 0.8.1, colorscheme default works like it used to as ron.
 if has('nvim')
-	"color tokyonight-night
-	color carbonfox
+	color tokyonight-night
+	"color carbonfox
 	"color default
 	set cursorline
 
