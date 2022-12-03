@@ -18,7 +18,7 @@ endfunction
 
 call plug#begin()
 
-Plug 'kiyoon/vim-tmuxpaste'
+Plug 'kiyoon/tmuxpaste.vim'
 Plug 'fisadev/vim-isort'
 let g:vim_isort_map = '<C-i>'
 Plug 'tpope/vim-surround'
