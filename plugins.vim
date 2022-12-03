@@ -174,6 +174,9 @@ lua << EOF
 	  filters = {
 		dotfiles = true,
 	  },
+	  remove_keymaps = {
+		  '-',
+	  }
 	})
 EOF
 	
@@ -355,3 +358,5 @@ lua << EOF
 	})
 EOF
 endif
+
+
