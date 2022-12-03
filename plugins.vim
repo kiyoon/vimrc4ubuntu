@@ -109,6 +109,13 @@ if has("nvim")
 	nnoremap <leader>dv :DiffviewOpen<CR>
 	nnoremap <leader>dc :DiffviewClose<CR>
 
+	Plug 'smjonas/inc-rename.nvim'
+lua << EOF
+	vim.keymap.set("n", "<leader>rn", function()
+	  return ":IncRename " .. vim.fn.expand("<cword>")
+	end, { expr = true })
+EOF
+
 	Plug 'lewis6991/gitsigns.nvim'
 
 	Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
@@ -357,6 +364,8 @@ lua << EOF
 	  on_highlights = function(highlights, colors) end,
 	})
 EOF
+
+	lua require("inc_rename").setup()
 endif
 
 
