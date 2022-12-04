@@ -20,7 +20,7 @@ ln -s bin/vimrc4ubuntu/.vimrc
 ln -s bin/tmux-conf/.tmux.conf
 
 ##### Node.js (for Coc, Github Copilot)
-curl -sL install-node.vercel.app/17 | bash -s -- --prefix="$HOME/.local/bin" -y
+curl -sL install-node.vercel.app/17 | bash -s -- --prefix="$HOME/.local" -y
 
 ##### Neovim (local install)
 # You can just do
