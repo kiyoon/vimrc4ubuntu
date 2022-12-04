@@ -9,12 +9,6 @@ elseif os ==? 'ubuntu'
 	let use_vimplug         = 1
 endif
 
-if has('nvim')
-	" nvim-tree recommends disabling netrw, VIM's built-in file explorer
-	let g:loaded_netrw = 1
-	let g:loaded_netrwPlugin = 1
-endif
-
 " directory path where the vimrc is installed
 "let vimrc_installed_dir = system('dirname "$(realpath "$MYVIMRC")" | tr -d ''\n''')
 let vimrc_installed_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
