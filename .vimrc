@@ -53,8 +53,14 @@ endif
 set splitbelow
 set splitright
 
-" show line numbers
-set nu
+" show relative line numbers only when in normal mode
+set number
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
 
 " highlight search
 set hlsearch

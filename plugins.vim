@@ -26,6 +26,7 @@ Plug 'svermeulen/vim-subversive'
 nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
+xmap s <plug>(SubversiveSubstitute)
 " <space>siwie to substitute word from entire buffer
 " <space>siwip to substitute word from paragraph
 " <space>siwif to substitute word from function 
