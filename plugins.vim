@@ -21,7 +21,37 @@ call plug#begin()
 Plug 'kiyoon/tmuxsend.vim'
 Plug 'christoomey/vim-tmux-navigator'
 
-Plug 'vim-scripts/ReplaceWithRegister'	" grr, gr to replace with register
+Plug 'svermeulen/vim-subversive'
+" s for substitute
+nmap s <plug>(SubversiveSubstitute)
+nmap ss <plug>(SubversiveSubstituteLine)
+nmap S <plug>(SubversiveSubstituteToEndOfLine)
+" <space>siwie to substitute word from entire buffer
+" <space>siwip to substitute word from paragraph
+" <space>siwif to substitute word from function 
+" <space>siwic to substitute word from class
+" <space>ssip to substitute word from paragraph
+nmap <space>s <plug>(SubversiveSubstituteRange)
+xmap <space>s <plug>(SubversiveSubstituteRange)
+nmap <space>ss <plug>(SubversiveSubstitute\ordRange)
+
+" Scroll through paste by C-n C-p
+" Change the default buffer by [y ]y
+" :Yanks to see the yank history
+" :ClearYanks to clear the yank history
+Plug 'svermeulen/vim-yoink'
+nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+nmap p <plug>(YoinkPaste_p)
+nmap P <plug>(YoinkPaste_P)
+"nmap gp <plug>(YoinkPaste_gp)
+nmap gP <plug>(YoinkPaste_gP)
+nmap [y <plug>(YoinkRotateBack)
+nmap ]y <plug>(YoinkRotateForward)
+nmap y <plug>(YoinkYankPreserveCursorPosition)
+xmap y <plug>(YoinkYankPreserveCursorPosition)
+nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
+
 Plug 'fisadev/vim-isort'
 let g:vim_isort_map = '<C-i>'
 Plug 'tpope/vim-surround'
@@ -159,6 +189,7 @@ if has("nvim")
 	lua require('Comment').setup()
 	lua require('gitsigns').setup()
 	lua require'lspconfig'.pyright.setup{}
+	lua require'lspconfig'.vimls.setup{}
 
 lua << EOF
 	require("nvim-tree").setup({
