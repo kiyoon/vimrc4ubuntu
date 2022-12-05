@@ -314,13 +314,6 @@ autocmd InsertLeave * set nopaste
 " https://vim.fandom.com/wiki/Selecting_your_pasted_text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
-
-" Plugin tpope/vim-commentary
-" Comment single line or several lines
-nnoremap <leader>/ :Commentary<CR>j
-vnoremap <leader>/ :Commentary<CR>gv
-
-
 " Add python import at the beginning of the file.
 " Copy the word, find the first import statement and attach import before the first one.
 " If the first line first word of the file is import, it will search the second import statement.
