@@ -19,6 +19,9 @@ endfunction
 call plug#begin()
 
 Plug 'kiyoon/tmuxsend.vim'
+Plug 'christoomey/vim-tmux-navigator'
+
+Plug 'vim-scripts/ReplaceWithRegister'	" grr, gr to replace with register
 Plug 'fisadev/vim-isort'
 let g:vim_isort_map = '<C-i>'
 Plug 'tpope/vim-surround'
@@ -60,8 +63,6 @@ map  <Leader>s <Plug>(easymotion-bd-f2)
 nmap <Leader>s <Plug>(easymotion-overwin-f2)
 
 if !exists('g:vscode')
-	Plug 'tpope/vim-commentary'
-
 	"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'neoclide/coc.nvim', {'tag': 'v0.0.81'}
 	" (Default binding) Use <C-e> and <C-y> to cancel and confirm completion
@@ -72,8 +73,8 @@ if !exists('g:vscode')
 	" Show CoC diagnostics window
 	nnoremap <silent> <F6> :CocDiagnostics<CR>
 	" navigate diagnostics
-	nmap <silent> <C-j> <Plug>(coc-diagnostic-next)
-	nmap <silent> <C-k> <Plug>(coc-diagnostic-prev)
+	nmap <silent> <M-j> <Plug>(coc-diagnostic-next)
+	nmap <silent> <M-k> <Plug>(coc-diagnostic-prev)
 	" Use <c-space> to trigger completion.
 	if has('nvim')
 		inoremap <silent><expr> <c-space> coc#refresh()
@@ -100,6 +101,9 @@ else
 endif
 
 if has("nvim")
+	if !exists('g:vscode')
+		Plug 'numToStr/Comment.nvim'
+	endif
 	Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 	Plug 'EdenEast/nightfox.nvim'
 	Plug 'nvim-lualine/lualine.nvim'
@@ -152,8 +156,8 @@ if !exists('g:vscode')
 endif
 
 if has("nvim")
+	lua require('Comment').setup()
 	lua require('gitsigns').setup()
-
 	lua require'lspconfig'.pyright.setup{}
 
 lua << EOF
