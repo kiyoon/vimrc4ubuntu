@@ -67,6 +67,7 @@ set hlsearch
 
 " search as characters are entered
 set incsearch
+set inccommand=split
 
 " view matching brace
 set sm
