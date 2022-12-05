@@ -208,7 +208,9 @@ if has("nvim")
 	lua require('gitsigns').setup()
 	lua require'lspconfig'.pyright.setup{}
 	lua require'lspconfig'.vimls.setup{}
+	lua require("inc_rename").setup()
 
+" wilder.nvim{{{
 lua << EOF
 local wilder = require('wilder')
 wilder.setup({modes = {':', '/', '?'}})
@@ -250,13 +252,25 @@ wilder.set_option('pipeline', {
   ),
 })
 
-local highlighters = {
+local gradient = {
+  '#f4468f', '#fd4a85', '#ff507a', '#ff566f', '#ff5e63',
+  '#ff6658', '#ff704e', '#ff7a45', '#ff843d', '#ff9036',
+  '#f89b31', '#efa72f', '#e6b32e', '#dcbe30', '#d2c934',
+  '#c8d43a', '#bfde43', '#b6e84e', '#aff05b'
+}
+
+for i, fg in ipairs(gradient) do
+  gradient[i] = wilder.make_hl('WilderGradient' .. i, 'Pmenu', {{a = 1}, {a = 1}, {foreground = fg}})
+end
+
+local highlighters = wilder.highlighter_with_gradient({
   wilder.pcre2_highlighter(),
   wilder.lua_fzy_highlighter(),
-}
+})
 
 local popupmenu_renderer = wilder.popupmenu_renderer(
   wilder.popupmenu_border_theme({
+	pumblend = 20,
     border = 'rounded',
     empty_message = wilder.popupmenu_empty_message_with_spinner(),
     highlighter = highlighters,
@@ -273,7 +287,8 @@ local popupmenu_renderer = wilder.popupmenu_renderer(
       wilder.popupmenu_scrollbar(),
     },
     highlights = {
-      accent = wilder.make_hl('WilderAccent', 'Pmenu', {{a = 1}, {a = 1}, {foreground = '#f4468f'}}),
+      --accent = wilder.make_hl('WilderAccent', 'Pmenu', {{a = 1}, {a = 1}, {foreground = '#f4468f'}}),
+	  gradient = gradient,
     },
   })
 )
@@ -283,6 +298,10 @@ local wildmenu_renderer = wilder.wildmenu_renderer({
   separator = ' · ',
   left = {' ', wilder.wildmenu_spinner(), ' '},
   right = {' ', wilder.wildmenu_index()},
+  highlights = {
+    --accent = wilder.make_hl('WilderAccent', 'Pmenu', {{a = 1}, {a = 1}, {foreground = '#f4468f'}}),
+    gradient = gradient,
+  },
 })
 
 wilder.set_option('renderer', wilder.renderer_mux({
@@ -291,7 +310,9 @@ wilder.set_option('renderer', wilder.renderer_mux({
   substitute = wildmenu_renderer,
 }))
 EOF
+"}}}
 
+" nvim-tree"{{{
 lua << EOF
 	require("nvim-tree").setup({
 	  sort_by = "case_sensitive",
@@ -314,8 +335,9 @@ lua << EOF
 	  }
 	})
 EOF
+"}}}
 	
-
+" nvim-treesitter"{{{
 lua << EOF
 
 	require('nvim-treesitter.configs').setup {
@@ -389,12 +411,12 @@ lua << EOF
 			['@function.outer'] = 'V', -- linewise
 			['@class.outer'] = '<c-v>', -- blockwise
 		  },
-		  -- If you set this to `true` (default is `false`) then any textobject is
-		  -- extended to include preceding or succeeding whitespace. Succeeding
+		  -- if you set this to `true` (default is `false`) then any textobject is
+		  -- extended to include preceding or succeeding whitespace. succeeding
 		  -- whitespace has priority in order to act similarly to eg the built-in
 		  -- `ap`.
 		  --
-		  -- Can also be a function which gets passed a table with the keys
+		  -- can also be a function which gets passed a table with the keys
 		  -- * query_string: eg '@function.inner'
 		  -- * selection_mode: eg 'v'
 		  -- and should return true of false
@@ -406,7 +428,7 @@ lua << EOF
 			["<leader>a"] = "@parameter.inner",
 		  },
 		  swap_previous = {
-			["<leader>A"] = "@parameter.inner",
+			["<leader>a"] = "@parameter.inner",
 		  },
 		},
 		move = {
@@ -414,10 +436,10 @@ lua << EOF
 		  set_jumps = true, -- whether to set jumps in the jumplist
 		  goto_next_start = {
 			["]m"] = "@function.outer",
-			["]]"] = { query = "@class.outer", desc = "Next class start" },
+			["]]"] = { query = "@class.outer", desc = "next class start" },
 		  },
 		  goto_next_end = {
-			["]M"] = "@function.outer",
+			["]m"] = "@function.outer",
 			["]["] = "@class.outer",
 		  },
 		  goto_previous_start = {
@@ -425,7 +447,7 @@ lua << EOF
 			["[["] = "@class.outer",
 		  },
 		  goto_previous_end = {
-			["[M"] = "@function.outer",
+			["[m"] = "@function.outer",
 			["[]"] = "@class.outer",
 		  },
 		},
@@ -434,15 +456,16 @@ lua << EOF
 		  border = 'none',
 		  peek_definition_code = {
 			["<leader>df"] = "@function.outer",
-			["<leader>dF"] = "@class.outer",
+			["<leader>df"] = "@class.outer",
 		  },
 		},
 	  },
 
 	}
 EOF
+"}}}
 
-
+" indent_blankline{{{
 lua << EOF
 	vim.opt.list = true
 	vim.opt.listchars:append "space:⋅"
@@ -454,7 +477,9 @@ lua << EOF
 		show_current_context_start = true,
 	}
 EOF
+"}}}
 
+" tokyonight"{{{
 lua << EOF
 	require("tokyonight").setup({
 	  -- your configuration comes here
@@ -492,8 +517,7 @@ lua << EOF
 	  on_highlights = function(highlights, colors) end,
 	})
 EOF
-
-	lua require("inc_rename").setup()
+"}}}
 endif
 
 
