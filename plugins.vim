@@ -82,16 +82,16 @@ let g:EasyMotion_use_smartsign_us = 1
 
 " \f{char} to move to {char}
 " within line
-map  <Leader>f <Plug>(easymotion-bd-fl)
-map  <Leader>t <Plug>(easymotion-bd-tl)
-map  <Leader>w <Plug>(easymotion-bd-wl)
-map  <Leader>e <Plug>(easymotion-bd-el)
+map  <space>f <Plug>(easymotion-bd-fl)
+map  <space>t <Plug>(easymotion-bd-tl)
+map  <space>w <Plug>(easymotion-bd-wl)
+map  <space>e <Plug>(easymotion-bd-el)
 "nmap <Leader>f <Plug>(easymotion-overwin-f)
 
-" \s{char}{char} to move to {char}{char}
+" <space>v{char}{char} to move to {char}{char}
 " anywhere, even across windows
-map  <Leader>s <Plug>(easymotion-bd-f2)
-nmap <Leader>s <Plug>(easymotion-overwin-f2)
+map  <space>v <Plug>(easymotion-bd-f2)
+nmap <space>v <Plug>(easymotion-overwin-f2)
 
 if !exists('g:vscode')
 	"Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -119,8 +119,8 @@ if !exists('g:vscode')
 	nmap <silent> gr <Plug>(coc-references)
 	
 
-	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-	Plug 'junegunn/fzf.vim'
+	"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	"Plug 'junegunn/fzf.vim'
 
 	Plug 'github/copilot.vim'
 else
@@ -166,24 +166,26 @@ EOF
 	Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 	Plug 'neovim/nvim-lspconfig'
-endif
 
-if has('nvim')
-  function! UpdateRemotePlugins(...)
-    " Needed to refresh runtime files
-    let &rtp=&rtp
-    UpdateRemotePlugins
-  endfunction
+	Plug 'goolord/alpha-nvim'
+	Plug 'lewis6991/impatient.nvim'
+	Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+	" Find files using Telescope command-line sugar.
+	nnoremap <leader>ff <cmd>Telescope find_files<cr>
+	nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+	nnoremap <leader>fb <cmd>Telescope buffers<cr>
+	nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-  Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
-  Plug 'romgrk/fzy-lua-native'
-  Plug 'nixprime/cpsm'
-else
-  Plug 'gelguy/wilder.nvim'
+	" Wilder.nvim
+	function! UpdateRemotePlugins(...)
+		" Needed to refresh runtime files
+		let &rtp=&rtp
+		UpdateRemotePlugins
+	endfunction
 
-  " To use Python remote plugin features in Vim, can be skipped
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+	Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+	Plug 'romgrk/fzy-lua-native'
+	Plug 'nixprime/cpsm'
 endif
 
 " All of your Plugins must be added before the following line
@@ -209,6 +211,40 @@ if has("nvim")
 	lua require'lspconfig'.pyright.setup{}
 	lua require'lspconfig'.vimls.setup{}
 	lua require("inc_rename").setup()
+	lua require'alpha'.setup(require'alpha.themes.dashboard'.config)
+	lua require('impatient')
+
+" alpha "{{{
+lua << EOF
+	local alpha = require'alpha'
+	local dashboard = require'alpha.themes.dashboard'
+	dashboard.section.header.val = {
+		[[                               __                ]],
+		[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
+		[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
+		[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
+		[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
+		[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+	 }
+	dashboard.section.buttons.val = {
+	  dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
+	  dashboard.button("\\ f f", "  Find file", ":Telescope find_files hidden=true no_ignore=true<CR>"),
+	  dashboard.button("\\ f h", "  Recently opened files", "<cmd>Telescope oldfiles<CR>"),
+	  dashboard.button("\\ f g", "  Find word",  "<cmd>Telescope live_grep<cr>"),
+	  dashboard.button( "q", "  Quit NVIM" , ":qa<CR>"),
+	}
+	local handle = io.popen('fortune')
+	local fortune = handle:read("*a")
+	handle:close()
+	dashboard.section.footer.val = fortune
+
+	dashboard.config.opts.noautocmd = true
+
+	vim.cmd[[autocmd User AlphaReady echo 'ready']]
+
+	alpha.setup(dashboard.config)
+EOF
+"}}}
 
 " wilder.nvim{{{
 lua << EOF
@@ -321,6 +357,7 @@ lua << EOF
 		mappings = {
 		  list = {
 			{ key = "u", action = "dir_up" },
+			{ key = "<F1>", action = "toggle_file_info" },
 		  },
 		},
 	  },
@@ -332,6 +369,7 @@ lua << EOF
 	  },
 	  remove_keymaps = {
 		  '-',
+		  '<C-k>',
 	  }
 	})
 EOF
