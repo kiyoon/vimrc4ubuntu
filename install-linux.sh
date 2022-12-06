@@ -9,6 +9,7 @@ npm install -g neovim
 
 # LSP
 npm install -g pyright
+npm install -g vim-language-server
 
 # wilder.nvim, telescope.nvim
 npm install -g fd-find

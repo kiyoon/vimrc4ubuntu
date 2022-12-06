@@ -10,7 +10,6 @@ elseif os ==? 'ubuntu'
 endif
 
 " directory path where the vimrc is installed
-"let vimrc_installed_dir = system('dirname "$(realpath "$MYVIMRC")" | tr -d ''\n''')
 let vimrc_installed_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
 if use_vimplug
@@ -87,6 +86,7 @@ set smartcase
 "/copyright\C    : Case sensitive
 "/Copyright\c    : Case insensitive
 
+set timeoutlen=10000	" leader key timeout = 10s
 
 " map common mistakes: :W, :Q, :Wq, :WQ 
 command! -bang -range=% -complete=file -nargs=* W <line1>,<line2>write<bang> <args>
