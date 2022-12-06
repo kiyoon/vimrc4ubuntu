@@ -369,3 +369,7 @@ if has('wsl')
 		augroup END
 	endif
 endif
+
+" visual mode indent change
+vnoremap < <gv
+vnoremap > >gv

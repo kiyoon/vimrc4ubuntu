@@ -52,9 +52,6 @@ Optionally,
 ```bash
 sudo apt install xclip		# neovim, tmux clipboard support
 
-# Vim Isort
-pip3 install --user isort
-
 # Nvim lsp
 npm i -g pyright
 

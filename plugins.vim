@@ -53,8 +53,6 @@ nmap y <plug>(YoinkYankPreserveCursorPosition)
 xmap y <plug>(YoinkYankPreserveCursorPosition)
 nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
 
-Plug 'fisadev/vim-isort'
-let g:vim_isort_map = '<C-i>'
 Plug 'tpope/vim-surround'
 "Plug 'tpope/vim-fugitive'
 Plug 'kana/vim-textobj-user'
@@ -117,6 +115,7 @@ if !exists('g:vscode')
 	nmap <silent> gy <Plug>(coc-type-definition)
 	nmap <silent> gi <Plug>(coc-implementation)
 	nmap <silent> gr <Plug>(coc-references)
+	au filetype python nmap <C-i> :CocCommand pyright.organizeimports<CR>
 	
 
 	"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
