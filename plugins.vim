@@ -116,6 +116,7 @@ if !exists('g:vscode')
 	nmap <silent> gi <Plug>(coc-implementation)
 	nmap <silent> gr <Plug>(coc-references)
 	au filetype python nmap <C-i> :CocCommand pyright.organizeimports<CR>
+	nmap <space>rn <Plug>(coc-rename)
 	
 
 	"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -144,6 +145,7 @@ if has("nvim")
 	nnoremap <leader>dc :DiffviewClose<CR>
 
 	Plug 'smjonas/inc-rename.nvim'
+
 lua << EOF
 	vim.keymap.set("n", "<leader>rn", function()
 	  return ":IncRename " .. vim.fn.expand("<cword>")
@@ -205,16 +207,17 @@ if !exists('g:vscode')
 endif
 
 if has("nvim")
+	lua require('impatient')
 	lua require('Comment').setup()
 	lua require('gitsigns').setup()
 	lua require'lspconfig'.pyright.setup{}
 	lua require'lspconfig'.vimls.setup{}
+	lua require'lspconfig'.bashls.setup{}
 	lua require("inc_rename").setup()
-	lua require'alpha'.setup(require'alpha.themes.dashboard'.config)
-	lua require('impatient')
 
 " alpha "{{{
 lua << EOF
+	require'alpha'.setup(require'alpha.themes.dashboard'.config)
 	local alpha = require'alpha'
 	local dashboard = require'alpha.themes.dashboard'
 	dashboard.section.header.val = {
@@ -230,23 +233,23 @@ lua << EOF
 	  dashboard.button("\\ f f", "  Find file", ":Telescope find_files hidden=true no_ignore=true<CR>"),
 	  dashboard.button("\\ f h", "  Recently opened files", "<cmd>Telescope oldfiles<CR>"),
 	  dashboard.button("\\ f g", "  Find word",  "<cmd>Telescope live_grep<cr>"),
-    dashboard.button("c", " " .. " Neovim config", ":e $MYVIMRC <CR>"),
-    dashboard.button("q", " " .. " Quit", ":qa<CR>"),
+	  dashboard.button("c", " " .. " Neovim config", ":e $MYVIMRC <CR>"),
+	  dashboard.button("q", " " .. " Quit", ":qa<CR>"),
 	}
 	-- local handle = io.popen('fortune')
 	-- local fortune = handle:read("*a")
 	-- handle:close()
 	-- dashboard.section.footer.val = fortune
 
-  local function footer()
-    return "https://github.com/kiyoon/neovim-tmux-ide"
-  end
+	local function footer()
+	  return "https://github.com/kiyoon/neovim-tmux-ide"
+	end
 
-  dashboard.section.footer.val = footer()
+	dashboard.section.footer.val = footer()
 
-  dashboard.section.footer.opts.hl = "Type"
-  dashboard.section.header.opts.hl = "Include"
-  dashboard.section.buttons.opts.hl = "Keyword"
+	dashboard.section.footer.opts.hl = "Type"
+	dashboard.section.header.opts.hl = "Include"
+	dashboard.section.buttons.opts.hl = "Keyword"
 
 	dashboard.config.opts.noautocmd = true
 
@@ -361,6 +364,7 @@ EOF
 " nvim-tree"{{{
 lua << EOF
 	
+	local nvim_tree = require('nvim-tree')
 	local config_status_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
 	if not config_status_ok then
 	  return
@@ -368,67 +372,68 @@ lua << EOF
 
 	local tree_cb = nvim_tree_config.nvim_tree_callback
 
-  nvim_tree.setup {
-    update_focused_file = {
-      enable = true,
-      update_cwd = true,
-    },
-    renderer = {
-      root_folder_modifier = ":t",
-      icons = {
-        glyphs = {
-          default = "",
-          symlink = "",
-          folder = {
-            arrow_open = "",
-            arrow_closed = "",
-            default = "",
-            open = "",
-            empty = "",
-            empty_open = "",
-            symlink = "",
-            symlink_open = "",
-          },
-          git = {
-            unstaged = "",
-            staged = "S",
-            unmerged = "",
-            renamed = "➜",
-            untracked = "U",
-            deleted = "",
-            ignored = "◌",
-          },
-        },
-      },
-    },
-    diagnostics = {
-      enable = true,
-      show_on_dirs = true,
-      icons = {
-        hint = "",
-        info = "",
-        warning = "",
-        error = "",
-      },
-    },
-    view = {
-      width = 30,
-      side = "left",
-      mappings = {
-        list = {
-          { key = "u", action = "dir_up" },
-          { key = "<F1>", action = "toggle_file_info" },
-          { key = { "l", "<CR>", "o" }, cb = tree_cb "edit" },
-          { key = "h", cb = tree_cb "close_node" },
-          { key = "v", cb = tree_cb "vsplit" },
-        },
-      },
-    },
-    remove_keymaps = {
-      '-',
-      '<C-k>',
-    }
-  }
+	nvim_tree.setup {
+		update_focused_file = {
+		  enable = true,
+		  update_cwd = true,
+		},
+		renderer = {
+		  root_folder_modifier = ":t",
+		  icons = {
+			glyphs = {
+			  default = "",
+			  symlink = "",
+			  folder = {
+				arrow_open = "",
+				arrow_closed = "",
+				default = "",
+				open = "",
+				empty = "",
+				empty_open = "",
+				symlink = "",
+				symlink_open = "",
+			  },
+			  git = {
+				unstaged = "",
+				staged = "S",
+				unmerged = "",
+				renamed = "➜",
+				untracked = "U",
+				deleted = "",
+				ignored = "◌",
+			  },
+			},
+		  },
+		},
+		diagnostics = {
+		  enable = true,
+		  show_on_dirs = true,
+		  icons = {
+			hint = "",
+			info = "",
+			warning = "",
+			error = "",
+		  },
+		},
+		view = {
+		  width = 30,
+		  side = "left",
+		  mappings = {
+			list = {
+			  { key = "u", action = "dir_up" },
+			  { key = "<F1>", action = "toggle_file_info" },
+			  { key = { "l", "<CR>", "o" }, cb = tree_cb "edit" },
+			  { key = "h", cb = tree_cb "close_node" },
+			  { key = "v", cb = tree_cb "vsplit" },
+			},
+		  },
+		},
+		remove_keymaps = {
+		  '-',
+		  '<C-k>',
+		}
+	}
+EOF
 "}}}
 	
 " nvim-treesitter"{{{
@@ -492,6 +497,17 @@ lua << EOF
 			-- You can optionally set descriptions to the mappings (used in the desc parameter of
 			-- nvim_buf_set_keymap) which plugins like which-key display
 			["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+			["ab"] = "@block.outer",
+			["ib"] = "@block.inner",
+			["ad"] = "@conditional.outer",
+			["id"] = "@conditional.inner",
+			["ao"] = "@loop.outer",
+			["io"] = "@loop.inner",
+			["aa"] = "@parameter.outer",
+			["ia"] = "@parameter.inner",
+			["aC"] = "@call.outer",
+			["iC"] = "@call.inner",
+
 		  },
 		  -- You can choose the select mode (default is charwise 'v')
 		  --
