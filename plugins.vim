@@ -378,7 +378,7 @@ lua << EOF
 		  update_cwd = true,
 		},
 		renderer = {
-		  root_folder_modifier = ":t",
+		  --root_folder_modifier = ":t",
 		  icons = {
 			glyphs = {
 			  default = "",
