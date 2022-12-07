@@ -230,12 +230,23 @@ lua << EOF
 	  dashboard.button("\\ f f", "  Find file", ":Telescope find_files hidden=true no_ignore=true<CR>"),
 	  dashboard.button("\\ f h", "  Recently opened files", "<cmd>Telescope oldfiles<CR>"),
 	  dashboard.button("\\ f g", "  Find word",  "<cmd>Telescope live_grep<cr>"),
-	  dashboard.button( "q", "  Quit NVIM" , ":qa<CR>"),
+    dashboard.button("c", " " .. " Neovim config", ":e $MYVIMRC <CR>"),
+    dashboard.button("q", " " .. " Quit", ":qa<CR>"),
 	}
-	local handle = io.popen('fortune')
-	local fortune = handle:read("*a")
-	handle:close()
-	dashboard.section.footer.val = fortune
+	-- local handle = io.popen('fortune')
+	-- local fortune = handle:read("*a")
+	-- handle:close()
+	-- dashboard.section.footer.val = fortune
+
+  local function footer()
+    return "https://github.com/kiyoon/neovim-tmux-ide"
+  end
+
+  dashboard.section.footer.val = footer()
+
+  dashboard.section.footer.opts.hl = "Type"
+  dashboard.section.header.opts.hl = "Include"
+  dashboard.section.buttons.opts.hl = "Keyword"
 
 	dashboard.config.opts.noautocmd = true
 
@@ -357,32 +368,67 @@ lua << EOF
 
 	local tree_cb = nvim_tree_config.nvim_tree_callback
 
-	require("nvim-tree").setup({
-	  sort_by = "case_sensitive",
-	  view = {
-		adaptive_size = true,
-		mappings = {
-		  list = {
-			{ key = "u", action = "dir_up" },
-			{ key = "<F1>", action = "toggle_file_info" },
-	        { key = { "l", "<CR>", "o" }, cb = tree_cb "edit" },
-			{ key = "h", cb = tree_cb "close_node" },
-			{ key = "v", cb = tree_cb "vsplit" },
-		  },
-		},
-	  },
-	  renderer = {
-		group_empty = true,
-	  },
-	  filters = {
-		dotfiles = true,
-	  },
-	  remove_keymaps = {
-		  '-',
-		  '<C-k>',
-	  }
-	})
-EOF
+  nvim_tree.setup {
+    update_focused_file = {
+      enable = true,
+      update_cwd = true,
+    },
+    renderer = {
+      root_folder_modifier = ":t",
+      icons = {
+        glyphs = {
+          default = "",
+          symlink = "",
+          folder = {
+            arrow_open = "",
+            arrow_closed = "",
+            default = "",
+            open = "",
+            empty = "",
+            empty_open = "",
+            symlink = "",
+            symlink_open = "",
+          },
+          git = {
+            unstaged = "",
+            staged = "S",
+            unmerged = "",
+            renamed = "➜",
+            untracked = "U",
+            deleted = "",
+            ignored = "◌",
+          },
+        },
+      },
+    },
+    diagnostics = {
+      enable = true,
+      show_on_dirs = true,
+      icons = {
+        hint = "",
+        info = "",
+        warning = "",
+        error = "",
+      },
+    },
+    view = {
+      width = 30,
+      side = "left",
+      mappings = {
+        list = {
+          { key = "u", action = "dir_up" },
+          { key = "<F1>", action = "toggle_file_info" },
+          { key = { "l", "<CR>", "o" }, cb = tree_cb "edit" },
+          { key = "h", cb = tree_cb "close_node" },
+          { key = "v", cb = tree_cb "vsplit" },
+        },
+      },
+    },
+    remove_keymaps = {
+      '-',
+      '<C-k>',
+    }
+  }
 "}}}
 	
 " nvim-treesitter"{{{
