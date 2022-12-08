@@ -204,6 +204,7 @@ if !exists('g:vscode')
 	call coc#add_extension('coc-json')
 	call coc#add_extension('coc-yaml')
 	call coc#add_extension('coc-markdownlint')
+	call coc#add_extension('coc-sumneko-lua')
 endif
 
 if has("nvim")
