@@ -92,8 +92,8 @@ map  <space>v <Plug>(easymotion-bd-f2)
 nmap <space>v <Plug>(easymotion-overwin-f2)
 
 if !exists('g:vscode')
-	"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	Plug 'neoclide/coc.nvim', {'tag': 'v0.0.81'}
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	"Plug 'neoclide/coc.nvim', {'tag': 'v0.0.81'}
 	" (Default binding) Use <C-e> and <C-y> to cancel and confirm completion
 	" I personally use <C-n> <C-p> to confirm completion without closing the popup.
 	"
@@ -166,6 +166,10 @@ EOF
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 	Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
+	" Mason makes it easier to install language servers
+	" Always load mason, mason-lspconfig and nvim-lspconfig in order.
+	Plug 'williamboman/mason.nvim'
+	Plug 'williamboman/mason-lspconfig.nvim'
 	Plug 'neovim/nvim-lspconfig'
 
 	Plug 'goolord/alpha-nvim'
@@ -211,9 +215,71 @@ if has("nvim")
 	lua require('impatient')
 	lua require('Comment').setup()
 	lua require('gitsigns').setup()
-	lua require'lspconfig'.pyright.setup{}
-	lua require'lspconfig'.vimls.setup{}
-	lua require'lspconfig'.bashls.setup{}
+
+
+" LSP{{{
+lua << EOF
+	local servers = {
+		"sumneko_lua",
+		"cssls",
+		"html",
+		"tsserver",
+		"pyright",
+		"bashls",
+		"jsonls",
+		"yamlls",
+		"vimls"
+	}
+
+	local settings = {
+		ui = {
+			border = "none",
+			icons = {
+				package_installed = "◍",
+				package_pending = "◍",
+				package_uninstalled = "◍",
+			},
+		},
+		log_level = vim.log.levels.INFO,
+		max_concurrent_installers = 4,
+	}
+
+	require("mason").setup(settings)
+	require("mason-lspconfig").setup({
+		ensure_installed = servers,
+		automatic_installation = true,
+	})
+
+	local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
+	if not lspconfig_status_ok then
+		return
+	end
+
+	local opts = {}
+
+	for _, server in pairs(servers) do
+		-- opts = {
+		-- 	on_attach = require("user.lsp.handlers").on_attach,
+		-- 	capabilities = require("user.lsp.handlers").capabilities,
+		-- }
+
+		server = vim.split(server, "@")[1]
+
+		local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server)
+		if require_ok then
+			opts = vim.tbl_deep_extend("force", conf_opts, opts)
+		end
+
+		lspconfig[server].setup(opts)
+	end
+
+	-- require'lspconfig'.pyright.setup{}
+	-- require'lspconfig'.vimls.setup{}
+	-- require'lspconfig'.bashls.setup{}
+	-- require'lspconfig'.sumneko_lua.setup{}
+EOF
+"}}}
+"
 	lua require("inc_rename").setup()
 
 " alpha "{{{
