@@ -296,10 +296,11 @@ lua << EOF
 		[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
 	 }
 	dashboard.section.buttons.val = {
-	  dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
-	  dashboard.button("\\ f f", "  Find file", ":Telescope find_files hidden=true no_ignore=true<CR>"),
-	  dashboard.button("\\ f h", "  Recently opened files", "<cmd>Telescope oldfiles<CR>"),
-	  dashboard.button("\\ f g", "  Find word",  "<cmd>Telescope live_grep<cr>"),
+	  dashboard.button("e", "  New file" , ":ene <BAR> startinsert <CR>"),
+	  dashboard.button("f", "  Find file (\\ff)", ":Telescope find_files hidden=true no_ignore=true<CR>"),
+	  dashboard.button("r", "  Recently opened files (\\fh)", "<cmd>Telescope oldfiles<CR>"),
+	  dashboard.button("w", "  Find word (\\fg)",  "<cmd>Telescope live_grep<cr>"),
+	  dashboard.button("l", " " .. " Install language support (:Mason)", ":Mason<CR>"),
 	  dashboard.button("c", " " .. " Neovim config", ":e $MYVIMRC <CR>"),
 	  dashboard.button("q", " " .. " Quit", ":qa<CR>"),
 	}
