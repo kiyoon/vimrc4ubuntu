@@ -165,11 +165,7 @@ EOF
 	" Better syntax highlighting
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 	Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-	Plug 'David-Kunz/treesitter-unit'
-	xnoremap iu :lua require"treesitter-unit".select()<CR>
-	xnoremap au :lua require"treesitter-unit".select(true)<CR>
-	onoremap iu :<c-u>lua require"treesitter-unit".select()<CR>
-	onoremap au :<c-u>lua require"treesitter-unit".select(true)<CR>
+	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
 
 	" Mason makes it easier to install language servers
 	" Always load mason, mason-lspconfig and nvim-lspconfig in order.
@@ -513,7 +509,36 @@ EOF
 " nvim-treesitter"{{{
 lua << EOF
 
+	local function starts_with(str, start)
+		return str:sub(1, #start) == start
+	end
+	local function treesitter_selection_mode(info)
+		  -- * query_string: eg '@function.inner'
+		  -- * method: eg 'v' or 'o'
+		  --print(info['method'])		-- visual, operator-pending
+		  if starts_with(info['query_string'], '@function.') then
+			  return 'V'
+		  end
+		  return 'v'
+	end
+
+	local function treesitter_incwhitespaces(info)
+		  -- * query_string: eg '@function.inner'
+		  -- * selection_mode: eg 'charwise', 'linewise', 'blockwise'
+		  -- if starts_with(info['query_string'], '@function.') then
+			 --  return false
+		  -- elseif starts_with(info['query_string'], '@comment.') then
+			 --  return false 
+		  -- end
+		  return false
+	end
+
 	require('nvim-treesitter.configs').setup {
+	  -- vim-matchup
+	  matchup = {
+		enable = true,              -- mandatory, false will disable the whole extension
+	  },
+
 	  -- A list of parser names, or "all"
 	  ensure_installed = { "c", "lua", "rust", "python", "bash", "json", "yaml", "html", "css", "vim", "java" },
 
@@ -600,11 +625,7 @@ lua << EOF
 		  -- * method: eg 'v' or 'o'
 		  -- and should return the mode ('v', 'V', or '<c-v>') or a table
 		  -- mapping query_strings to modes.
-		  selection_modes = {
-			['@parameter.outer'] = 'v', -- charwise
-			['@function.outer'] = 'V', -- linewise
-			['@class.outer'] = '<c-v>', -- blockwise
-		  },
+		  selection_modes = treesitter_selection_mode,
 		  -- if you set this to `true` (default is `false`) then any textobject is
 		  -- extended to include preceding or succeeding whitespace. succeeding
 		  -- whitespace has priority in order to act similarly to eg the built-in
@@ -614,46 +635,70 @@ lua << EOF
 		  -- * query_string: eg '@function.inner'
 		  -- * selection_mode: eg 'v'
 		  -- and should return true of false
-		  include_surrounding_whitespace = true,
+		  include_surrounding_whitespace = treesitter_incwhitespaces,
 		},
 		swap = {
 		  enable = true,
 		  swap_next = {
-			["<leader>a"] = "@parameter.inner",
+			[")m"] = "@function.outer",
+			[")c"] = "@comment.outer",
+			[")a"] = "@parameter.inner",
+			[")b"] = "@block.outer",
+			[")C"] = "@class.outer",
 		  },
 		  swap_previous = {
-			["<leader>A"] = "@parameter.inner",
+			["(m"] = "@function.outer",
+			["(c"] = "@comment.outer",
+			["(a"] = "@parameter.inner",
+			["(b"] = "@block.outer",
+			["(C"] = "@class.outer",
 		  },
 		},
 		move = {
 		  enable = true,
 		  set_jumps = true, -- whether to set jumps in the jumplist
 		  goto_next_start = {
-			["]m"] = "@function.inner",
+			["]m"] = "@function.outer",
 			["]f"] = "@call.outer",
 			["]d"] = "@conditional.outer",
 			["]o"] = "@loop.outer",
-			["]s"] = "@statement.inner",
+			["]s"] = "@statement.outer",
 			["]a"] = "@parameter.inner",
 			["]c"] = "@comment.outer",
 			["]b"] = "@block.outer",
 			["]]"] = { query = "@class.inner", desc = "next class start" },
 		  },
 		  goto_next_end = {
+			["]M"] = "@function.outer",
+			["]F"] = "@call.outer",
+			["]D"] = "@conditional.outer",
+			["]O"] = "@loop.outer",
+			["]S"] = "@statement.outer",
+			["]A"] = "@parameter.inner",
+			["]C"] = "@comment.outer",
+			["]B"] = "@block.outer",
 			["]["] = "@class.inner",
 		  },
 		  goto_previous_start = {
-			["[m"] = "@function.inner",
+			["[m"] = "@function.outer",
 			["[f"] = "@call.outer",
 			["[d"] = "@conditional.outer",
 			["[o"] = "@loop.outer",
-			["[s"] = "@statement.inner",
+			["[s"] = "@statement.outer",
 			["[a"] = "@parameter.inner",
 			["[c"] = "@comment.outer",
 			["[b"] = "@block.outer",
 			["[["] = "@class.inner",
 		  },
 		  goto_previous_end = {
+			["[M"] = "@function.outer",
+			["[F"] = "@call.outer",
+			["[D"] = "@conditional.outer",
+			["[O"] = "@loop.outer",
+			["[S"] = "@statement.outer",
+			["[A"] = "@parameter.inner",
+			["[C"] = "@comment.outer",
+			["[B"] = "@block.outer",
 			["[]"] = "@class.inner",
 		  },
 		},
