@@ -165,6 +165,11 @@ EOF
 	" Better syntax highlighting
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 	Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+	Plug 'David-Kunz/treesitter-unit'
+	xnoremap iu :lua require"treesitter-unit".select()<CR>
+	xnoremap au :lua require"treesitter-unit".select(true)<CR>
+	onoremap iu :<c-u>lua require"treesitter-unit".select()<CR>
+	onoremap au :<c-u>lua require"treesitter-unit".select(true)<CR>
 
 	" Mason makes it easier to install language servers
 	" Always load mason, mason-lspconfig and nvim-lspconfig in order.
@@ -216,6 +221,7 @@ if has("nvim")
 	lua require('Comment').setup()
 	lua require('gitsigns').setup()
 
+	"lua require"treesitter-unit".toggle_highlighting()
 
 " LSP{{{
 lua << EOF
@@ -561,10 +567,10 @@ lua << EOF
 			-- You can use the capture groups defined in textobjects.scm
 			["am"] = "@function.outer",
 			["im"] = "@function.inner",
-			["ac"] = "@class.outer",
+			["aC"] = "@class.outer",
 			-- You can optionally set descriptions to the mappings (used in the desc parameter of
 			-- nvim_buf_set_keymap) which plugins like which-key display
-			["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+			["iC"] = { query = "@class.inner", desc = "Select inner part of a class region" },
 			["ab"] = "@block.outer",
 			["ib"] = "@block.inner",
 			["ad"] = "@conditional.outer",
@@ -575,8 +581,8 @@ lua << EOF
 			["ia"] = "@parameter.inner",
 			["af"] = "@call.outer",
 			["if"] = "@call.inner",
-			["aC"] = "@comment.outer",
-			["iC"] = "@comment.outer",
+			["ac"] = "@comment.outer",
+			["ic"] = "@comment.outer",
 			--["afr"] = "@frame.outer",
 			--["ifr"] = "@frame.inner",
 			--["aat"] = "@attribute.outer",
@@ -616,27 +622,39 @@ lua << EOF
 			["<leader>a"] = "@parameter.inner",
 		  },
 		  swap_previous = {
-			["<leader>a"] = "@parameter.inner",
+			["<leader>A"] = "@parameter.inner",
 		  },
 		},
 		move = {
 		  enable = true,
 		  set_jumps = true, -- whether to set jumps in the jumplist
 		  goto_next_start = {
-			["]m"] = "@function.outer",
-			["]]"] = { query = "@class.outer", desc = "next class start" },
+			["]m"] = "@function.inner",
+			["]f"] = "@call.outer",
+			["]d"] = "@conditional.outer",
+			["]o"] = "@loop.outer",
+			["]s"] = "@statement.inner",
+			["]a"] = "@parameter.inner",
+			["]c"] = "@comment.outer",
+			["]b"] = "@block.outer",
+			["]]"] = { query = "@class.inner", desc = "next class start" },
 		  },
 		  goto_next_end = {
-			["]m"] = "@function.outer",
-			["]["] = "@class.outer",
+			["]["] = "@class.inner",
 		  },
 		  goto_previous_start = {
-			["[m"] = "@function.outer",
-			["[["] = "@class.outer",
+			["[m"] = "@function.inner",
+			["[f"] = "@call.outer",
+			["[d"] = "@conditional.outer",
+			["[o"] = "@loop.outer",
+			["[s"] = "@statement.inner",
+			["[a"] = "@parameter.inner",
+			["[c"] = "@comment.outer",
+			["[b"] = "@block.outer",
+			["[["] = "@class.inner",
 		  },
 		  goto_previous_end = {
-			["[m"] = "@function.outer",
-			["[]"] = "@class.outer",
+			["[]"] = "@class.inner",
 		  },
 		},
 		lsp_interop = {

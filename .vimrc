@@ -215,12 +215,12 @@ filetype plugin indent on
 autocmd FileType python,tex set expandtab
 
 " latex settings (global values require vim-latex plugin)
-autocmd FileType tex set tabstop=2
-autocmd FileType tex set shiftwidth=2
+autocmd FileType tex,lua set tabstop=2
+autocmd FileType tex,lua set shiftwidth=2
 autocmd FileType tex set iskeyword+=:
-let g:tex_flavor='latex'
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_MultipleCompileFormats='pdf, aux'
+" let g:tex_flavor='latex'
+" let g:Tex_DefaultTargetFormat = 'pdf'
+" let g:Tex_MultipleCompileFormats='pdf, aux'
 
 " turn off automatic new line when the text is too long in a line (e.g. SML)
 autocmd FileType sml set textwidth=0 wrapmargin=0
