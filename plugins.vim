@@ -491,8 +491,8 @@ lua << EOF
 
 		  keymaps = {
 			-- You can use the capture groups defined in textobjects.scm
-			["af"] = "@function.outer",
-			["if"] = "@function.inner",
+			["am"] = "@function.outer",
+			["im"] = "@function.inner",
 			["ac"] = "@class.outer",
 			-- You can optionally set descriptions to the mappings (used in the desc parameter of
 			-- nvim_buf_set_keymap) which plugins like which-key display
@@ -505,8 +505,18 @@ lua << EOF
 			["io"] = "@loop.inner",
 			["aa"] = "@parameter.outer",
 			["ia"] = "@parameter.inner",
-			["aC"] = "@call.outer",
-			["iC"] = "@call.inner",
+			["af"] = "@call.outer",
+			["if"] = "@call.inner",
+			["aC"] = "@comment.outer",
+			["iC"] = "@comment.outer",
+			--["afr"] = "@frame.outer",
+			--["ifr"] = "@frame.inner",
+			--["aat"] = "@attribute.outer",
+			--["iat"] = "@attribute.inner",
+			--["asc"] = "@scopename.inner",
+			--["isc"] = "@scopename.inner",
+			["as"] = "@statement.outer",
+			["is"] = "@statement.outer",
 
 		  },
 		  -- You can choose the select mode (default is charwise 'v')
