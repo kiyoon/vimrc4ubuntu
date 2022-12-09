@@ -707,7 +707,7 @@ lua << EOF
 		  border = 'none',
 		  peek_definition_code = {
 			["<leader>df"] = "@function.outer",
-			["<leader>df"] = "@class.outer",
+			["<leader>dF"] = "@class.outer",
 		  },
 		},
 	  },
