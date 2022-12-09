@@ -2,8 +2,12 @@
 
 LOCALBIN="$HOME/.local/bin"
 
-pip3 install --user pynvim
+if ! command -v node &> /dev/null
+then
+	curl -sL install-node.vercel.app/lts | bash -s -- --prefix="$HOME/.local" -y
+fi
 
+pip3 install --user pynvim
 npm install -g neovim
 
 # Deprecated: no need for below.
