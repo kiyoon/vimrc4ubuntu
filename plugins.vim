@@ -97,6 +97,7 @@ if !exists('g:vscode')
 	" (Default binding) Use <C-e> and <C-y> to cancel and confirm completion
 	" I personally use <C-n> <C-p> to confirm completion without closing the popup.
 	"
+	let g:coc_node_args = ['--max-old-space-size=8192']	" prevent javascript heap out of memory
 	" Toggle CoC diagnostics
 	"nnoremap <silent> <F6> :call CocActionAsync('diagnosticToggle')<CR>
 	" Show CoC diagnostics window
@@ -164,7 +165,8 @@ EOF
 
 	" Better syntax highlighting
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-	Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+	Plug 'kiyoon/nvim-treesitter-textobjects'
+	"Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
 
 	" Mason makes it easier to install language servers
