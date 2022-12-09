@@ -7,44 +7,10 @@
 
 This vimrc will install vim-plug and many plugins automatically when you first launch vim.  
 
+Some plugins have dependencies and you can locally install everything by running:
+
 ```bash
-mkdir ~/bin -p
-mkdir ~/.local/bin -p
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-
-cd ~/bin
-git clone https://github.com/kiyoon/vimrc4ubuntu
-git clone https://github.com/kiyoon/tmux-conf
-cd
-ln -s bin/vimrc4ubuntu/.vimrc
-ln -s bin/tmux-conf/.tmux.conf
-
-##### Node.js (for Coc, Github Copilot)
-curl -sL install-node.vercel.app/17 | bash -s -- --prefix="$HOME/.local" -y
-
-##### Neovim (local install)
-# You can just do
-# sudo apt install neovim
-# below is to locally install without sudo.
-cd ~/bin
-curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
-chmod u+x nvim.appimage
-./nvim.appimage --appimage-extract
-cd ~/.local/bin
-ln -s ~/bin/squashfs-root/AppRun nvim
-rm ~/bin/nvim.appimage
-pip3 install --user pynvim    # add python support
-
-## init.vim, alias
-mkdir ~/.config/nvim -p
-cd ~/.config/nvim
-ln -s ~/bin/vimrc4ubuntu/init.vim .
-
-echo "alias vi='nvim'" >> ~/.bash_aliases
-echo "alias vim='nvim'" >> ~/.bash_aliases
-echo "alias vimdiff='nvim -d'" >> ~/.bash_aliases
-echo "export EDITOR=nvim" >> ~/.bashrc
-source ~/.bashrc
+./install-linux.sh
 ```
 
 Optionally,  
@@ -52,16 +18,11 @@ Optionally,
 ```bash
 sudo apt install xclip		# neovim, tmux clipboard support
 
-# Nvim lsp
-npm i -g pyright
-
 # Github Copilot
 nvim +PlugInstall +qall
 nvim '+Copilot setup' +q
 nvim '+Copilot enable' +q
 ```
-
-Check out my [full terminal setup guide](https://gist.github.com/kiyoon/fc1573ed3edf61c142d925e1712940e9).
 
 # vimrc4ubuntu
 Key features:
