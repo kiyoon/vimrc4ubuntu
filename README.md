@@ -27,7 +27,7 @@ curl -sL install-node.vercel.app/17 | bash -s -- --prefix="$HOME/.local" -y
 # sudo apt install neovim
 # below is to locally install without sudo.
 cd ~/bin
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
 chmod u+x nvim.appimage
 ./nvim.appimage --appimage-extract
 cd ~/.local/bin
