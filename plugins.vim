@@ -198,6 +198,7 @@ EOF
 	Plug 'nixprime/cpsm'
 	
 	Plug 'RRethy/vim-illuminate'
+	Plug 'ahmedkhalf/project.nvim'
 endif
 
 " All of your Plugins must be added before the following line
@@ -307,6 +308,7 @@ lua << EOF
 	  dashboard.button("e", "  New file" , ":ene <BAR> startinsert <CR>"),
 	  dashboard.button("f", "  Find file (\\ff)", ":Telescope find_files hidden=true no_ignore=true<CR>"),
 	  dashboard.button("r", "  Recently opened files (\\fh)", "<cmd>Telescope oldfiles<CR>"),
+	  dashboard.button("p", " " .. " Recent projects", ":lua require('telescope').extensions.projects.projects()<CR>"),
 	  dashboard.button("w", "  Find word (\\fg)",  "<cmd>Telescope live_grep<cr>"),
 	  dashboard.button("l", " " .. " Install language support (:Mason)", ":Mason<CR>"),
 	  dashboard.button("c", " " .. " Neovim config", ":e $MYVIMRC <CR>"),
@@ -823,6 +825,31 @@ illuminate.configure {
 }
 EOF
 "}}}
+
+" project.nvim"{{{
+lua << EOF
+local status_ok, project = pcall(require, "project_nvim")
+if not status_ok then
+	return
+end
+project.setup({
+
+	-- detection_methods = { "lsp", "pattern" }, -- NOTE: lsp detection will get annoying with multiple langs in one project
+	detection_methods = { "pattern" },
+
+	-- patterns used to detect root dir, when **"pattern"** is in detection_methods
+	patterns = { ".git", "Makefile", "package.json" },
+})
+
+local tele_status_ok, telescope = pcall(require, "telescope")
+if not tele_status_ok then
+	return
+end
+
+telescope.load_extension('projects')
+EOF
+"}}}
+
 endif
 
 
