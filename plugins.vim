@@ -296,13 +296,16 @@ lua << EOF
 	require'alpha'.setup(require'alpha.themes.dashboard'.config)
 	local alpha = require'alpha'
 	local dashboard = require'alpha.themes.dashboard'
+	neovim_version = vim.version()
+	neovim_version_str = string.format("  v%s.%s.%s", neovim_version.major, neovim_version.minor, neovim_version.patch)
+
 	dashboard.section.header.val = {
 		[[                               __                ]],
 		[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
 		[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
 		[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
 		[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
-		[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+		[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]] .. neovim_version_str,
 	 }
 	dashboard.section.buttons.val = {
 	  dashboard.button("e", "  New file" , ":ene <BAR> startinsert <CR>"),
@@ -320,7 +323,10 @@ lua << EOF
 	-- dashboard.section.footer.val = fortune
 
 	local function footer()
-	  return "https://github.com/kiyoon/neovim-tmux-ide"
+	  return {
+		  "https://github.com/kiyoon/neovim-tmux-ide",
+	  }
+
 	end
 
 	dashboard.section.footer.val = footer()
