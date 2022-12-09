@@ -86,10 +86,10 @@ map  <space>w <Plug>(easymotion-bd-wl)
 map  <space>e <Plug>(easymotion-bd-el)
 "nmap <Leader>f <Plug>(easymotion-overwin-f)
 
-" <space>v{char}{char} to move to {char}{char}
+" <space>m{char}{char} to move to {char}{char}
 " anywhere, even across windows
-map  <space>v <Plug>(easymotion-bd-f2)
-nmap <space>v <Plug>(easymotion-overwin-f2)
+map  <space>m <Plug>(easymotion-bd-f2)
+nmap <space>m <Plug>(easymotion-overwin-f2)
 
 if !exists('g:vscode')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -788,8 +788,9 @@ if not status_ok then
 end
 
 vim.g.Illuminate_ftblacklist = {'alpha', 'NvimTree'}
-vim.api.nvim_set_keymap('n', '<a-n>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<a-p>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>', {noremap=true})
+vim.api.nvim_set_keymap('n', '<space>n', '<cmd>lua require"illuminate".goto_next_reference{wrap=true}<cr>', {noremap=true})
+vim.api.nvim_set_keymap('n', '<space>p', '<cmd>lua require"illuminate".goto_prev_reference{wrap=true}<cr>', {noremap=true})
+vim.api.nvim_set_keymap('n', '<space>v', '<cmd>lua require"illuminate".textobj_select()<cr>', {noremap=true})
 
 illuminate.configure {
   providers = {
