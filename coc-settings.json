@@ -1,4 +1,4 @@
 {
   "sumneko-lua.enableNvimLuaDev": true,
-  "Lua.telemetry.enable": false,
+  "Lua.telemetry.enable": false
 }

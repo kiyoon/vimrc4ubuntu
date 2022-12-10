@@ -201,7 +201,13 @@ EOF
 	Plug 'ahmedkhalf/project.nvim'
 
 	" LSP
+	Plug 'folke/neodev.nvim'
+	Plug 'hrsh7th/nvim-cmp' " The completion plugin
+	Plug 'hrsh7th/cmp-buffer' " buffer completions
+	Plug 'hrsh7th/cmp-path' " path completions
+	Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
 	Plug 'hrsh7th/cmp-nvim-lsp'
+	Plug 'hrsh7th/cmp-nvim-lua'
 endif
 
 " All of your Plugins must be added before the following line
@@ -261,6 +267,8 @@ lua << EOF
 		ensure_installed = servers,
 		automatic_installation = true,
 	})
+
+	require("neodev").setup()	-- make sure to call this before lspconfig
 
 	local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 	if not lspconfig_status_ok then
