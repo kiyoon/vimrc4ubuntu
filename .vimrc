@@ -212,7 +212,7 @@ set shiftwidth=4
 filetype plugin indent on
 
 " use tab as spaces in python, tex
-autocmd FileType python,tex set expandtab
+autocmd FileType python,tex,lua set expandtab
 
 " latex settings (global values require vim-latex plugin)
 autocmd FileType tex,lua set tabstop=2
@@ -373,3 +373,20 @@ endif
 " visual mode indent change
 vnoremap < <gv
 vnoremap > >gv
+
+" normal mode new line
+" From vim-unimpaired
+function! BlankUp(count) abort
+  put!=repeat(nr2char(10), a:count)
+  ']+1
+  silent! call repeat#set("\<Plug>unimpairedBlankUp", a:count)
+endfunction
+
+function! BlankDown(count) abort
+  put =repeat(nr2char(10), a:count)
+  '[-1
+  silent! call repeat#set("\<Plug>unimpairedBlankDown", a:count)
+endfunction
+
+nnoremap <space>O :call BlankUp(v:count1)<CR>
+nnoremap <space>o :call BlankDown(v:count1)<CR>
