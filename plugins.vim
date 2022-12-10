@@ -97,7 +97,7 @@ if !exists('g:vscode')
 	" (Default binding) Use <C-e> and <C-y> to cancel and confirm completion
 	" I personally use <C-n> <C-p> to confirm completion without closing the popup.
 	"
-	let g:coc_node_args = ['--max-old-space-size=8192']	" prevent javascript heap out of memory
+	"let g:coc_node_args = ['--max-old-space-size=8192']	" prevent javascript heap out of memory
 	" Toggle CoC diagnostics
 	"nnoremap <silent> <F6> :call CocActionAsync('diagnosticToggle')<CR>
 	" Show CoC diagnostics window
@@ -199,6 +199,9 @@ EOF
 	
 	Plug 'RRethy/vim-illuminate'
 	Plug 'ahmedkhalf/project.nvim'
+
+	" LSP
+	Plug 'hrsh7th/cmp-nvim-lsp'
 endif
 
 " All of your Plugins must be added before the following line
@@ -266,26 +269,28 @@ lua << EOF
 
 	local opts = {}
 
+	-- local require_ok, handlers = pcall(require, "lua.lsp.handlers")
+	-- if not require_ok then
+	-- 	return
+	-- end
 	for _, server in pairs(servers) do
 		-- opts = {
-		-- 	on_attach = require("user.lsp.handlers").on_attach,
-		-- 	capabilities = require("user.lsp.handlers").capabilities,
+		-- 	on_attach = handlers.on_attach,
+		-- 	capabilities = handlers.capabilities,
 		-- }
 
 		server = vim.split(server, "@")[1]
 
-		local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server)
+		local require_ok, conf_opts = pcall(require, "lua.lsp.settings." .. server)
 		if require_ok then
-			opts = vim.tbl_deep_extend("force", conf_opts, opts)
+			-- opts = vim.tbl_deep_extend("force", conf_opts, opts)
+			opts = conf_opts
+		else
+			opts = {}
 		end
 
 		lspconfig[server].setup(opts)
 	end
-
-	-- require'lspconfig'.pyright.setup{}
-	-- require'lspconfig'.vimls.setup{}
-	-- require'lspconfig'.bashls.setup{}
-	-- require'lspconfig'.sumneko_lua.setup{}
 EOF
 "}}}
 "
