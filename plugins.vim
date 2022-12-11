@@ -59,7 +59,6 @@ Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'		" vil, val to select line
 Plug 'kana/vim-textobj-entire'	    " vie, vae to select entire buffer (file)
 Plug 'kana/vim-textobj-fold'		" viz, vaz to select fold
-Plug 'kana/vim-textobj-indent'		" vii, vai, viI, vaI to select indent
 
 "Plug 'vim-python/python-syntax'
 "let g:python_highlight_all = 1
@@ -168,8 +167,8 @@ EOF
 
 	" Better syntax highlighting
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-	Plug 'kiyoon/nvim-treesitter-textobjects'
-	"Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+	Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+	Plug 'kiyoon/treesitter-indent-object.nvim'
 	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
 
 	" Mason makes it easier to install language servers
@@ -252,10 +251,16 @@ if has("nvim")
 	lua require('user.illuminate')
 	lua require('user.telescope')
 
-	xnoremap ai <Cmd>lua require'lsp.indent'.select_indent_outer()<CR>		-- select context-aware indent
-	xnoremap aI <Cmd>lua require'lsp.indent'.select_indent_outer()<CR>o^og_	-- ensure select entire line
-	xnoremap ii <Cmd>lua require'lsp.indent'.select_indent_inner()<CR>		-- select inner block (only if, only else, etc.)
-	xnoremap iI <Cmd>lua require'lsp.indent'.select_indent_inner(true)<CR>	-- select entire range (including if, else, etc.)
+	lua require'treesitter_indent_object'.setup()
+	" vai to select context-aware indent
+	xmap ai <Cmd>lua require'treesitter_indent_object.textobj'.select_indent_outer()<CR>
+	" vaI to ensure select entire line (or just use Vai)
+	xmap aI <Cmd>lua require'treesitter_indent_object.textobj'.select_indent_outer(true)<CR>
+	" select inner block (only if block, only else block, etc.)
+	xmap ii <Cmd>lua require'treesitter_indent_object.textobj'.select_indent_inner()<CR>
+	" select entire inner range (including if, else, etc.)
+	xmap iI <Cmd>lua require'treesitter_indent_object.textobj'.select_indent_inner(true)<CR>
+
 endif
 
 
