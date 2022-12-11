@@ -49,21 +49,6 @@ nvim '+Copilot enable' +q
 - `gp`: Select last pasted text
 - `\i`: Insert import statement at the beginning of the file. (Only for Python). Use it with normal or visual mode.
 
-### Paste to tmux
-See [kiyoon/tmuxsend.vim](https://github.com/kiyoon/tmuxsend.vim).  
-
-- Press \<num\>- to copy and paste lines to tmux pane \<num\>.
-  - For example, `1-` will paste selection (or current line) to pane 1 on the current window.
-- If number not specified, then it will paste to pane 0.
-- If the number is >= 10, it will paste to the pane on another window.
-  - For example, 12- will paste selection (or current line) to window 1 pane 2.
-  - 123- will paste selection (or current line) to window 12 pane 3.
-- Use \<leader\>- (typically `\-`) to copy using the unique pane identifier.
-  - For example, `5\-` will paste selection (or current line) to the %5 pane.
-  - Use `set -g pane-border-format "#D"` in the tmux.conf to see the pane identifier.
-- Use _ instead of - to copy without hitting Return.
-- Use \<C-\_\> to copy into the tmux buffer. You can paste using C-b \] (or commonly C-a \] depending on your setup.).
-
 ### Plugins
 - Select lines and press `<C-i>` to sort the Python import lines.
 - :Isort to sort the entire Python imports.
@@ -75,6 +60,7 @@ See [kiyoon/tmuxsend.vim](https://github.com/kiyoon/tmuxsend.vim).
 - `,w`, `,b`, `,e`: word motion
 - vil/val to select line, vie/vae to select file, vii/vai to select indent.
 - treesitter-textobjects: `vif` to select function, `vic` to select class, `\a`, `\A` to swap parameters, `]m`, `]]` etc. to move between functions/classes, `\df`, `\dF` to show popup definitions.
+- [kiyoon/tmuxsend.vim](https://github.com/kiyoon/tmuxsend.vim).  
 
 ## Useful VIM commands
 
