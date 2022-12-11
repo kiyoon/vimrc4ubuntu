@@ -1,11 +1,28 @@
-# Vim setup tips (2022)
+# Neovim IDE config
+
+This configuration is compatible with both Vim and Neovim, but Neovim will have full of features.
+
+### Vim features
+
+- Backup every save automatically to ~/.vim/backup
+- You can undo whenever (even after closing the file)
+- Fold indicator if fold exists in a file.
+- Detect file extension, and change behaviour accordingly
+  - Python - expand tabs to space
+  - Comment string (#, //, ...): used to make folds
+
+### Neovim features
+
+
+
+## Vim setup tips (2022)
 1. Use Neovim over Vim. Faster, and better plugin support. Largely compatible with most vim scripts and plugins. It also enabled full mouse control inside tmux, whilst the original vim did not work for me at least.
 2. Use Vim-Plug over Vundle, pathogen etc. Easier to install plugins (no need extra setup like source compilation)
 3. Use Coc over YouCompleteMe, Syntastic etc. Much easier plugin handling with very good default code completion and linting.
 
-# Installing
+## Installing
 
-This vimrc will install vim-plug and many plugins automatically when you first launch vim.  
+This config will install vim-plug and many plugins automatically when you first launch vim.  
 
 Some plugins have dependencies and you can locally install everything by running:
 
@@ -24,26 +41,16 @@ nvim '+Copilot setup' +q
 nvim '+Copilot enable' +q
 ```
 
-# vimrc4ubuntu
-Key features:
+## This config adds these functionalities:
 
-- Backup every save automatically to ~/.vim/backup
-- You can undo whenever (even after closing the file)
-- Fold indicator if fold exists in a file.
-- Detect file extension, and change behaviour accordingly
-  - Python - expand tabs to space
-  - Comment string (#, //, ...): used to make folds
-
-# This .vimrc adds these functionalities:
-
-## Custom commands
+### Custom commands
 
 - `<F3>`: Toggle paste mode
 - `gp`: Select last pasted text
 - `\i`: Insert import statement at the beginning of the file. (Only for Python). Use it with normal or visual mode.
 
-## Paste to tmux
-See [kiyoon/vim-tmuxpaste](https://github.com/kiyoon/vim-tmuxpaste).  
+### Paste to tmux
+See [kiyoon/tmuxsend.vim](https://github.com/kiyoon/tmuxsend.vim).  
 
 - Press \<num\>- to copy and paste lines to tmux pane \<num\>.
   - For example, `1-` will paste selection (or current line) to pane 1 on the current window.
@@ -57,7 +64,7 @@ See [kiyoon/vim-tmuxpaste](https://github.com/kiyoon/vim-tmuxpaste).
 - Use _ instead of - to copy without hitting Return.
 - Use \<C-\_\> to copy into the tmux buffer. You can paste using C-b \] (or commonly C-a \] depending on your setup.).
 
-## Plugins
+### Plugins
 - Select lines and press `<C-i>` to sort the Python import lines.
 - :Isort to sort the entire Python imports.
 - Alt + [ or ] to see next suggestions for Github Copilot.
@@ -69,7 +76,7 @@ See [kiyoon/vim-tmuxpaste](https://github.com/kiyoon/vim-tmuxpaste).
 - vil/val to select line, vie/vae to select file, vii/vai to select indent.
 - treesitter-textobjects: `vif` to select function, `vic` to select class, `\a`, `\A` to swap parameters, `]m`, `]]` etc. to move between functions/classes, `\df`, `\dF` to show popup definitions.
 
-# Useful VIM commands
+## Useful VIM commands
 
 - `va(`, `va{`, `va"`, ...: select opening to closing of parentheses (do more `a(` for wider range)
 - `vi(`: same as above but exclude parentheses.
