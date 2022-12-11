@@ -314,8 +314,8 @@ nnoremap Y y$
 vnoremap Y $y
 
 " paste mode by <F3>, and leave automatically
-set pastetoggle=<F3>
-autocmd InsertLeave * set nopaste
+"set pastetoggle=<F3>
+"autocmd InsertLeave * set nopaste
 
 " Select last pasted
 " https://vim.fandom.com/wiki/Selecting_your_pasted_text
@@ -389,6 +389,7 @@ function! BlankDown(count) abort
 endfunction
 
 nnoremap <space>O :call BlankUp(v:count1)<CR>
+nnoremap <space>o :call BlankDown(v:count1)<CR>
 
 " https://vim.fandom.com/wiki/Moving_lines_up_or_down
 nnoremap <A-j> :m .+1<CR>==
