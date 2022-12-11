@@ -162,12 +162,10 @@ EOF
 	nnoremap <leader>nr :NvimTreeRefresh<CR>
 	nnoremap <leader>nf :NvimTreeFindFile<CR>
 
-	Plug 'lukas-reineke/indent-blankline.nvim'
-	Plug 'kiyoon/test-indent-object'
-
 	" Better syntax highlighting
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 	Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+	Plug 'lukas-reineke/indent-blankline.nvim'
 	Plug 'kiyoon/treesitter-indent-object.nvim'
 	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
 
