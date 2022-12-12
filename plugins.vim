@@ -66,6 +66,11 @@ let g:wordmotion_prefix = ','
 " use VSCode easymotion when in VSCode mode
 Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
 
+Plug 'untitled-ai/jupyter_ascending.vim'
+nmap <space><space>x <Plug>JupyterExecute
+nmap <space><space>X <Plug>JupyterExecuteAll
+
+
 if !exists('g:vscode')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	"Plug 'neoclide/coc.nvim', {'tag': 'v0.0.81'}
@@ -95,10 +100,6 @@ if !exists('g:vscode')
 	nmap <silent> gt :call CocAction('jumpDefinition', 'tabe')<CR>
 	au filetype python nmap <C-i> :CocCommand pyright.organizeimports<CR>
 	nmap <space>rn <Plug>(coc-rename)
-	
-
-	"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-	"Plug 'junegunn/fzf.vim'
 
 	Plug 'github/copilot.vim'
 else
