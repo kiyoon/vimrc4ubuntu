@@ -67,9 +67,21 @@ let g:wordmotion_prefix = ','
 Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
 
 Plug 'untitled-ai/jupyter_ascending.vim'
-nmap <space><space>x <Plug>JupyterExecute
-nmap <space><space>X <Plug>JupyterExecuteAll
+" I don't know why but it only gets executed after one more command, that's why I put <ESC>
+nmap <space>x <Plug>JupyterExecute<ESC>
+nmap <space>X <Plug>JupyterExecuteAll<ESC>
 
+" TODO Text objects for jupyter ascending
+" vij to select a cell content without # %%
+" vaj to select a cell including the separator
+
+" Moving between cells. TODO Make improvements
+nnoremap <space>j /# %%<CR>
+onoremap <space>j /# %%<CR>
+xnoremap <space>j /# %%<CR>
+nnoremap <space>k ?# %%<CR>
+onoremap <space>k ?# %%<CR>
+xnoremap <space>k ?# %%<CR>
 
 if !exists('g:vscode')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
