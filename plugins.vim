@@ -266,16 +266,7 @@ EOF
 	nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>
 	nmap <space><space>, <Cmd>ISwapNodeWithLeft<CR>
 
-	lua require'treesitter_indent_object'.setup()
-	" vai to select context-aware indent
-	xmap ai <Cmd>lua require'treesitter_indent_object.textobj'.select_indent_outer()<CR>
-	" vaI to ensure select entire line (or just use Vai)
-	xmap aI <Cmd>lua require'treesitter_indent_object.textobj'.select_indent_outer(true)<CR>
-	" select inner block (only if block, only else block, etc.)
-	xmap ii <Cmd>lua require'treesitter_indent_object.textobj'.select_indent_inner()<CR>
-	" select entire inner range (including if, else, etc.)
-	xmap iI <Cmd>lua require'treesitter_indent_object.textobj'.select_indent_inner(true)<CR>
-
+	lua require 'user.treesitter_indent_object'
 endif
 
 
