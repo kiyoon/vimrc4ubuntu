@@ -83,4 +83,5 @@ See [kiyoon/tmuxsend.vim](https://github.com/kiyoon/tmuxsend.vim).
 - `viw` : select a word
 - `qq<command>q`: record macro at @q, then quit.
 - `10@q`: run macro @q 10 times.
+- Choose block with `<C-v>` and press `<S-i>`. It will add the change to all the lines selected.
 
