@@ -164,6 +164,7 @@ EOF
 	Plug 'nvim-treesitter/nvim-treesitter-context'
 	Plug 'lukas-reineke/indent-blankline.nvim'
 	Plug 'kiyoon/treesitter-indent-object.nvim'
+	Plug 'RRethy/nvim-treesitter-textsubjects'
 	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
 
 	" Mason makes it easier to install language servers
@@ -208,8 +209,21 @@ EOF
 	Plug 'hrsh7th/cmp-nvim-lua'
 
 	Plug 'phaazon/hop.nvim'
+	Plug 'mfussenegger/nvim-treehopper'
+	omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
+	xnoremap <silent> m :lua require('tsht').nodes()<CR>
+	nmap m <Cmd>lua require('tsht').move({ side = "start" })<CR>
+	nnoremap M m	" default m marking is now M
 
 	Plug 'mizlan/iswap.nvim'
+	nmap s <Cmd>ISwap<CR>
+	nmap S <Cmd>ISwapNode<CR>
+	nmap <space>s <Cmd>ISwapWith<CR>
+	nmap <space>S <Cmd>ISwapNodeWith<CR>
+	nmap <space>. <Cmd>ISwapWithRight<CR>
+	nmap <space>, <Cmd>ISwapWithLeft<CR>
+	nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>
+	nmap <space><space>, <Cmd>ISwapNodeWithLeft<CR>
 
 endif
 
@@ -251,22 +265,14 @@ if has("nvim")
 	lua require('user.illuminate')
 	lua require('user.telescope')
 	lua require('user.hop')
+	lua require('user.treesitter_indent_object')
 
 lua << EOF
 	require('iswap').setup({
 		move_cursor = true,
 	})
 EOF
-	nmap s <Cmd>ISwap<CR>
-	nmap S <Cmd>ISwapNode<CR>
-	nmap <space>s <Cmd>ISwapWith<CR>
-	nmap <space>S <Cmd>ISwapNodeWith<CR>
-	nmap <space>. <Cmd>ISwapWithRight<CR>
-	nmap <space>, <Cmd>ISwapWithLeft<CR>
-	nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>
-	nmap <space><space>, <Cmd>ISwapNodeWithLeft<CR>
 
-	lua require 'user.treesitter_indent_object'
 endif
 
 

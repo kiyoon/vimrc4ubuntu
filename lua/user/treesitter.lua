@@ -32,6 +32,21 @@ require('nvim-treesitter.configs').setup {
     enable = true
   },
 
+  -- v<cr> to select current context
+  -- <cr> to increase selection
+  -- , to undo
+  -- v; to select the entire context container (eg function)
+  -- vi; to select the entire context container (eg function) but inner part of it
+  textsubjects = {
+    enable = true,
+    prev_selection = '.', -- (Optional) keymap to select the previous selection
+    keymaps = {
+      ['<cr>'] = 'textsubjects-smart',
+      [';'] = 'textsubjects-container-outer',
+      ['i;'] = 'textsubjects-container-inner',
+    },
+  },
+
   -- A list of parser names, or "all"
   ensure_installed = { "c", "lua", "rust", "python", "bash", "json", "yaml", "html", "css", "vim", "java" },
 
