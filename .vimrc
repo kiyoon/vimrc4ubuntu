@@ -314,8 +314,8 @@ nnoremap Y y$
 vnoremap Y $y
 
 " paste mode by <F3>, and leave automatically
-set pastetoggle=<F3>
-autocmd InsertLeave * set nopaste
+"set pastetoggle=<F3>
+"autocmd InsertLeave * set nopaste
 
 " Select last pasted
 " https://vim.fandom.com/wiki/Selecting_your_pasted_text

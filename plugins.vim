@@ -22,11 +22,6 @@ Plug 'kiyoon/tmuxsend.vim'
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'svermeulen/vim-subversive'
-" s for substitute
-nmap s <plug>(SubversiveSubstitute)
-nmap ss <plug>(SubversiveSubstituteLine)
-nmap S <plug>(SubversiveSubstituteToEndOfLine)
-xmap s <plug>(SubversiveSubstitute)
 " <space>siwie to substitute word from entire buffer
 " <space>siwip to substitute word from paragraph
 " <space>siwif to substitute word from function 
@@ -34,7 +29,7 @@ xmap s <plug>(SubversiveSubstitute)
 " <space>ssip to substitute word from paragraph
 nmap <space>s <plug>(SubversiveSubstituteRange)
 xmap <space>s <plug>(SubversiveSubstituteRange)
-nmap <space>ss <plug>(SubversiveSubstitute\ordRange)
+nmap <space>ss <plug>(SubversiveSubstituteWordRange)
 
 " Scroll through paste by C-n C-p
 " Change the default buffer by [y ]y
@@ -67,28 +62,9 @@ Plug 'chaoren/vim-wordmotion'
 let g:wordmotion_prefix = ','
 
 " use normal easymotion when in VIM mode
-Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
+"Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
 " use VSCode easymotion when in VSCode mode
 Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
-" Use uppercase target labels and type as a lower case
-"let g:EasyMotion_use_upper = 1
- " type `l` and match `l`&`L`
-let g:EasyMotion_smartcase = 1
-" Smartsign (type `3` and match `3`&`#`)
-let g:EasyMotion_use_smartsign_us = 1
-
-" \f{char} to move to {char}
-" within line
-map  <space>f <Plug>(easymotion-bd-fl)
-map  <space>t <Plug>(easymotion-bd-tl)
-map  <space>w <Plug>(easymotion-bd-wl)
-map  <space>e <Plug>(easymotion-bd-el)
-"nmap <Leader>f <Plug>(easymotion-overwin-f)
-
-" <space>m{char}{char} to move to {char}{char}
-" anywhere, even across windows
-map  <space>m <Plug>(easymotion-bd-f2)
-nmap <space>m <Plug>(easymotion-overwin-f2)
 
 if !exists('g:vscode')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -131,6 +107,26 @@ else
 	nmap gc  <Plug>VSCodeCommentary
 	omap gc  <Plug>VSCodeCommentary
 	nmap gcc <Plug>VSCodeCommentaryLine
+
+	" Use uppercase target labels and type as a lower case
+	"let g:EasyMotion_use_upper = 1
+	 " type `l` and match `l`&`L`
+	let g:EasyMotion_smartcase = 1
+	" Smartsign (type `3` and match `3`&`#`)
+	let g:EasyMotion_use_smartsign_us = 1
+
+	" \f{char} to move to {char}
+	" within line
+	map f <Plug>(easymotion-bd-fl)
+	map t <Plug>(easymotion-bd-tl)
+	map <space>w <Plug>(easymotion-bd-wl)
+	map <space>e <Plug>(easymotion-bd-el)
+	"nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+	" <space>m{char}{char} to move to {char}{char}
+	" anywhere, even across windows
+	map  <space>f <Plug>(easymotion-bd-f2)
+	nmap <space>f <Plug>(easymotion-overwin-f2)
 endif
 
 if has("nvim")
@@ -165,6 +161,7 @@ EOF
 	" Better syntax highlighting
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 	Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+	Plug 'nvim-treesitter/nvim-treesitter-context'
 	Plug 'lukas-reineke/indent-blankline.nvim'
 	Plug 'kiyoon/treesitter-indent-object.nvim'
 	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
@@ -209,6 +206,11 @@ EOF
 	Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
 	Plug 'hrsh7th/cmp-nvim-lsp'
 	Plug 'hrsh7th/cmp-nvim-lua'
+
+	Plug 'phaazon/hop.nvim'
+
+	Plug 'mizlan/iswap.nvim'
+
 endif
 
 " All of your Plugins must be added before the following line
@@ -248,6 +250,21 @@ if has("nvim")
 	lua require('user.tokyonight')
 	lua require('user.illuminate')
 	lua require('user.telescope')
+	lua require('user.hop')
+
+lua << EOF
+	require('iswap').setup({
+		move_cursor = true,
+	})
+EOF
+	nmap s <Cmd>ISwap<CR>
+	nmap S <Cmd>ISwapNode<CR>
+	nmap <space>s <Cmd>ISwapWith<CR>
+	nmap <space>S <Cmd>ISwapNodeWith<CR>
+	nmap <space>. <Cmd>ISwapWithRight<CR>
+	nmap <space>, <Cmd>ISwapWithLeft<CR>
+	nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>
+	nmap <space><space>, <Cmd>ISwapNodeWithLeft<CR>
 
 	lua require'treesitter_indent_object'.setup()
 	" vai to select context-aware indent
