@@ -11,4 +11,8 @@ let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
 
 set termguicolors
+lua vim.opt.iskeyword:append("-")                   -- treats words with `-` as single words
+
+
 exec "source " . stdpath('config') . '/.vimrc'
+
