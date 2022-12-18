@@ -221,6 +221,12 @@ EOF
 	Plug 'hrsh7th/cmp-nvim-lsp'
 	Plug 'hrsh7th/cmp-nvim-lua'
 
+	" DAP
+	Plug 'mfussenegger/nvim-dap'
+	Plug 'mfussenegger/nvim-dap-python'
+	Plug 'rcarriga/nvim-dap-ui'
+	Plug 'Weissle/persistent-breakpoints.nvim'
+
 	Plug 'phaazon/hop.nvim'
 	Plug 'mfussenegger/nvim-treehopper'
 	omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
@@ -266,6 +272,18 @@ if has("nvim")
 	"lua require"treesitter-unit".toggle_highlighting()
 
 	lua require('user.lsp')
+
+	lua require('user.dap')
+	nmap <space>dc :lua require"dap".continue()<CR>
+	nmap <space>dn :lua require"dap".step_over()<CR>
+	nmap <space>ds :lua require"dap".step_into()<CR>
+	nmap <space>du :lua require"dap".step_out()<CR>
+	nmap <space>dr :lua require"dap".repl.open()<CR>
+	nmap <space>dl :lua require"dap".run_last()<CR>
+	nmap <space>di :lua require"dapui".toggle()<CR>
+	nmap <space>dt :lua require"dap".disconnect()<CR>
+
+
 "
 	lua require("inc_rename").setup()
 
