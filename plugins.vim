@@ -54,6 +54,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'		" vil, val to select line
 Plug 'kana/vim-textobj-entire'	    " vie, vae to select entire buffer (file)
 Plug 'kana/vim-textobj-fold'		" viz, vaz to select fold
+Plug 'glts/vim-textobj-comment'		" vic, vac to select comment
 
 "Plug 'vim-python/python-syntax'
 "let g:python_highlight_all = 1
@@ -95,8 +96,8 @@ if !exists('g:vscode')
 	" Show CoC diagnostics window
 	nnoremap <silent> <F6> :CocDiagnostics<CR>
 	" navigate diagnostics
-	nmap <silent> <M-j> <Plug>(coc-diagnostic-next)
-	nmap <silent> <M-k> <Plug>(coc-diagnostic-prev)
+	nmap <silent> <M-l> <Plug>(coc-diagnostic-next)
+	nmap <silent> <M-h> <Plug>(coc-diagnostic-prev)
 	" Use <c-space> to trigger completion.
 	if has('nvim')
 		inoremap <silent><expr> <c-space> coc#refresh()
