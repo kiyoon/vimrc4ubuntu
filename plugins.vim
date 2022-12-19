@@ -19,7 +19,7 @@ endfunction
 call plug#begin()
 
 Plug 'kiyoon/tmuxsend.vim'
-Plug 'christoomey/vim-tmux-navigator'
+"Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'svermeulen/vim-subversive'
 " <space>siwie to substitute word from entire buffer
@@ -245,6 +245,7 @@ EOF
 	nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>
 	nmap <space><space>, <Cmd>ISwapNodeWithLeft<CR>
 
+	Plug 'aserowy/tmux.nvim'
 endif
 
 " All of your Plugins must be added before the following line
@@ -287,6 +288,10 @@ if has("nvim")
 
 "
 	lua require("inc_rename").setup()
+
+	" Navigate tmux, and nvim splits.
+	" Sync nvim buffer with tmux buffer.
+	lua require("tmux").setup({ copy_sync = { sync_registers = false }, resize = { enable_default_keybindings = false } })
 
 	lua require('user.alpha')
 	lua require('user.wilder')
