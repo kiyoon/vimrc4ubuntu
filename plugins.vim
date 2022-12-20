@@ -235,11 +235,13 @@ EOF
 	nmap m <Cmd>lua require('tsht').move({ side = "start" })<CR>
 	nnoremap M m	" default m marking is now M
 
+	Plug 'ggandor/leap.nvim'
+
 	Plug 'mizlan/iswap.nvim'
-	nmap s <Cmd>ISwap<CR>
-	nmap S <Cmd>ISwapNode<CR>
-	nmap <space>s <Cmd>ISwapWith<CR>
-	nmap <space>S <Cmd>ISwapNodeWith<CR>
+	nmap ,s <Cmd>ISwap<CR>
+	nmap ,S <Cmd>ISwapNode<CR>
+	nmap ,,s <Cmd>ISwapWith<CR>
+	nmap ,,S <Cmd>ISwapNodeWith<CR>
 	nmap <space>. <Cmd>ISwapWithRight<CR>
 	nmap <space>, <Cmd>ISwapWithLeft<CR>
 	nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>
@@ -270,6 +272,7 @@ if has("nvim")
 	lua require('impatient')
 	lua require('Comment').setup()
 	lua require('gitsigns').setup()
+	lua require('leap').add_default_mappings()
 
 	"lua require"treesitter-unit".toggle_highlighting()
 
