@@ -48,7 +48,11 @@ require('nvim-treesitter.configs').setup {
   },
 
   -- A list of parser names, or "all"
-  ensure_installed = { "c", "lua", "rust", "python", "bash", "json", "yaml", "html", "css", "vim", "java" },
+  ensure_installed = { "c", "lua", "rust", "python", "bash", "json", "yaml", "html", "css", "vim", "java", "javascript",
+    "cpp", "toml", "dockerfile", "gitcommit", "git_rebase", "gitattributes",
+    "cmake", "latex", "markdown", "php", 
+    -- "gitignore", "sql",  -- requires treesitter-CLI
+  },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -114,8 +118,8 @@ require('nvim-treesitter.configs').setup {
         ["ia"] = "@parameter.inner",
         ["af"] = "@call.outer",
         ["if"] = "@call.inner",
-        ["ac"] = "@comment.outer",
-        ["ic"] = "@comment.outer",
+        --["ac"] = "@comment.outer",
+        --["ic"] = "@comment.outer",
         --["afr"] = "@frame.outer",
         --["ifr"] = "@frame.inner",
         --["aat"] = "@attribute.outer",

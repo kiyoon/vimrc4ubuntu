@@ -19,7 +19,7 @@ endfunction
 call plug#begin()
 
 Plug 'kiyoon/tmuxsend.vim'
-Plug 'christoomey/vim-tmux-navigator'
+"Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'svermeulen/vim-subversive'
 " <space>siwie to substitute word from entire buffer
@@ -54,6 +54,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'		" vil, val to select line
 Plug 'kana/vim-textobj-entire'	    " vie, vae to select entire buffer (file)
 Plug 'kana/vim-textobj-fold'		" viz, vaz to select fold
+Plug 'glts/vim-textobj-comment'		" vic, vac to select comment
 
 "Plug 'vim-python/python-syntax'
 "let g:python_highlight_all = 1
@@ -95,8 +96,8 @@ if !exists('g:vscode')
 	" Show CoC diagnostics window
 	nnoremap <silent> <F6> :CocDiagnostics<CR>
 	" navigate diagnostics
-	nmap <silent> <M-j> <Plug>(coc-diagnostic-next)
-	nmap <silent> <M-k> <Plug>(coc-diagnostic-prev)
+	nmap <silent> <M-l> <Plug>(coc-diagnostic-next)
+	nmap <silent> <M-h> <Plug>(coc-diagnostic-prev)
 	" Use <c-space> to trigger completion.
 	if has('nvim')
 		inoremap <silent><expr> <c-space> coc#refresh()
@@ -221,6 +222,12 @@ EOF
 	Plug 'hrsh7th/cmp-nvim-lsp'
 	Plug 'hrsh7th/cmp-nvim-lua'
 
+	" DAP
+	Plug 'mfussenegger/nvim-dap'
+	Plug 'mfussenegger/nvim-dap-python'
+	Plug 'rcarriga/nvim-dap-ui'
+	Plug 'Weissle/persistent-breakpoints.nvim'
+
 	Plug 'phaazon/hop.nvim'
 	Plug 'mfussenegger/nvim-treehopper'
 	omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
@@ -238,6 +245,7 @@ EOF
 	nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>
 	nmap <space><space>, <Cmd>ISwapNodeWithLeft<CR>
 
+	Plug 'aserowy/tmux.nvim'
 endif
 
 " All of your Plugins must be added before the following line
@@ -266,8 +274,24 @@ if has("nvim")
 	"lua require"treesitter-unit".toggle_highlighting()
 
 	lua require('user.lsp')
+
+	lua require('user.dap')
+	nmap <space>dc :lua require"dap".continue()<CR>
+	nmap <space>dn :lua require"dap".step_over()<CR>
+	nmap <space>ds :lua require"dap".step_into()<CR>
+	nmap <space>du :lua require"dap".step_out()<CR>
+	nmap <space>dr :lua require"dap".repl.open()<CR>
+	nmap <space>dl :lua require"dap".run_last()<CR>
+	nmap <space>di :lua require"dapui".toggle()<CR>
+	nmap <space>dt :lua require"dap".disconnect()<CR>
+
+
 "
 	lua require("inc_rename").setup()
+
+	" Navigate tmux, and nvim splits.
+	" Sync nvim buffer with tmux buffer.
+	lua require("tmux").setup({ copy_sync = { sync_registers = false }, resize = { enable_default_keybindings = false } })
 
 	lua require('user.alpha')
 	lua require('user.wilder')
