@@ -146,18 +146,19 @@ set backup
 :au BufWritePre * let &bex = '-' . strftime("%Y%m%d_%H%M%S") . '~'
 " set auto backupdir to ~/.vim/backup
 function! InitBackupDir()
-  if has('win32') || has('win32unix') "windows/cygwin
-    let l:separator = '_'
-  else
-    let l:separator = '.'
-  endif
-  let l:parent = $HOME . '/' . l:separator . 'vim/'
-  let l:backup = l:parent . 'backup/'
   if has('nvim')
-    let l:undo = l:parent . 'neovimundo/'
+    let l:parent = stdpath('data') . '/'
   else
-    let l:undo = l:parent . 'undo/'
+    if has('win32') || has('win32unix') "windows/cygwin
+      let l:separator = '_'
+    else
+      let l:separator = '.'
+    endif
+    let l:parent = $HOME . '/' . l:separator . 'vim/'
   endif
+
+  let l:backup = l:parent . 'backup/'
+  let l:undo = l:parent . 'undo/'
   let l:tmp = l:parent . 'tmp/'
   if exists('*mkdir')
     if !isdirectory(l:parent)
