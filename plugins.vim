@@ -19,6 +19,9 @@ endfunction
 call plug#begin()
 
 Plug 'kiyoon/tmuxsend.vim'
+Plug 'wookayin/vim-autoimport'
+nmap <silent> <M-CR>   :ImportSymbol<CR>
+imap <silent> <M-CR>   <Esc>:ImportSymbol<CR>a
 
 nnoremap <silent> - <Plug>(tmuxsend-smart)	" `1-` sends a line to pane .1
 xnoremap <silent> - <Plug>(tmuxsend-smart)	" same, but for visual mode block
