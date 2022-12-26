@@ -23,6 +23,9 @@ Plug 'wookayin/vim-autoimport'
 nmap <silent> <M-CR>   :ImportSymbol<CR>
 imap <silent> <M-CR>   <Esc>:ImportSymbol<CR>a
 
+" :Black to format python file
+Plug 'psf/black', { 'do': 'pip install black' }
+
 nnoremap <silent> - <Plug>(tmuxsend-smart)	" `1-` sends a line to pane .1
 xnoremap <silent> - <Plug>(tmuxsend-smart)	" same, but for visual mode block
 nnoremap <silent> _ <Plug>(tmuxsend-plain)	" `1_` sends a line to pane .1 without adding a new line
@@ -66,7 +69,7 @@ nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
 Plug 'tpope/vim-surround'
 "Plug 'tpope/vim-fugitive'
 Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-line'		" vil, val to select line
+"Plug 'kana/vim-textobj-line'		" vil, val to select line
 Plug 'kana/vim-textobj-entire'	    " vie, vae to select entire buffer (file)
 Plug 'kana/vim-textobj-fold'		" viz, vaz to select fold
 Plug 'glts/vim-textobj-comment'		" vic, vac to select comment
