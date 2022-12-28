@@ -166,13 +166,15 @@ if has("nvim")
 		Plug 'numToStr/Comment.nvim'
 	endif
 	Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+	Plug 'rebelot/kanagawa.nvim'
 	Plug 'EdenEast/nightfox.nvim'
 	Plug 'nvim-lualine/lualine.nvim'
 
 	Plug 'nvim-lua/plenary.nvim'
 	Plug 'sindrets/diffview.nvim'
-	nnoremap <leader>dv :DiffviewOpen<CR>
-	nnoremap <leader>dc :DiffviewClose<CR>
+	nnoremap <space>dv :DiffviewOpen<CR>
+	nnoremap <space>dc :DiffviewClose<CR>
+	nnoremap <space>dq :DiffviewClose<CR>:q<CR>
 
 	Plug 'smjonas/inc-rename.nvim'
 
