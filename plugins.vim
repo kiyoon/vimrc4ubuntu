@@ -169,7 +169,6 @@ if has("nvim")
 	Plug 'rebelot/kanagawa.nvim'
 	Plug 'EdenEast/nightfox.nvim'
 	Plug 'Mofiqul/dracula.nvim'
-
 	Plug 'nvim-lualine/lualine.nvim'
 
 	Plug 'nvim-lua/plenary.nvim'
@@ -318,7 +317,8 @@ if has("nvim")
 
 	" Navigate tmux, and nvim splits.
 	" Sync nvim buffer with tmux buffer.
-	lua require("tmux").setup({ copy_sync = { sync_registers = false }, resize = { enable_default_keybindings = false } })
+	lua require("tmux").setup({ copy_sync = { enable = true, sync_clipboard = false, sync_registers = true }, resize = { enable_default_keybindings = false } })
+	
 
 	lua require('user.alpha')
 	lua require('user.wilder')

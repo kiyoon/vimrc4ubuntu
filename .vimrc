@@ -29,7 +29,7 @@ syntax on
 " From Neovim 0.8.1, colorscheme default works like it used to as ron.
 if has('nvim')
 	colorscheme dracula
-	"color tokyonight-night
+	"colorscheme tokyonight-night
 	"colorscheme kanagawa
 	"color carbonfox
 	"color default
@@ -358,9 +358,9 @@ autocmd FileType python vnoremap <leader>i "sy:call AddPythonImport(@s)<CR>
 " Neovim python support
 let g:python3_host_prog = '/usr/bin/python3'
 
-if has('clipboard')
-  set clipboard^=unnamed,unnamedplus
-endif
+" if has('clipboard')
+"   set clipboard^=unnamed,unnamedplus
+" endif
 
 " WSL yank support
 if has('wsl')
