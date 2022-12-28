@@ -172,9 +172,9 @@ if has("nvim")
 
 	Plug 'nvim-lua/plenary.nvim'
 	Plug 'sindrets/diffview.nvim'
-	nnoremap <space>dv :DiffviewOpen<CR>
-	nnoremap <space>dc :DiffviewClose<CR>
-	nnoremap <space>dq :DiffviewClose<CR>:q<CR>
+	nnoremap <leader>dv :DiffviewOpen<CR>
+	nnoremap <leader>dc :DiffviewClose<CR>
+	nnoremap <leader>dq :DiffviewClose<CR>:q<CR>
 
 	Plug 'smjonas/inc-rename.nvim'
 
