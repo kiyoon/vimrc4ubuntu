@@ -30,7 +30,7 @@ dashboard.section.buttons.val = {
 
 local function footer()
   return {
-    "https://github.com/kiyoon/neovim-tmux-ide",
+    "https://github.com/kiyoon",
   }
 
 end
