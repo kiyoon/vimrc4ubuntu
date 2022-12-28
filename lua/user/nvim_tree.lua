@@ -4,7 +4,9 @@ if not config_status_ok then
   return
 end
 
-local tree_cb = nvim_tree_config.nvim_tree_callback
+vim.g.nvim_tree_remote_socket_path = '/tmp/nvim_tree_socket'
+
+local nt_remote = require('nvim_tree_remote')
 
 nvim_tree.setup {
   update_focused_file = {
@@ -14,29 +16,29 @@ nvim_tree.setup {
   renderer = {
     --root_folder_modifier = ":t",
     icons = {
-    glyphs = {
-      default = "",
-      symlink = "",
-      folder = {
-      arrow_open = "",
-      arrow_closed = "",
-      default = "",
-      open = "",
-      empty = "",
-      empty_open = "",
-      symlink = "",
-      symlink_open = "",
+      glyphs = {
+        default = "",
+        symlink = "",
+        folder = {
+        arrow_open = "",
+        arrow_closed = "",
+        default = "",
+        open = "",
+        empty = "",
+        empty_open = "",
+        symlink = "",
+        symlink_open = "",
+        },
+        git = {
+        unstaged = "",
+        staged = "S",
+        unmerged = "",
+        renamed = "➜",
+        untracked = "U",
+        deleted = "",
+        ignored = "◌",
+        },
       },
-      git = {
-      unstaged = "",
-      staged = "S",
-      unmerged = "",
-      renamed = "➜",
-      untracked = "U",
-      deleted = "",
-      ignored = "◌",
-      },
-    },
     },
   },
   diagnostics = {
@@ -53,18 +55,19 @@ nvim_tree.setup {
     width = 30,
     side = "left",
     mappings = {
-    list = {
-      { key = "u", action = "dir_up" },
-      { key = "<F1>", action = "toggle_file_info" },
-      { key = { "l", "<CR>", "o" }, cb = tree_cb "edit" },
-      { key = "h", cb = tree_cb "close_node" },
-      { key = "v", cb = tree_cb "vsplit" },
-    },
+      list = {
+        { key = "u", action = "dir_up" },
+        { key = "<F1>", action = "toggle_file_info" },
+        { key = { "l", "<CR>", "o" }, action = "edit" },
+        { key = "h", action = "close_node" },
+        { key = "v", action = "vsplit" },
+      },
     },
   },
   remove_keymaps = {
     '-',
     '<C-k>',
+    'O',
   },
   filters = {
     custom = { ".git" },

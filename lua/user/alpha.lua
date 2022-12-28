@@ -18,8 +18,8 @@ dashboard.section.buttons.val = {
   dashboard.button("r", "  Recently opened files (\\fh)", "<cmd>Telescope oldfiles<CR>"),
   dashboard.button("p", " " .. " Recent projects", ":lua require('telescope').extensions.projects.projects()<CR>"),
   dashboard.button("w", "  Find word (\\fg)",  "<cmd>Telescope live_grep<cr>"),
-  dashboard.button("d", "📜" .. " Diff view (\\dv)", "<cmd>DiffviewOpen<CR>"),
-  dashboard.button("l", " " .. " Install language support (:Mason)", ":Mason<CR>"),
+  dashboard.button("d", " " .. " Diff view (\\dv)", "<cmd>DiffviewOpen<CR>"),
+  dashboard.button("l", " " .. " Install language support (:Mason)", ":Mason<CR>"),
   dashboard.button("c", " " .. " Neovim config", ":e $MYVIMRC <CR>"),
   dashboard.button("q", " " .. " Quit", ":qa<CR>"),
 }

@@ -168,6 +168,8 @@ if has("nvim")
 	Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 	Plug 'rebelot/kanagawa.nvim'
 	Plug 'EdenEast/nightfox.nvim'
+	Plug 'Mofiqul/dracula.nvim'
+
 	Plug 'nvim-lualine/lualine.nvim'
 
 	Plug 'nvim-lua/plenary.nvim'
@@ -191,6 +193,7 @@ EOF
 	nnoremap <leader>nt :NvimTreeToggle<CR>
 	nnoremap <leader>nr :NvimTreeRefresh<CR>
 	nnoremap <leader>nf :NvimTreeFindFile<CR>
+	Plug 'kiyoon/nvim-tree-remote.nvim'
 
 	" Better syntax highlighting
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -268,6 +271,7 @@ EOF
 	nmap <space><space>, <Cmd>ISwapNodeWithLeft<CR>
 
 	Plug 'aserowy/tmux.nvim'
+	Plug 'akinsho/bufferline.nvim'
 endif
 
 " All of your Plugins must be added before the following line
@@ -326,6 +330,7 @@ if has("nvim")
 	lua require('user.telescope')
 	lua require('user.hop')
 	lua require('user.treesitter_indent_object')
+	lua require('user.bufferline')
 
 lua << EOF
 	require('iswap').setup({
