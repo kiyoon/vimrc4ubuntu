@@ -19,13 +19,6 @@ endfunction
 call plug#begin()
 
 Plug 'kiyoon/tmuxsend.vim'
-Plug 'wookayin/vim-autoimport'
-nmap <silent> <M-CR>   :ImportSymbol<CR>
-imap <silent> <M-CR>   <Esc>:ImportSymbol<CR>a
-
-" :Black to format python file
-Plug 'psf/black', { 'do': 'pip install black' }
-
 nnoremap <silent> - <Plug>(tmuxsend-smart)	" `1-` sends a line to pane .1
 xnoremap <silent> - <Plug>(tmuxsend-smart)	" same, but for visual mode block
 nnoremap <silent> _ <Plug>(tmuxsend-plain)	" `1_` sends a line to pane .1 without adding a new line
@@ -37,7 +30,12 @@ xnoremap <silent> <space>_ <Plug>(tmuxsend-uid-plain)
 nnoremap <silent> <C-_> <Plug>(tmuxsend-tmuxbuffer)		" `<C-_>` yanks to tmux buffer
 xnoremap <silent> <C-_> <Plug>(tmuxsend-tmuxbuffer)
 
-"Plug 'christoomey/vim-tmux-navigator'
+Plug 'wookayin/vim-autoimport'
+nmap <silent> <M-CR>   :ImportSymbol<CR>
+imap <silent> <M-CR>   <Esc>:ImportSymbol<CR>a
+
+" :Black to format python file
+Plug 'psf/black', { 'do': 'pip install black' }
 
 Plug 'svermeulen/vim-subversive'
 " <space>siwie to substitute word from entire buffer
@@ -49,22 +47,23 @@ nmap <space>s <plug>(SubversiveSubstituteRange)
 xmap <space>s <plug>(SubversiveSubstituteRange)
 nmap <space>ss <plug>(SubversiveSubstituteWordRange)
 
+" This plugin does not work with tmux.nvim
 " Scroll through paste by C-n C-p
 " Change the default buffer by [y ]y
 " :Yanks to see the yank history
 " :ClearYanks to clear the yank history
-Plug 'svermeulen/vim-yoink'
-nmap <c-n> <plug>(YoinkPostPasteSwapBack)
-nmap <c-p> <plug>(YoinkPostPasteSwapForward)
-nmap p <plug>(YoinkPaste_p)
-nmap P <plug>(YoinkPaste_P)
-"nmap gp <plug>(YoinkPaste_gp)
-nmap gP <plug>(YoinkPaste_gP)
-nmap [y <plug>(YoinkRotateBack)
-nmap ]y <plug>(YoinkRotateForward)
-nmap y <plug>(YoinkYankPreserveCursorPosition)
-xmap y <plug>(YoinkYankPreserveCursorPosition)
-nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
+" Plug 'svermeulen/vim-yoink'
+" nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+" nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+" nmap p <plug>(YoinkPaste_p)
+" nmap P <plug>(YoinkPaste_P)
+" "nmap gp <plug>(YoinkPaste_gp)
+" nmap gP <plug>(YoinkPaste_gP)
+" nmap [y <plug>(YoinkRotateBack)
+" nmap ]y <plug>(YoinkRotateForward)
+" nmap y <plug>(YoinkYankPreserveCursorPosition)
+" xmap y <plug>(YoinkYankPreserveCursorPosition)
+" nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
 
 Plug 'tpope/vim-surround'
 "Plug 'tpope/vim-fugitive'
@@ -232,10 +231,10 @@ EOF
 	Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
 	Plug 'romgrk/fzy-lua-native'
 	Plug 'nixprime/cpsm'
-	
+
 	Plug 'RRethy/vim-illuminate'
 	Plug 'ahmedkhalf/project.nvim'
-
+	
 	" LSP
 	Plug 'folke/neodev.nvim'
 	Plug 'hrsh7th/nvim-cmp' " The completion plugin
@@ -328,10 +327,11 @@ if has("nvim")
 	lua require('user.indent_blankline')
 	lua require('user.tokyonight')
 	lua require('user.illuminate')
-	lua require('user.telescope')
 	lua require('user.hop')
 	lua require('user.treesitter_indent_object')
 	lua require('user.bufferline')
+	lua require('user.telescope')
+
 
 lua << EOF
 	require('iswap').setup({
