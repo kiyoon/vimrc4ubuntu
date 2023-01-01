@@ -124,7 +124,7 @@ if !exists('g:vscode')
 	nmap <silent> gi <Plug>(coc-implementation)
 	nmap <silent> gr <Plug>(coc-references)
 	nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>
-	nmap <silent> gt :call CocAction('jumpDefinition', 'tabe')<CR>
+	nmap <silent> ge :call CocAction('jumpDefinition', 'tabe')<CR>
 	au filetype python nmap <C-i> :CocCommand pyright.organizeimports<CR>
 	nmap <space>rn <Plug>(coc-rename)
 
