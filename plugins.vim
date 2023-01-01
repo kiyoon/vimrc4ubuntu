@@ -185,9 +185,9 @@ EOF
 
 	Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
 	Plug 'nvim-tree/nvim-tree.lua'
-	nnoremap <leader>nt :NvimTreeToggle<CR>
-	nnoremap <leader>nr :NvimTreeRefresh<CR>
-	nnoremap <leader>nf :NvimTreeFindFile<CR>
+	nnoremap <space>nt :NvimTreeToggle<CR>
+	" nnoremap <space>nr :NvimTreeRefresh<CR>
+	" nnoremap <space>nf :NvimTreeFindFile<CR>
 	Plug 'kiyoon/nvim-tree-remote.nvim'
 
 	" Better syntax highlighting
@@ -230,7 +230,7 @@ EOF
 	Plug 'nixprime/cpsm'
 
 	Plug 'RRethy/vim-illuminate'
-	Plug 'ahmedkhalf/project.nvim'
+	"Plug 'ahmedkhalf/project.nvim'
 	
 	" LSP
 	Plug 'folke/neodev.nvim'
