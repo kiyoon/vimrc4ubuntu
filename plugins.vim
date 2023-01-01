@@ -34,9 +34,6 @@ Plug 'wookayin/vim-autoimport'
 nmap <silent> <M-CR>   :ImportSymbol<CR>
 imap <silent> <M-CR>   <Esc>:ImportSymbol<CR>a
 
-" :Black to format python file
-Plug 'psf/black', { 'do': 'pip install black' }
-
 Plug 'svermeulen/vim-subversive'
 " <space>siwie to substitute word from entire buffer
 " <space>siwip to substitute word from paragraph
@@ -243,6 +240,7 @@ EOF
 	Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
 	Plug 'hrsh7th/cmp-nvim-lsp'
 	Plug 'hrsh7th/cmp-nvim-lua'
+	Plug 'jose-elias-alvarez/null-ls.nvim'
 
 	" DAP
 	Plug 'mfussenegger/nvim-dap'
@@ -300,6 +298,7 @@ if has("nvim")
 	"lua require"treesitter-unit".toggle_highlighting()
 
 	lua require('user.lsp')
+	lua require('user.lsp.null-ls')
 
 	lua require('user.dap')
 	nmap <space>dc :lua require"dap".continue()<CR>
