@@ -213,8 +213,10 @@ EOF
 	Plug 'kiyoon/telescope-insert-path.nvim'
 	" Find files using Telescope command-line sugar.
 	nnoremap <leader>ff <cmd>Telescope find_files<cr>
-	inoremap <C-t> <cmd>Telescope find_files<cr>
-	nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+	inoremap <C-t> <cmd>Telescope git_files<cr>
+	nnoremap <leader>fg <cmd>Telescope git_files<cr>
+	nnoremap <leader>fw <cmd>Telescope live_grep<cr>
+	nnoremap <leader>fr <cmd>Telescope oldfiles<cr>
 	nnoremap <leader>fb <cmd>Telescope buffers<cr>
 	nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
