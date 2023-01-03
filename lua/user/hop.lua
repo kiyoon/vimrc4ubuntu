@@ -1,6 +1,5 @@
 -- place this in one of your configuration file(s)
 local hop = require('hop')
-local directions = require('hop.hint').HintDirection
 
 hop.setup()
 
@@ -29,12 +28,12 @@ vim.keymap.set('', '<space>f', function()
 end, {remap=true})
 
 -- more advanced, use two words to search everywhere
-vim.keymap.set('', '<space>g', function()
-  hop.hint_char2({ })
-end, {remap=true})
-vim.keymap.set('n', '<space>g', function()
-  hop.hint_char2({ multi_windows = true })
-end, {remap=true})
+-- vim.keymap.set('', '<space>g', function()
+--   hop.hint_char2({ })
+-- end, {remap=true})
+-- vim.keymap.set('n', '<space>g', function()
+--   hop.hint_char2({ multi_windows = true })
+-- end, {remap=true})
 
 -- Bidirectional t motion
 -- https://github.com/phaazon/hop.nvim/issues/266

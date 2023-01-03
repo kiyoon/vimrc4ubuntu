@@ -23,4 +23,9 @@ null_ls.setup({
 	},
 })
 
-vim.keymap.set("n", "<space>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", { silent = true })
+vim.keymap.set(
+  "n",
+  "<space>pf",
+  "<cmd>lua vim.lsp.buf.format{ async = true }<cr>",
+  { silent = true }
+)

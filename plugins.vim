@@ -199,6 +199,7 @@ EOF
 	Plug 'RRethy/nvim-treesitter-textsubjects'
 	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
 	Plug 'p00f/nvim-ts-rainbow'
+	Plug 'Wansmer/treesj'
 
 	" Mason makes it easier to install language servers
 	" Always load mason, mason-lspconfig and nvim-lspconfig in order.
@@ -334,11 +335,7 @@ if has("nvim")
 	lua require('user.telescope')
 
 
-lua << EOF
-	require('iswap').setup({
-		move_cursor = true,
-	})
-EOF
+	
 
 endif
 

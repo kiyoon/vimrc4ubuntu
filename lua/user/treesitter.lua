@@ -272,3 +272,12 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
+
+require('iswap').setup({
+  move_cursor = true,
+})
+
+require('treesj').setup({use_default_keymaps = false})
+vim.keymap.set('n', '<space>l', '<cmd>TSJSplit<CR>')
+vim.keymap.set('n', '<space>h', '<cmd>TSJJoin<CR>')
+vim.keymap.set('n', '<space>g', '<cmd>TSJToggle<CR>')
