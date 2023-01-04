@@ -8,6 +8,7 @@ then
 fi
 
 pip3 install --user pynvim
+pip3 install --user debugpy
 pip3 install --user black
 pip3 install --user flake8
 npm install -g neovim

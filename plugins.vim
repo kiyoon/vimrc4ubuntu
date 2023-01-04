@@ -183,12 +183,11 @@ EOF
 
 	Plug 'lewis6991/gitsigns.nvim'
 
-	Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
+	Plug 'nvim-tree/nvim-web-devicons'
 	Plug 'nvim-tree/nvim-tree.lua'
 	nnoremap <space>nt :NvimTreeToggle<CR>
 	" nnoremap <space>nr :NvimTreeRefresh<CR>
 	" nnoremap <space>nf :NvimTreeFindFile<CR>
-	Plug 'kiyoon/nvim-tree-remote.nvim'
 
 	" Better syntax highlighting
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
