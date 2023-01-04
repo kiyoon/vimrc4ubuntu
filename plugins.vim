@@ -291,8 +291,6 @@ if has("nvim")
 	lua require('gitsigns').setup()
 	lua require('leap').add_default_mappings()
 
-	"lua require"treesitter-unit".toggle_highlighting()
-
 	lua require('user.lsp')
 	lua require('user.lsp.null-ls')
 
@@ -306,8 +304,6 @@ if has("nvim")
 	nmap <space>di :lua require"dapui".toggle()<CR>
 	nmap <space>dt :lua require"dap".disconnect()<CR>
 
-
-"
 	lua require("inc_rename").setup()
 
 	" Navigate tmux, and nvim splits.
@@ -323,13 +319,7 @@ if has("nvim")
 	lua require('user.tokyonight')
 	lua require('user.illuminate')
 	lua require('user.hop')
-	lua require('user.treesitter_indent_object')
 	lua require('user.bufferline')
 	lua require('user.telescope')
 
-
-	
-
 endif
-
-
