@@ -321,5 +321,6 @@ if has("nvim")
 	lua require('user.hop')
 	lua require('user.bufferline')
 	lua require('user.telescope')
+	lua require('user.jupynium')
 
 endif
