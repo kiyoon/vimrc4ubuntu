@@ -4,10 +4,6 @@ if not config_status_ok then
   return
 end
 
-vim.g.nvim_tree_remote_socket_path = '/tmp/nvim_tree_socket'
-
-local nt_remote = require('nvim_tree_remote')
-
 nvim_tree.setup {
   update_focused_file = {
     enable = true,
