@@ -266,6 +266,7 @@ EOF
 	Plug 'akinsho/bufferline.nvim'
 
 	Plug 'kiyoon/jupynium-textobjects.nvim'
+	Plug 'kiyoon/jupynium-shortsighted.nvim'
 endif
 
 " All of your Plugins must be added before the following line
