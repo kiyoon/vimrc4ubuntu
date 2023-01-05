@@ -183,6 +183,7 @@ if has("nvim")
 
 	Plug 'kiyoon/jupynium-textobjects.nvim'
 	Plug 'kiyoon/jupynium-shortsighted.nvim'
+	Plug 'rcarriga/nvim-notify'
 endif
 
 " All of your Plugins must be added before the following line
@@ -219,4 +220,5 @@ if has("nvim")
 	lua require('user.telescope')
 	lua require('user.jupynium')
 
+	lua vim.notify = require("notify")
 endif
