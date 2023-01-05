@@ -195,7 +195,7 @@ EOF
 	Plug 'nvim-treesitter/nvim-treesitter-context'
 	Plug 'lukas-reineke/indent-blankline.nvim'
 	Plug 'kiyoon/treesitter-indent-object.nvim'
-	Plug 'RRethy/nvim-treesitter-textsubjects'
+	" Plug 'RRethy/nvim-treesitter-textsubjects'
 	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
 	Plug 'p00f/nvim-ts-rainbow'
 	Plug 'Wansmer/treesj'
@@ -264,6 +264,8 @@ EOF
 
 	Plug 'aserowy/tmux.nvim'
 	Plug 'akinsho/bufferline.nvim'
+
+	Plug 'kiyoon/jupynium-textobjects.nvim'
 endif
 
 " All of your Plugins must be added before the following line

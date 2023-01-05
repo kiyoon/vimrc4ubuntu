@@ -37,24 +37,9 @@ require("nvim-treesitter.configs").setup({
 		enable = true,
 		keymaps = {
 			init_selection = "gnn", -- set to `false` to disable one of the mappings
-			node_incremental = "grn",
+			node_incremental = "<cr>",
 			scope_incremental = "grc",
-			node_decremental = "grm",
-		},
-	},
-
-	-- v<cr> to select current context
-	-- <cr> to increase selection
-	-- , to undo
-	-- v; to select the entire context container (eg function)
-	-- vi; to select the entire context container (eg function) but inner part of it
-	textsubjects = {
-		enable = true,
-		prev_selection = ".", -- (Optional) keymap to select the previous selection
-		keymaps = {
-			["<cr>"] = "textsubjects-smart",
-			[";"] = "textsubjects-container-outer",
-			["i;"] = "textsubjects-container-inner",
+			node_decremental = ".",
 		},
 	},
 

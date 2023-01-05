@@ -13,16 +13,15 @@ This configuration is compatible with both Vim and Neovim, but Neovim will have 
 
 ### Neovim features
 
-
-
 ## Vim setup tips (2022)
+
 1. Use Neovim over Vim. Faster, and better plugin support. Largely compatible with most vim scripts and plugins. It also enabled full mouse control inside tmux, whilst the original vim did not work for me at least.
 2. Use Vim-Plug over Vundle, pathogen etc. Easier to install plugins (no need extra setup like source compilation)
 3. Use Coc over YouCompleteMe, Syntastic etc. Much easier plugin handling with very good default code completion and linting.
 
 ## Installing
 
-This config will install vim-plug and many plugins automatically when you first launch vim.  
+This config will install vim-plug and many plugins automatically when you first launch vim.
 
 Some plugins have dependencies and you can locally install everything by running:
 
@@ -30,7 +29,7 @@ Some plugins have dependencies and you can locally install everything by running
 ./install-linux.sh
 ```
 
-Optionally,  
+Optionally,
 
 ```bash
 sudo apt install xclip		# neovim, tmux clipboard support
@@ -50,6 +49,7 @@ nvim '+Copilot enable' +q
 - `\i`: Insert import statement at the beginning of the file. (Only for Python). Use it with normal or visual mode.
 
 ### Plugins
+
 - Select lines and press `<C-i>` to sort the Python import lines.
 - :Isort to sort the entire Python imports.
 - Alt + [ or ] to see next suggestions for Github Copilot.
@@ -60,7 +60,7 @@ nvim '+Copilot enable' +q
 - `,w`, `,b`, `,e`: word motion
 - vil/val to select line, vie/vae to select file, vii/vai to select indent.
 - treesitter-textobjects: `vif` to select function, `vic` to select class, `\a`, `\A` to swap parameters, `]m`, `]]` etc. to move between functions/classes, `\df`, `\dF` to show popup definitions.
-- [kiyoon/tmuxsend.vim](https://github.com/kiyoon/tmuxsend.vim).  
+- [kiyoon/tmuxsend.vim](https://github.com/kiyoon/tmuxsend.vim).
 
 ## Useful VIM commands
 
@@ -70,4 +70,3 @@ nvim '+Copilot enable' +q
 - `qq<command>q`: record macro at @q, then quit.
 - `10@q`: run macro @q 10 times.
 - Choose block with `<C-v>` and press `<S-i>`. It will add the change to all the lines selected.
-
