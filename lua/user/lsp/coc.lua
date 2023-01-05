@@ -39,7 +39,7 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>
 nmap <silent> ge :call CocAction('jumpDefinition', 'tabe')<CR>
 " Use Tab
-" au filetype python nmap <C-i> :CocCommand pyright.organizeimports<CR>
+au filetype python nmap <C-i> <cmd>CocCommand pyright.organizeimports<CR>
 nmap <leader>rn <Plug>(coc-rename)
 
 ]])
