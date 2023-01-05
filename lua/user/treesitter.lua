@@ -296,3 +296,22 @@ vim.keymap.set({ "x", "o" }, "aI", "<Cmd>lua require'treesitter_indent_object.te
 vim.keymap.set({ "x", "o" }, "ii", "<Cmd>lua require'treesitter_indent_object.textobj'.select_indent_inner()<CR>")
 -- select entire inner range (including if, else, etc.)
 vim.keymap.set({ "x", "o" }, "iI", "<Cmd>lua require'treesitter_indent_object.textobj'.select_indent_inner(true)<CR>")
+
+
+vim.cmd[[
+" Treehopper
+omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
+xnoremap <silent> m :lua require('tsht').nodes()<CR>
+nmap m <Cmd>lua require('tsht').move({ side = "start" })<CR>
+nnoremap M m	" default m marking is now M
+
+"ISwap
+nmap ,s <Cmd>ISwap<CR>
+nmap ,S <Cmd>ISwapNode<CR>
+nmap ,,s <Cmd>ISwapWith<CR>
+nmap ,,S <Cmd>ISwapNodeWith<CR>
+nmap <space>. <Cmd>ISwapWithRight<CR>
+nmap <space>, <Cmd>ISwapWithLeft<CR>
+nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>
+nmap <space><space>, <Cmd>ISwapNodeWithLeft<CR>
+]]

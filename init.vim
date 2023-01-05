@@ -24,6 +24,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 EOF
 
 exec "source " . stdpath('config') . '/.vimrc'
+exec "source " . stdpath('config') . '/vscode.vim'
 
 " With GUI demo
 nmap <leader>G <Cmd>call system("docker run --gpus all --rm --device=/dev/video0:/dev/video0 -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/project/nvim-hand-gesture:/workspace -v /run/user:/run/user kiyoon/nvim-hand-gesture --gui --nvim_socket_path " . v:servername . " &")<CR>

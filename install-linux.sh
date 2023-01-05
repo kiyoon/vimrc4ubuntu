@@ -13,6 +13,10 @@ pip3 install --user black
 pip3 install --user flake8
 npm install -g neovim
 
+if ! command -v tree-sitter &> /dev/null
+	npm install -g tree-sitter
+fi
+
 # Deprecated: no need for below.
 # LSP install using mason.
 #npm install -g pyright

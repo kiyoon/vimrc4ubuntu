@@ -69,3 +69,7 @@ nvim_tree.setup {
     custom = { ".git" },
   },
 }
+
+vim.keymap.set("n", "<space>nt", "<cmd>NvimTreeToggle<CR>", {})
+-- nnoremap <space>nr :NvimTreeRefresh<CR>
+-- nnoremap <space>nf :NvimTreeFindFile<CR>

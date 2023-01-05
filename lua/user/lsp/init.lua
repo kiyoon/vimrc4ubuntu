@@ -63,3 +63,14 @@ for _, server in pairs(servers) do
 
 	lspconfig[server].setup(opts)
 end
+
+require("trouble").setup({
+  auto_open = false,
+  auto_close = true,
+  auto_preview = true,
+  auto_fold = true,
+})
+
+vim.keymap.set("n", "<space>rn", function()
+  return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })

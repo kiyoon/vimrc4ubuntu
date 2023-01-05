@@ -44,6 +44,7 @@ nmap <space>s <plug>(SubversiveSubstituteRange)
 xmap <space>s <plug>(SubversiveSubstituteRange)
 nmap <space>ss <plug>(SubversiveSubstituteWordRange)
 
+" Vim-yoink{{{
 " This plugin does not work with tmux.nvim
 " Scroll through paste by C-n C-p
 " Change the default buffer by [y ]y
@@ -60,18 +61,13 @@ nmap <space>ss <plug>(SubversiveSubstituteWordRange)
 " nmap ]y <plug>(YoinkRotateForward)
 " nmap y <plug>(YoinkYankPreserveCursorPosition)
 " xmap y <plug>(YoinkYankPreserveCursorPosition)
-" nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
+" nmap <c-=> <plug>(YoinkPostPasteToggleFormat)}}}
 
 Plug 'tpope/vim-surround'
-"Plug 'tpope/vim-fugitive'
 Plug 'kana/vim-textobj-user'
-"Plug 'kana/vim-textobj-line'		" vil, val to select line
 Plug 'kana/vim-textobj-entire'	    " vie, vae to select entire buffer (file)
 Plug 'kana/vim-textobj-fold'		" viz, vaz to select fold
 Plug 'glts/vim-textobj-comment'		" vic, vac to select comment
-
-"Plug 'vim-python/python-syntax'
-"let g:python_highlight_all = 1
 
 Plug 'chaoren/vim-wordmotion'
 let g:wordmotion_prefix = ','
@@ -81,80 +77,22 @@ let g:wordmotion_prefix = ','
 " use VSCode easymotion when in VSCode mode
 Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
 
-Plug 'untitled-ai/jupyter_ascending.vim'
-" I don't know why but it only gets executed after one more command, that's why I put <ESC>
-nmap <space>x <Plug>JupyterExecute<ESC>
-nmap <space>X <Plug>JupyterExecuteAll<ESC>
-
-" TODO Text objects for jupyter ascending
-" vij to select a cell content without # %%
-" vaj to select a cell including the separator
-
-" Moving between cells. TODO Make improvements
-nnoremap <space>j /# %%<CR>
-onoremap <space>j /# %%<CR>
-xnoremap <space>j /# %%<CR>
-nnoremap <space>k ?# %%<CR>
-onoremap <space>k ?# %%<CR>
-xnoremap <space>k ?# %%<CR>
+" Plug 'untitled-ai/jupyter_ascending.vim'{{{
+" " I don't know why but it only gets executed after one more command, that's why I put <ESC>
+" nmap <space>x <Plug>JupyterExecute<ESC>
+" nmap <space>X <Plug>JupyterExecuteAll<ESC>
+"
+" " Moving between cells. TODO Make improvements
+" nnoremap <space>j /# %%<CR>
+" onoremap <space>j /# %%<CR>
+" xnoremap <space>j /# %%<CR>
+" nnoremap <space>k ?# %%<CR>
+" onoremap <space>k ?# %%<CR>
+" xnoremap <space>k ?# %%<CR>}}}
 
 if !exists('g:vscode')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	"Plug 'neoclide/coc.nvim', {'tag': 'v0.0.81'}
-	" (Default binding) Use <C-e> and <C-y> to cancel and confirm completion
-	" I personally use <C-n> <C-p> to confirm completion without closing the popup.
-	"
-	"let g:coc_node_args = ['--max-old-space-size=8192']	" prevent javascript heap out of memory
-	" Toggle CoC diagnostics
-	"nnoremap <silent> <F6> :call CocActionAsync('diagnosticToggle')<CR>
-	" Show CoC diagnostics window
-	nnoremap <silent> <F6> :CocDiagnostics<CR>
-	" navigate diagnostics
-	nmap <silent> <M-l> <Plug>(coc-diagnostic-next)
-	nmap <silent> <M-h> <Plug>(coc-diagnostic-prev)
-	" Use <c-space> to trigger completion.
-	if has('nvim')
-		inoremap <silent><expr> <c-space> coc#refresh()
-	else
-		inoremap <silent><expr> <c-@> coc#refresh()
-	endif
-	" Remap keys for gotos
-	nmap <silent> gd <Plug>(coc-definition)
-	nmap <silent> gy <Plug>(coc-type-definition)
-	nmap <silent> gi <Plug>(coc-implementation)
-	nmap <silent> gr <Plug>(coc-references)
-	nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>
-	nmap <silent> ge :call CocAction('jumpDefinition', 'tabe')<CR>
-	au filetype python nmap <C-i> :CocCommand pyright.organizeimports<CR>
-	nmap <space>rn <Plug>(coc-rename)
-
 	Plug 'github/copilot.vim'
-else
-	" tpope/vim-commentary behaviour for VSCode-neovim
-	xmap gc  <Plug>VSCodeCommentary
-	nmap gc  <Plug>VSCodeCommentary
-	omap gc  <Plug>VSCodeCommentary
-	nmap gcc <Plug>VSCodeCommentaryLine
-
-	" Use uppercase target labels and type as a lower case
-	"let g:EasyMotion_use_upper = 1
-	 " type `l` and match `l`&`L`
-	let g:EasyMotion_smartcase = 1
-	" Smartsign (type `3` and match `3`&`#`)
-	let g:EasyMotion_use_smartsign_us = 1
-
-	" \f{char} to move to {char}
-	" within line
-	map f <Plug>(easymotion-bd-fl)
-	map t <Plug>(easymotion-bd-tl)
-	map <space>w <Plug>(easymotion-bd-wl)
-	map <space>e <Plug>(easymotion-bd-el)
-	"nmap <Leader>f <Plug>(easymotion-overwin-f)
-
-	" <space>m{char}{char} to move to {char}{char}
-	" anywhere, even across windows
-	map  <space>f <Plug>(easymotion-bd-f2)
-	nmap <space>f <Plug>(easymotion-overwin-f2)
 endif
 
 if has("nvim")
@@ -175,21 +113,12 @@ if has("nvim")
 
 	Plug 'smjonas/inc-rename.nvim'
 
-lua << EOF
-	vim.keymap.set("n", "<leader>rn", function()
-	  return ":IncRename " .. vim.fn.expand("<cword>")
-	end, { expr = true })
-EOF
-
 	Plug 'lewis6991/gitsigns.nvim'
 
 	Plug 'nvim-tree/nvim-web-devicons'
 	Plug 'nvim-tree/nvim-tree.lua'
-	nnoremap <space>nt :NvimTreeToggle<CR>
-	" nnoremap <space>nr :NvimTreeRefresh<CR>
-	" nnoremap <space>nf :NvimTreeFindFile<CR>
 
-	" Better syntax highlighting
+	" Treesitter Better syntax highlighting
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 	Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 	Plug 'nvim-treesitter/nvim-treesitter-context'
@@ -199,6 +128,12 @@ EOF
 	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
 	Plug 'p00f/nvim-ts-rainbow'
 	Plug 'Wansmer/treesj'
+
+	" Hop, leap
+	Plug 'phaazon/hop.nvim'
+	Plug 'mfussenegger/nvim-treehopper'
+	Plug 'ggandor/leap.nvim'
+	Plug 'mizlan/iswap.nvim'
 
 	" Mason makes it easier to install language servers
 	" Always load mason, mason-lspconfig and nvim-lspconfig in order.
@@ -224,9 +159,6 @@ EOF
 	Plug 'romgrk/fzy-lua-native'
 	Plug 'nixprime/cpsm'
 
-	Plug 'RRethy/vim-illuminate'
-	"Plug 'ahmedkhalf/project.nvim'
-	
 	" LSP
 	Plug 'folke/neodev.nvim'
 	Plug 'hrsh7th/nvim-cmp' " The completion plugin
@@ -236,6 +168,7 @@ EOF
 	Plug 'hrsh7th/cmp-nvim-lsp'
 	Plug 'hrsh7th/cmp-nvim-lua'
 	Plug 'jose-elias-alvarez/null-ls.nvim'
+	Plug 'folke/trouble.nvim'
 
 	" DAP
 	Plug 'mfussenegger/nvim-dap'
@@ -243,27 +176,10 @@ EOF
 	Plug 'rcarriga/nvim-dap-ui'
 	Plug 'Weissle/persistent-breakpoints.nvim'
 
-	Plug 'phaazon/hop.nvim'
-	Plug 'mfussenegger/nvim-treehopper'
-	omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
-	xnoremap <silent> m :lua require('tsht').nodes()<CR>
-	nmap m <Cmd>lua require('tsht').move({ side = "start" })<CR>
-	nnoremap M m	" default m marking is now M
-
-	Plug 'ggandor/leap.nvim'
-
-	Plug 'mizlan/iswap.nvim'
-	nmap ,s <Cmd>ISwap<CR>
-	nmap ,S <Cmd>ISwapNode<CR>
-	nmap ,,s <Cmd>ISwapWith<CR>
-	nmap ,,S <Cmd>ISwapNodeWith<CR>
-	nmap <space>. <Cmd>ISwapWithRight<CR>
-	nmap <space>, <Cmd>ISwapWithLeft<CR>
-	nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>
-	nmap <space><space>, <Cmd>ISwapNodeWithLeft<CR>
-
 	Plug 'aserowy/tmux.nvim'
 	Plug 'akinsho/bufferline.nvim'
+	Plug 'RRethy/vim-illuminate'
+	"Plug 'ahmedkhalf/project.nvim'
 
 	Plug 'kiyoon/jupynium-textobjects.nvim'
 	Plug 'kiyoon/jupynium-shortsighted.nvim'
@@ -273,20 +189,6 @@ endif
 call plug#end()            " required
 filetype plugin indent on    " required
 
-if !exists('g:vscode')
-	call coc#add_extension('coc-pyright')
-	call coc#add_extension('coc-sh')
-	call coc#add_extension('coc-clangd')
-	call coc#add_extension('coc-vimlsp')
-	call coc#add_extension('coc-java')
-	call coc#add_extension('coc-html')
-	"call coc#add_extension('coc-css')
-	call coc#add_extension('coc-json')
-	call coc#add_extension('coc-yaml')
-	call coc#add_extension('coc-markdownlint')
-	call coc#add_extension('coc-sumneko-lua')
-endif
-
 if has("nvim")
 	lua require('impatient')
 	lua require('Comment').setup()
@@ -294,18 +196,10 @@ if has("nvim")
 	lua require('leap').add_default_mappings()
 
 	lua require('user.lsp')
+	lua require('user.lsp.coc')
 	lua require('user.lsp.null-ls')
 
 	lua require('user.dap')
-	nmap <space>dc :lua require"dap".continue()<CR>
-	nmap <space>dn :lua require"dap".step_over()<CR>
-	nmap <space>ds :lua require"dap".step_into()<CR>
-	nmap <space>du :lua require"dap".step_out()<CR>
-	nmap <space>dr :lua require"dap".repl.open()<CR>
-	nmap <space>dl :lua require"dap".run_last()<CR>
-	nmap <space>di :lua require"dapui".toggle()<CR>
-	nmap <space>dt :lua require"dap".disconnect()<CR>
-
 	lua require("inc_rename").setup()
 
 	" Navigate tmux, and nvim splits.

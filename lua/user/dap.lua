@@ -9,7 +9,7 @@ if not dap_ui_status_ok then
 end
 
 -- Path to python with debugpy installed
-require('dap-python').setup('python')
+require("dap-python").setup("python")
 
 dapui.setup({
 	expand_lines = true,
@@ -67,6 +67,10 @@ dap.listeners.before.event_exited["dapui_config"] = function()
 	dapui.close()
 end
 
+require("persistent-breakpoints").setup({
+	load_breakpoints_event = { "BufReadPost" },
+})
+
 local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
 -- Save breakpoints to file automatically.
@@ -74,6 +78,13 @@ keymap("n", "<space>db", "<cmd>lua require('persistent-breakpoints.api').toggle_
 keymap("n", "<space>dB", "<cmd>lua require('persistent-breakpoints.api').set_conditional_breakpoint()<cr>", opts)
 keymap("n", "<space>dC", "<cmd>lua require('persistent-breakpoints.api').clear_all_breakpoints()<cr>", opts)
 
-require('persistent-breakpoints').setup{
-	load_breakpoints_event = { "BufReadPost" }
-}
+vim.cmd([[
+	nmap <space>dc :lua require"dap".continue()<CR>
+	nmap <space>dn :lua require"dap".step_over()<CR>
+	nmap <space>ds :lua require"dap".step_into()<CR>
+	nmap <space>du :lua require"dap".step_out()<CR>
+	nmap <space>dr :lua require"dap".repl.open()<CR>
+	nmap <space>dl :lua require"dap".run_last()<CR>
+	nmap <space>di :lua require"dapui".toggle()<CR>
+	nmap <space>dt :lua require"dap".disconnect()<CR>
+]])
