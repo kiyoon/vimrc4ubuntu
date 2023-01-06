@@ -440,3 +440,20 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
+
+if !exists('*Tj_save_and_exec')
+  function! Tj_save_and_exec() abort
+    if &filetype == 'vim'
+      :silent! write
+      :source %
+    elseif &filetype == 'lua'
+      :silent! write
+      :luafile %
+    endif
+
+    return
+  endfunction
+endif
+
+" Execute this file
+nnoremap <space><space>x <cmd>call Tj_save_and_exec()<CR>

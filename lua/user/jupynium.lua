@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufNew" }, {
 			[[call system('source ~/bin/miniconda3/bin/activate jupynium && jupynium --nvim_listen_addr ' . v:servername . ' &')]],
 			{}
 		)
-		-- vim.keymap.set('n', '<space>py', '<cmd>JupyniumStartServer<CR>', {noremap = true, silent = true})
+		-- vim.keymap.set('n', '<space>py', '<cmd>JupyniumAttachServer<CR>', {noremap = true, silent = true})
 	end,
 })
 
