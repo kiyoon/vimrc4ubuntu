@@ -1,4 +1,4 @@
-local nvim_tree = require('nvim-tree')
+local nvim_tree = require "nvim-tree"
 local config_status_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
 if not config_status_ok then
   return
@@ -16,23 +16,23 @@ nvim_tree.setup {
         default = "",
         symlink = "",
         folder = {
-        arrow_open = "",
-        arrow_closed = "",
-        default = "",
-        open = "",
-        empty = "",
-        empty_open = "",
-        symlink = "",
-        symlink_open = "",
+          arrow_open = "",
+          arrow_closed = "",
+          default = "",
+          open = "",
+          empty = "",
+          empty_open = "",
+          symlink = "",
+          symlink_open = "",
         },
         git = {
-        unstaged = "",
-        staged = "S",
-        unmerged = "",
-        renamed = "➜",
-        untracked = "U",
-        deleted = "",
-        ignored = "◌",
+          unstaged = "",
+          staged = "S",
+          unmerged = "",
+          renamed = "➜",
+          untracked = "U",
+          deleted = "",
+          ignored = "◌",
         },
       },
     },
@@ -41,10 +41,10 @@ nvim_tree.setup {
     enable = true,
     show_on_dirs = true,
     icons = {
-    hint = "",
-    info = "",
-    warning = "",
-    error = "",
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
     },
   },
   view = {
@@ -61,9 +61,9 @@ nvim_tree.setup {
     },
   },
   remove_keymaps = {
-    '-',
-    '<C-k>',
-    'O',
+    "-",
+    "<C-k>",
+    "O",
   },
   filters = {
     custom = { ".git" },

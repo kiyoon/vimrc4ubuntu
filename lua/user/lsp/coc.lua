@@ -1,4 +1,4 @@
-vim.cmd([[
+vim.cmd [[
 
 if !exists('g:vscode')
 	call coc#add_extension('coc-pyright')
@@ -42,4 +42,4 @@ nmap <silent> ge :call CocAction('jumpDefinition', 'tabe')<CR>
 au filetype python nmap <C-i> <cmd>CocCommand pyright.organizeimports<CR>
 nmap <leader>rn <Plug>(coc-rename)
 
-]])
+]]

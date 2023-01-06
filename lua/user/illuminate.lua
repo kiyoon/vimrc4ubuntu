@@ -3,8 +3,8 @@ if not status_ok then
   return
 end
 
-vim.g.Illuminate_ftblacklist = {'alpha', 'NvimTree'}
-vim.api.nvim_set_keymap('n', '<space>v', '<cmd>lua require"illuminate".textobj_select()<cr>', {noremap=true})
+vim.g.Illuminate_ftblacklist = { "alpha", "NvimTree" }
+vim.api.nvim_set_keymap("n", "<space>v", '<cmd>lua require"illuminate".textobj_select()<cr>', { noremap = true })
 
 illuminate.configure {
   providers = {
