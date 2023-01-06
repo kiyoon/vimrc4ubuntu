@@ -8,11 +8,18 @@ then
 fi
 
 pip3 install --user pynvim
-pip3 install --user debugpy
-pip3 install --user black
-pip3 install --user flake8
 npm install -g neovim
+
+# DAP
+pip3 install --user debugpy
+
+# Lint
+pip3 install --user flake8
+
+# Formatter
+pip3 install --user black
 npm install -g @johnnymorganz/stylua-bin
+npm install -g prettier
 
 if ! command -v tree-sitter &> /dev/null
 	npm install -g tree-sitter
