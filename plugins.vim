@@ -181,8 +181,7 @@ if has("nvim")
 	Plug 'RRethy/vim-illuminate'
 	"Plug 'ahmedkhalf/project.nvim'
 
-	Plug 'kiyoon/jupynium-textobjects.nvim'
-	Plug 'kiyoon/jupynium-shortsighted.nvim'
+	Plug 'kiyoon/jupynium.nvim', { 'do': 'pip install --user .' }
 	Plug 'rcarriga/nvim-notify'
 endif
 
