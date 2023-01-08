@@ -22,6 +22,7 @@ npm install -g @johnnymorganz/stylua-bin
 npm install -g prettier
 
 if ! command -v tree-sitter &> /dev/null
+then
 	npm install -g tree-sitter
 fi
 
