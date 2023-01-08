@@ -232,6 +232,8 @@ if has("nvim")
 	lua require('user.telescope')
 	lua require('user.jupynium')
 
+	" lua require'dmap'.setup()
+
 	" lua require('user.luasnip')
 
 	lua vim.notify = require("notify")

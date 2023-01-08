@@ -458,3 +458,9 @@ endif
 
 " Execute this file
 nnoremap <space><space>x <cmd>call Tj_save_and_exec()<CR>
+
+" Disable continuation of comments
+" It seems like plugins enable this
+" Use autocmd to override plugin
+autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
+
