@@ -41,17 +41,17 @@ end
 
 local opts = {}
 
--- local require_ok, handlers = pcall(require, "user.lsp.handlers")
--- if not require_ok then
--- 	return
--- end
+local require_ok, handlers = pcall(require, "user.lsp.handlers")
+if not require_ok then
+  return
+end
 for _, server in pairs(servers) do
-  -- opts = {
-  -- 	on_attach = handlers.on_attach,
-  -- 	capabilities = handlers.capabilities,
-  -- }
+  opts = {
+    on_attach = handlers.on_attach,
+    capabilities = handlers.capabilities,
+  }
 
-  server = vim.split(server, "@")[1]
+  server = vim.split(server, "@", {})[1]
 
   local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server)
   if require_ok then
@@ -74,3 +74,7 @@ require("trouble").setup {
 vim.keymap.set("n", "<space>rn", function()
   return ":IncRename " .. vim.fn.expand "<cword>"
 end, { expr = true })
+
+require("fidget").setup()
+
+require "user.lsp.null-ls"

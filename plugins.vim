@@ -99,10 +99,14 @@ if has("nvim")
 	if !exists('g:vscode')
 		Plug 'numToStr/Comment.nvim'
 	endif
+	
+	" Colour schemes
 	Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 	Plug 'rebelot/kanagawa.nvim'
 	Plug 'EdenEast/nightfox.nvim'
 	Plug 'Mofiqul/dracula.nvim'
+	Plug 'navarasu/onedark.nvim'
+
 	Plug 'nvim-lualine/lualine.nvim'
 
 	Plug 'nvim-lua/plenary.nvim'
@@ -168,7 +172,11 @@ if has("nvim")
 	Plug 'hrsh7th/cmp-nvim-lsp'
 	Plug 'hrsh7th/cmp-nvim-lua'
 	Plug 'jose-elias-alvarez/null-ls.nvim'
+	Plug 'j-hui/fidget.nvim'
+
+	" LSP diagnostics
 	Plug 'folke/trouble.nvim'
+	" Plug 'doums/dmap.nvim'
 
 	" DAP
 	Plug 'mfussenegger/nvim-dap'
@@ -180,6 +188,10 @@ if has("nvim")
 	Plug 'akinsho/bufferline.nvim'
 	Plug 'RRethy/vim-illuminate'
 	"Plug 'ahmedkhalf/project.nvim'
+	
+	" Snippet
+	Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
+	Plug 'rafamadriz/friendly-snippets'
 
 	Plug 'kiyoon/jupynium.nvim', { 'do': 'pip install --user .' }
 	Plug 'rcarriga/nvim-notify'
@@ -195,9 +207,9 @@ if has("nvim")
 	lua require('gitsigns').setup()
 	lua require('leap').add_default_mappings()
 
-	lua require('user.lsp')
 	lua require('user.lsp.coc')
-	lua require('user.lsp.null-ls')
+	lua require('user.lsp')
+	" lua require "user.lsp.cmp"
 
 	lua require('user.dap')
 	lua require("inc_rename").setup()
@@ -218,6 +230,8 @@ if has("nvim")
 	lua require('user.bufferline')
 	lua require('user.telescope')
 	lua require('user.jupynium')
+
+	lua require('user.luasnip')
 
 	lua vim.notify = require("notify")
 endif
