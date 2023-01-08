@@ -168,7 +168,7 @@ if has("nvim")
 	Plug 'hrsh7th/nvim-cmp' " The completion plugin
 	Plug 'hrsh7th/cmp-buffer' " buffer completions
 	Plug 'hrsh7th/cmp-path' " path completions
-	Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
+	" Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
 	Plug 'hrsh7th/cmp-nvim-lsp'
 	Plug 'hrsh7th/cmp-nvim-lua'
 	Plug 'jose-elias-alvarez/null-ls.nvim'
@@ -190,8 +190,8 @@ if has("nvim")
 	"Plug 'ahmedkhalf/project.nvim'
 	
 	" Snippet
-	Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
-	Plug 'rafamadriz/friendly-snippets'
+	" Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
+	" Plug 'rafamadriz/friendly-snippets'
 
 	Plug 'kiyoon/jupynium.nvim', { 'do': 'pip install --user .' }
 	Plug 'rcarriga/nvim-notify'
@@ -201,13 +201,14 @@ endif
 call plug#end()            " required
 filetype plugin indent on    " required
 
+exec "source " . stdpath('config') . '/coc.vim'
+
 if has("nvim")
 	lua require('impatient')
 	lua require('Comment').setup()
 	lua require('gitsigns').setup()
 	lua require('leap').add_default_mappings()
 
-	lua require('user.lsp.coc')
 	lua require('user.lsp')
 	" lua require "user.lsp.cmp"
 
@@ -231,7 +232,7 @@ if has("nvim")
 	lua require('user.telescope')
 	lua require('user.jupynium')
 
-	lua require('user.luasnip')
+	" lua require('user.luasnip')
 
 	lua vim.notify = require("notify")
 endif
