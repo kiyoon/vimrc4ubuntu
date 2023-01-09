@@ -1,8 +1,14 @@
 require("alpha").setup(require("alpha.themes.dashboard").config)
 local alpha = require "alpha"
 local dashboard = require "alpha.themes.dashboard"
-neovim_version = vim.version()
-neovim_version_str = string.format("  v%s.%s.%s", neovim_version.major, neovim_version.minor, neovim_version.patch)
+local neovim_version = vim.version()
+local neovim_version_str = string.format(
+  "  v%s.%s.%s%s",
+  neovim_version.major,
+  neovim_version.minor,
+  neovim_version.patch,
+  neovim_version.prerelease and "nightly" or ""
+)
 
 dashboard.section.header.val = {
   [[                               __                ]],
