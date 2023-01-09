@@ -193,7 +193,7 @@ if has("nvim")
 	" Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
 	Plug 'rafamadriz/friendly-snippets'
 
-	Plug 'kiyoon/jupynium.nvim', { 'do': 'pip install --user .' }
+	Plug 'git@github.com:kiyoon/jupynium.git', { 'do': '~/bin/miniconda3/envs/jupynium/bin/pip install .' }
 	Plug 'rcarriga/nvim-notify'
 endif
 
