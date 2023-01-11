@@ -7,7 +7,7 @@ local neovim_version_str = string.format(
   neovim_version.major,
   neovim_version.minor,
   neovim_version.patch,
-  neovim_version.prerelease and "nightly" or ""
+  neovim_version.prerelease and " nightly" or ""
 )
 
 dashboard.section.header.val = {

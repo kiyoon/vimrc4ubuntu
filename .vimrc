@@ -463,3 +463,7 @@ nnoremap <space><space>x <cmd>call Tj_save_and_exec()<CR>
 " It seems like plugins enable this
 " Use autocmd to override plugin
 autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
+
+" Quickfix
+map <C-Down> <cmd>cn<CR>
+map <C-Up> <cmd>cp<CR>
