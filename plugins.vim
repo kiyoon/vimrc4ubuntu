@@ -128,9 +128,9 @@ if has("nvim")
 	Plug 'nvim-treesitter/nvim-treesitter-context'
 	Plug 'lukas-reineke/indent-blankline.nvim'
 	Plug 'kiyoon/treesitter-indent-object.nvim'
-	" Plug 'RRethy/nvim-treesitter-textsubjects'
+	Plug 'RRethy/nvim-treesitter-textsubjects'
 	Plug 'andymass/vim-matchup'		" % to match up if, else, etc. Enabled in the treesitter config below
-	Plug 'p00f/nvim-ts-rainbow'
+	Plug 'mrjones2014/nvim-ts-rainbow'
 	Plug 'Wansmer/treesj'
 
 	" Hop, leap
@@ -237,4 +237,7 @@ if has("nvim")
 	" lua require('user.luasnip')
 
 	lua vim.notify = require("notify")
+
+	" lua vim.api.nvim_set_keymap('n', 'x', '<Cmd>lua vim.notify({vim.inspect(vim.fn.getpos("v")), vim.inspect(vim.fn.getcurpos())})<cr>', {})
 endif
+
