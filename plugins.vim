@@ -194,7 +194,7 @@ if has("nvim")
 	Plug 'rafamadriz/friendly-snippets'
 
 	if isdirectory(expand('~/bin/miniconda3/envs/jupynium'))
-		Plug 'git@github.com:kiyoon/jupynium.git', { 'do': '~/bin/miniconda3/envs/jupynium/bin/pip install .' }
+		Plug 'kiyoon/jupynium.nvim', { 'do': '~/bin/miniconda3/envs/jupynium/bin/pip install .' }
 	endif
 	Plug 'rcarriga/nvim-notify'
 endif

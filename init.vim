@@ -23,6 +23,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 EOF
 
+exec "source " . stdpath('config') . '/plugins.vim'
 exec "source " . stdpath('config') . '/.vimrc'
 exec "source " . stdpath('config') . '/vscode.vim'
 
@@ -32,3 +33,25 @@ nmap <leader>G <Cmd>call system("docker run --gpus all --rm --device=/dev/video0
 nmap <leader>g <Cmd>call system("docker run --gpus all --rm --device=/dev/video0:/dev/video0 -v ~/project/nvim-hand-gesture:/workspace -v /run/user:/run/user kiyoon/nvim-hand-gesture --nvim_socket_path " . v:servername . " &")<CR>
 " Quit running process
 nmap <leader><leader>g <Cmd>let g:quit_nvim_hand_gesture = 1<CR>
+
+colorscheme dracula
+" colorscheme onedark
+"colorscheme tokyonight-night
+"colorscheme kanagawa
+"color carbonfox
+"color default
+
+set cursorline
+set inccommand=split
+
+lua << EOF
+	require('lualine').setup()
+--	require('lualine').setup {
+--	  options = {
+--		-- ... your lualine config
+--		theme = 'tokyonight'
+--		-- ... your lualine config
+--	  }
+--	}
+EOF
+

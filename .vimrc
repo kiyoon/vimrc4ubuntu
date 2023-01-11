@@ -1,20 +1,20 @@
 
 " settings profile based on OS name
 "let os = 'fc'
-let os = 'ubuntu'
-
-if os ==? 'fc'
-	let use_vimplug         = 0
-elseif os ==? 'ubuntu'
-	let use_vimplug         = 1
-endif
+" let os = 'ubuntu'
+"
+" if os ==? 'fc'
+" 	let use_vimplug         = 0
+" elseif os ==? 'ubuntu'
+" 	let use_vimplug         = 1
+" endif
 
 " directory path where the vimrc is installed
-let vimrc_installed_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-
-if use_vimplug
-	exec "source " . vimrc_installed_dir . "/plugins.vim"
-endif
+" let vimrc_installed_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+"
+" if use_vimplug
+" 	exec "source " . vimrc_installed_dir . "/plugins.vim"
+" endif
 
 
 " If you prefer the Omni-Completion tip window to close when a selection is
@@ -25,31 +25,7 @@ endif
 "
 
 syntax on
-
-" From Neovim 0.8.1, colorscheme default works like it used to as ron.
-if has('nvim')
-	colorscheme dracula
-	" colorscheme onedark
-	"colorscheme tokyonight-night
-	"colorscheme kanagawa
-	"color carbonfox
-	"color default
-	set cursorline
-
-lua << EOF
-	require('lualine').setup()
---	require('lualine').setup {
---	  options = {
---		-- ... your lualine config
---		theme = 'tokyonight'
---		-- ... your lualine config
---	  }
---	}
-EOF
-
-else
-	color ron
-endif
+" colorscheme ron
 
 " Open new split panes to right and bottom, which feels more natural than Vim’s default:
 set splitbelow
@@ -69,7 +45,6 @@ set hlsearch
 
 " search as characters are entered
 set incsearch
-set inccommand=split
 
 " view matching brace
 set sm
