@@ -77,65 +77,39 @@ local function get_git_dir()
   return git_dir
 end
 
+local builtin = require "telescope.builtin"
+
 M = {}
 M.live_grep_gitdir = function()
   local git_dir = get_git_dir()
   if git_dir == "" then
-    require("telescope.builtin").live_grep()
+    builtin.live_grep()
   else
-    require("telescope.builtin").live_grep {
+    builtin.live_grep {
       cwd = git_dir,
     }
   end
 end
 
-vim.keymap.set(
-  { "n" },
-  "<leader>ff",
-  "<cmd>lua require('telescope.builtin').find_files()<cr>",
-  { noremap = true, silent = true }
-)
-vim.keymap.set(
-  { "i" },
-  "<C-t>",
-  "<cmd>lua require('telescope.builtin').git_files()<cr>",
-  { noremap = true, silent = true }
-)
-vim.keymap.set(
-  { "n" },
-  "<leader>fg",
-  "<cmd>lua require('telescope.builtin').git_files()<cr>",
-  { noremap = true, silent = true }
-)
-vim.keymap.set(
-  { "n" },
-  "<leader>fW",
-  "<cmd>lua require('telescope.builtin').live_grep()<cr>",
-  { noremap = true, silent = true }
-)
-vim.keymap.set(
-  { "n" },
-  "<leader>fw",
-  "<cmd>lua require('user.telescope').live_grep_gitdir()<cr>",
-  { noremap = true, silent = true }
-)
-vim.keymap.set(
-  { "n" },
-  "<leader>fr",
-  "<cmd>lua require('telescope.builtin').oldfiles()<cr>",
-  { noremap = true, silent = true }
-)
-vim.keymap.set(
-  { "n" },
-  "<leader>fb",
-  "<cmd>lua require('telescope.builtin').buffers()<cr>",
-  { noremap = true, silent = true }
-)
-vim.keymap.set(
-  { "n" },
-  "<leader>fh",
-  "<cmd>lua require('telescope.builtin').help_tags()<cr>",
-  { noremap = true, silent = true }
-)
+M.grep_string_gitdir = function()
+  local git_dir = get_git_dir()
+  if git_dir == "" then
+    builtin.grep_string()
+  else
+    builtin.grep_string {
+      cwd = git_dir,
+    }
+  end
+end
+
+-- vim.keymap.set({ "n" }, "<leader>ff", builtin.find_files, { noremap = true, silent = true })
+vim.keymap.set({ "i" }, "<C-t>", builtin.git_files, { noremap = true, silent = true })
+vim.keymap.set({ "n" }, "<leader>ff", builtin.git_files, { noremap = true, silent = true })
+vim.keymap.set({ "n" }, "<leader>fW", builtin.live_grep, { noremap = true, silent = true })
+vim.keymap.set({ "n" }, "<leader>fw", M.live_grep_gitdir, { noremap = true, silent = true })
+vim.keymap.set({ "n" }, "<leader>fiw", M.grep_string_gitdir, { noremap = true, silent = true })
+vim.keymap.set({ "n" }, "<leader>fr", builtin.oldfiles, { noremap = true, silent = true })
+vim.keymap.set({ "n" }, "<leader>fb", builtin.buffers, { noremap = true, silent = true })
+vim.keymap.set({ "n" }, "<leader>fh", builtin.help_tags, { noremap = true, silent = true })
 
 return M
