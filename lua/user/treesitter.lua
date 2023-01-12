@@ -278,6 +278,8 @@ require("nvim-treesitter.configs").setup {
   },
 }
 
+vim.keymap.set({ "n", "x", "o" }, ";", "<cmd>TSTextobjectRepeatLastMove<CR>")
+
 require("iswap").setup {
   move_cursor = true,
 }

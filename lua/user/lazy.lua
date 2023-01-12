@@ -152,7 +152,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
-    -- dev = true,
+    dev = true,
   },
   { "nvim-treesitter/nvim-treesitter-context" },
   {
@@ -253,6 +253,7 @@ return {
   },
   {
     "lvimuser/lsp-inlayhints.nvim",
+    -- lazy = false,
     config = function()
       vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -269,10 +270,32 @@ return {
       })
     end,
   },
+  {
+    "ray-x/lsp_signature.nvim",
+    config = function()
+      local cfg = {
+        on_attach = function(client, bufnr)
+          require("lsp_signature").on_attach({
+            bind = true, -- This is mandatory, otherwise border config won't get registered.
+            handler_opts = {
+              border = "rounded",
+            },
+          }, bufnr)
+        end,
+      }
+      require("lsp_signature").setup(cfg)
+    end,
+  },
 
   -- Snippets
   "rafamadriz/friendly-snippets",
-  { "L3MON4D3/LuaSnip", version = "v1.x" },
+  {
+    "L3MON4D3/LuaSnip",
+    version = "v1.x",
+    config = function()
+      require "user.luasnip"
+    end,
+  },
   "saadparwaiz1/cmp_luasnip",
   {
     "jose-elias-alvarez/null-ls.nvim",
