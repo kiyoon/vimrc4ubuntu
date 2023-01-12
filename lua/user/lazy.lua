@@ -150,7 +150,10 @@ return {
       require "user.treesitter"
     end,
   },
-  { "nvim-treesitter/nvim-treesitter-textobjects" },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    -- dev = true,
+  },
   { "nvim-treesitter/nvim-treesitter-context" },
   {
     "lukas-reineke/indent-blankline.nvim",
