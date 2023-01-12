@@ -1,3 +1,4 @@
+/.luarc.json
 /lua/.luarc.json
 package.json
 package-lock.json

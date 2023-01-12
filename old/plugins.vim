@@ -77,19 +77,6 @@ let g:wordmotion_prefix = ','
 " use VSCode easymotion when in VSCode mode
 Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
 
-" Plug 'untitled-ai/jupyter_ascending.vim'{{{
-" " I don't know why but it only gets executed after one more command, that's why I put <ESC>
-" nmap <space>x <Plug>JupyterExecute<ESC>
-" nmap <space>X <Plug>JupyterExecuteAll<ESC>
-"
-" " Moving between cells. TODO Make improvements
-" nnoremap <space>j /# %%<CR>
-" onoremap <space>j /# %%<CR>
-" xnoremap <space>j /# %%<CR>
-" nnoremap <space>k ?# %%<CR>
-" onoremap <space>k ?# %%<CR>
-" xnoremap <space>k ?# %%<CR>}}}
-
 if !exists('g:vscode')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'github/copilot.vim'
