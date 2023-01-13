@@ -240,6 +240,7 @@ return {
     cond = vim.g.vscode == nil,
     config = function()
       vim.cmd [[
+        autocmd FileType lua let b:coc_suggest_disable = 1
         hi link CocInlayHint Comment
         call coc#add_extension('coc-pyright')
         call coc#add_extension('coc-sh')
