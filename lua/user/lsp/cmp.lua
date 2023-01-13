@@ -1,5 +1,6 @@
 -- nvim-cmp setup
 local cmp = require "cmp"
+local cmp_buffer = require "cmp_buffer"
 local luasnip = require "luasnip"
 
 cmp.setup {
@@ -37,6 +38,16 @@ cmp.setup {
   },
   sources = {
     { name = "nvim_lsp" },
+    { name = "path" },
+    { name = "buffer" },
+    { name = "calc" },
     { name = "luasnip" },
+  },
+  sorting = {
+    comparators = {
+      function(...)
+        return cmp_buffer:compare_locality(...)
+      end,
+    },
   },
 }

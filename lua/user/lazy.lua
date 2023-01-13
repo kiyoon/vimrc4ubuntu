@@ -73,7 +73,8 @@ return {
 
   {
     "chaoren/vim-wordmotion",
-    config = function()
+    -- use init instead of config to set variables before loading the plugin
+    init = function()
       vim.g.wordmotion_prefix = ","
     end,
   },
@@ -246,6 +247,8 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
+      "hrsh7th/cmp-calc",
+      "saadparwaiz1/cmp_luasnip",
     },
     config = function()
       require "user.lsp.cmp"
@@ -255,6 +258,10 @@ return {
     "lvimuser/lsp-inlayhints.nvim",
     -- lazy = false,
     config = function()
+      vim.cmd [[hi link LspInlayHint Comment]]
+      -- vim.cmd [[hi LspInlayHint guifg=#d8d8d8 guibg=#3a3a3a]]
+      require("lsp-inlayhints").setup()
+
       vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
       vim.api.nvim_create_autocmd("LspAttach", {
         group = "LspAttach_inlayhints",
@@ -296,7 +303,6 @@ return {
       require "user.luasnip"
     end,
   },
-  "saadparwaiz1/cmp_luasnip",
   {
     "jose-elias-alvarez/null-ls.nvim",
     config = function()
@@ -352,6 +358,8 @@ return {
       require "user.illuminate"
     end,
   },
+
+  -- UI
   {
     "rcarriga/nvim-notify",
     config = function()
@@ -361,4 +369,35 @@ return {
       vim.notify = require "notify"
     end,
   },
+  -- {
+  --   "folke/noice.nvim",
+  --   config = function()
+  --     require("noice").setup {
+  --       lsp = {
+  --         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+  --         override = {
+  --           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+  --           ["vim.lsp.util.stylize_markdown"] = true,
+  --           ["cmp.entry.get_documentation"] = true,
+  --         },
+  --       },
+  --       -- you can enable a preset for easier configuration
+  --       presets = {
+  --         bottom_search = true, -- use a classic bottom cmdline for search
+  --         command_palette = true, -- position the cmdline and popupmenu together
+  --         long_message_to_split = true, -- long messages will be sent to a split
+  --         inc_rename = false, -- enables an input dialog for inc-rename.nvim
+  --         lsp_doc_border = false, -- add a border to hover docs and signature help
+  --       },
+  --     }
+  --   end,
+  --   dependencies = {
+  --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+  --     "MunifTanjim/nui.nvim",
+  --     -- OPTIONAL:
+  --     --   `nvim-notify` is only needed, if you want to use the notification view.
+  --     --   If not available, we use `mini` as the fallback
+  --     "rcarriga/nvim-notify",
+  --   },
+  -- },
 }

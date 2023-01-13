@@ -17,6 +17,10 @@ return {
       hint = {
         enable = true,
       },
+      completion = {
+        -- neodev
+        callSnippet = "Replace"
+      }
     },
   },
 }

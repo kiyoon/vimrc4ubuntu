@@ -9,6 +9,16 @@ M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
+a = {
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+}
+
 M.setup = function()
   local signs = {
 
@@ -23,7 +33,8 @@ M.setup = function()
   end
 
   local config = {
-    virtual_text = true,
+    -- virtual_text = true,
+    virtual_text = { spacing = 3, prefix = "" },
     signs = {
       active = signs, -- show signs
     },
@@ -49,9 +60,13 @@ M.setup = function()
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = "rounded",
   })
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-  })
+  -- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  --   -- virtual_text = true,
+  --   virtual_text = { spacing = 0, prefix = "" },
+  --   signs = true,
+  --   underline = true,
+  --   update_in_insert = true,
+  -- })
 end
 
 local function lsp_keymaps(bufnr)

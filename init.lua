@@ -1,6 +1,8 @@
 -- nvim-tree recommends disabling netrw, VIM's built-in file explorer
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.g.python3_host_prog = "/usr/bin/python3"
+-- vim.g.python3_host_prog = "~/bin/miniconda3/envs/nvim/bin/python3"
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
