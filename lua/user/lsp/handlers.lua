@@ -9,16 +9,6 @@ M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
-a = {
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-}
-
 M.setup = function()
   local signs = {
 
@@ -87,6 +77,10 @@ local function lsp_keymaps(bufnr)
   -- keymr, "n", "<space>pr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
   keymap("n", "<space>ps", vim.lsp.buf.signature_help, opts)
   keymap("n", "<space>pq", vim.diagnostic.setqflist, opts)
+
+  if vim.o.filetype == "python" then
+    keymap("n", "<Tab>", "<cmd>PyrightOrganizeImports<cr>", opts)
+  end
 end
 
 M.on_attach = function(client, bufnr)

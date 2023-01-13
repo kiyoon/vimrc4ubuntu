@@ -278,7 +278,22 @@ require("nvim-treesitter.configs").setup {
   },
 }
 
-vim.keymap.set({ "n", "x", "o" }, ";", "<cmd>TSTextobjectRepeatLastMove<CR>")
+local tstextobj_move = require "nvim-treesitter.textobjects.move"
+
+-- Repeat movement with ; and ,
+-- ensure ; goes forward and , goes backwatd
+vim.keymap.set({ "n", "x", "o" }, ";", tstextobj_move.repeat_last_move_next)
+vim.keymap.set({ "n", "x", "o" }, ",", tstextobj_move.repeat_last_move_previous)
+
+-- vim way: ; goes to the direction you were moving.
+-- vim.keymap.set({ "n", "x", "o" }, ";", tstextobj_move.repeat_last_move)
+-- vim.keymap.set({ "n", "x", "o" }, ",", tstextobj_move.repeat_last_move_opposite)
+
+-- Make builtin f, F, t, T also repeatable with ; and ,
+vim.keymap.set({ "n", "x", "o" }, "f", tstextobj_move.builtin_f)
+vim.keymap.set({ "n", "x", "o" }, "F", tstextobj_move.builtin_F)
+vim.keymap.set({ "n", "x", "o" }, "t", tstextobj_move.builtin_t)
+vim.keymap.set({ "n", "x", "o" }, "T", tstextobj_move.builtin_T)
 
 require("iswap").setup {
   move_cursor = true,
@@ -307,10 +322,10 @@ nmap m <Cmd>lua require('tsht').move({ side = "start" })<CR>
 nnoremap M m	" default m marking is now M
 
 "ISwap
-nmap ,s <Cmd>ISwap<CR>
-nmap ,S <Cmd>ISwapNode<CR>
-nmap ,,s <Cmd>ISwapWith<CR>
-nmap ,,S <Cmd>ISwapNodeWith<CR>
+nmap <leader>s <Cmd>ISwap<CR>
+nmap <leader>S <Cmd>ISwapNode<CR>
+nmap <leader><leader>s <Cmd>ISwapWith<CR>
+nmap <leader><leader>S <Cmd>ISwapNodeWith<CR>
 nmap <space>. <Cmd>ISwapWithRight<CR>
 nmap <space>, <Cmd>ISwapWithLeft<CR>
 nmap <space><space>. <Cmd>ISwapNodeWithRight<CR>

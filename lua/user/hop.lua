@@ -20,21 +20,22 @@ hop.setup()
 
 -- <space>w and <space>e for word hopping
 
-vim.keymap.set("", "<space>w", function()
-  hop.hint_words { current_line_only = true }
-end, { remap = true })
+-- vim.keymap.set("", "<space>w", function()
+--   hop.hint_words { current_line_only = true }
+-- end, { remap = true })
 
 vim.keymap.set("", "<space>f", function()
   hop.hint_char1 { current_line_only = true }
 end, { remap = true })
 
 -- more advanced, use two words to search everywhere
-vim.keymap.set("", "<space>g", function()
-  hop.hint_char2 {}
-end, { remap = true })
-vim.keymap.set("n", "<space>g", function()
-  hop.hint_char2 { multi_windows = true }
-end, { remap = true })
+-- Use leap.nvim instead
+-- vim.keymap.set("", "<space>g", function()
+--   hop.hint_char2 {}
+-- end, { remap = true })
+-- vim.keymap.set("n", "<space>g", function()
+--   hop.hint_char2 { multi_windows = true }
+-- end, { remap = true })
 
 -- Bidirectional t motion
 -- https://github.com/phaazon/hop.nvim/issues/266

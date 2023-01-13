@@ -75,7 +75,7 @@ return {
     "chaoren/vim-wordmotion",
     -- use init instead of config to set variables before loading the plugin
     init = function()
-      vim.g.wordmotion_prefix = ","
+      vim.g.wordmotion_prefix = "<space>"
     end,
   },
   "github/copilot.vim",
@@ -153,7 +153,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
-    dev = true,
+    -- dev = true,
   },
   { "nvim-treesitter/nvim-treesitter-context" },
   {
