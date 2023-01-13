@@ -36,6 +36,7 @@ return {
     config = function()
       require "user.jupynium"
     end,
+    dev = true,
   },
   {
     "numToStr/Comment.nvim",
@@ -231,6 +232,31 @@ return {
   },
 
   -- LSP
+  -- CoC supports out-of-the-box features like inlay hints
+  -- which isn't possible with native LSP yet.
+  {
+    "neoclide/coc.nvim",
+    branch = "release",
+    cond = vim.g.vscode == nil,
+    config = function()
+      vim.cmd [[
+        hi link CocInlayHint Comment
+        call coc#add_extension('coc-pyright')
+        call coc#add_extension('coc-sh')
+        call coc#add_extension('coc-clangd')
+        call coc#add_extension('coc-vimlsp')
+        call coc#add_extension('coc-java')
+        call coc#add_extension('coc-html')
+        call coc#add_extension('coc-css')
+        call coc#add_extension('coc-json')
+        call coc#add_extension('coc-yaml')
+        call coc#add_extension('coc-markdownlint')
+        " call coc#add_extension('coc-sumneko-lua')
+        " call coc#add_extension('coc-snippets')
+      ]]
+    end,
+  },
+
   -- Mason makes it easier to install language servers
   -- Always load mason, mason-lspconfig and nvim-lspconfig in order.
   { "williamboman/mason.nvim" },

@@ -278,22 +278,22 @@ require("nvim-treesitter.configs").setup {
   },
 }
 
-local tstextobj_move = require "nvim-treesitter.textobjects.move"
-
--- Repeat movement with ; and ,
--- ensure ; goes forward and , goes backwatd
-vim.keymap.set({ "n", "x", "o" }, ";", tstextobj_move.repeat_last_move_next)
-vim.keymap.set({ "n", "x", "o" }, ",", tstextobj_move.repeat_last_move_previous)
-
--- vim way: ; goes to the direction you were moving.
--- vim.keymap.set({ "n", "x", "o" }, ";", tstextobj_move.repeat_last_move)
--- vim.keymap.set({ "n", "x", "o" }, ",", tstextobj_move.repeat_last_move_opposite)
-
--- Make builtin f, F, t, T also repeatable with ; and ,
-vim.keymap.set({ "n", "x", "o" }, "f", tstextobj_move.builtin_f)
-vim.keymap.set({ "n", "x", "o" }, "F", tstextobj_move.builtin_F)
-vim.keymap.set({ "n", "x", "o" }, "t", tstextobj_move.builtin_t)
-vim.keymap.set({ "n", "x", "o" }, "T", tstextobj_move.builtin_T)
+-- local tstextobj_move = require "nvim-treesitter.textobjects.move"
+--
+-- -- Repeat movement with ; and ,
+-- -- ensure ; goes forward and , goes backwatd
+-- vim.keymap.set({ "n", "x", "o" }, ";", tstextobj_move.repeat_last_move_next)
+-- vim.keymap.set({ "n", "x", "o" }, ",", tstextobj_move.repeat_last_move_previous)
+--
+-- -- vim way: ; goes to the direction you were moving.
+-- -- vim.keymap.set({ "n", "x", "o" }, ";", tstextobj_move.repeat_last_move)
+-- -- vim.keymap.set({ "n", "x", "o" }, ",", tstextobj_move.repeat_last_move_opposite)
+--
+-- -- Make builtin f, F, t, T also repeatable with ; and ,
+-- vim.keymap.set({ "n", "x", "o" }, "f", tstextobj_move.builtin_f)
+-- vim.keymap.set({ "n", "x", "o" }, "F", tstextobj_move.builtin_F)
+-- vim.keymap.set({ "n", "x", "o" }, "t", tstextobj_move.builtin_t)
+-- vim.keymap.set({ "n", "x", "o" }, "T", tstextobj_move.builtin_T)
 
 require("iswap").setup {
   move_cursor = true,
