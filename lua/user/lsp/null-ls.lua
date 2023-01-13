@@ -38,5 +38,3 @@ null_ls.setup {
 }
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-vim.keymap.set("n", "<space>pf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", { silent = true })
