@@ -23,7 +23,7 @@ npm install -g prettier
 
 if ! command -v tree-sitter &> /dev/null
 then
-	npm install -g tree-sitter
+	npm install -g tree-sitter-cli
 fi
 
 # Deprecated: no need for below.
