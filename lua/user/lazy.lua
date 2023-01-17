@@ -157,6 +157,7 @@ return {
     -- dev = true,
   },
   { "nvim-treesitter/nvim-treesitter-context" },
+  { "nvim-treesitter/playground" },
   {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
