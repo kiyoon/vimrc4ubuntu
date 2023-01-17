@@ -314,6 +314,17 @@ vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
 vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
 vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 
+local function repeat_last_move_previous_start()
+  -- This repeats last query with always forward direction and end of the range.
+  return ts_repeat_move.repeat_last_move { forward = false, start = true }
+end
+local function repeat_last_move_next_end()
+  -- This repeats last query with always forward direction and end of the range.
+  return ts_repeat_move.repeat_last_move { forward = true, start = false }
+end
+vim.keymap.set({ "n", "x", "o" }, "<home>", repeat_last_move_previous_start)
+vim.keymap.set({ "n", "x", "o" }, "<end>", repeat_last_move_next_end)
+
 require("iswap").setup {
   move_cursor = true,
 }
