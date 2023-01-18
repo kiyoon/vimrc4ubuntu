@@ -319,6 +319,10 @@ return {
             },
           }, bufnr)
         end,
+        debug = true, -- set to true to enable debug logging
+        log_path = vim.fn.stdpath "cache" .. "/lsp_signature.log", -- log dir when debug is on
+        -- default is  ~/.cache/nvim/lsp_signature.log
+        verbose = true, -- show debug line number
       }
       require("lsp_signature").setup(cfg)
     end,
@@ -356,6 +360,23 @@ return {
         auto_preview = true,
         auto_fold = true,
       }
+      -- Lua
+      vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
+      vim.keymap.set(
+        "n",
+        "<leader>xw",
+        "<cmd>TroubleToggle workspace_diagnostics<cr>",
+        { silent = true, noremap = true }
+      )
+      vim.keymap.set(
+        "n",
+        "<leader>xd",
+        "<cmd>TroubleToggle document_diagnostics<cr>",
+        { silent = true, noremap = true }
+      )
+      vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
+      vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+      vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
     end,
   },
 

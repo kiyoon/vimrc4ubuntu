@@ -19,6 +19,7 @@ end
 -- telescope.load_extension('projects')
 
 local path_actions = require "telescope_insert_path"
+local trouble = require "trouble.providers.telescope"
 
 telescope.setup {
   defaults = {
@@ -66,7 +67,9 @@ telescope.setup {
         ["=A"] = path_actions.insert_abspath_A_normal,
         ["=o"] = path_actions.insert_abspath_o_normal,
         ["=O"] = path_actions.insert_abspath_O_normal,
+        ["<c-t>"] = trouble.open_with_trouble,
       },
+      i = { ["<c-t>"] = trouble.open_with_trouble },
     },
   },
 }
