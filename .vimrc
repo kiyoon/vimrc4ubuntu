@@ -406,12 +406,12 @@ nnoremap <space>O :call BlankUp(v:count1)<CR>
 nnoremap <space>o :call BlankDown(v:count1)<CR>
 
 " https://vim.fandom.com/wiki/Moving_lines_up_or_down
-nnoremap <A-Up> :m .+1<CR>==
-nnoremap <A-Down> :m .-2<CR>==
-inoremap <A-Up> <Esc>:m .+1<CR>==gi
-inoremap <A-Down> <Esc>:m .-2<CR>==gi
-vnoremap <A-Up> :m '>+1<CR>gv=gv
-vnoremap <A-Down> :m '<-2<CR>gv=gv
+nnoremap <A-Down> :m .+1<CR>==
+nnoremap <A-Up> :m .-2<CR>==
+inoremap <A-Down> <Esc>:m .+1<CR>==gi
+inoremap <A-Up> <Esc>:m .-2<CR>==gi
+vnoremap <A-Down> :m '>+1<CR>gv=gv
+vnoremap <A-Up> :m '<-2<CR>gv=gv
 
 
 if !exists('*Tj_save_and_exec')
