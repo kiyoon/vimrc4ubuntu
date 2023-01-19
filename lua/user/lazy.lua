@@ -31,8 +31,9 @@ return {
   },
   {
     "kiyoon/jupynium.nvim",
-    build = "~/bin/miniconda3/envs/jupynium/bin/pip install .",
-    enabled = vim.fn.isdirectory(vim.fn.expand "~/bin/miniconda3/envs/jupynium"),
+    build = "conda run --no-capture-output -n jupynium pip install .",
+    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/bin/miniconda3/envs/jupynium"),
+    enabled = vim.fn.system "conda env list | grep /envs/jupynium$" ~= "",
     config = function()
       require "user.jupynium"
     end,
@@ -419,6 +420,16 @@ return {
       }
       vim.notify = require "notify"
     end,
+  },
+  {
+    -- For treemux
+    "kiyoon/nvim-tree-remote.nvim",
+    cond = false,
+  },
+  {
+    -- For treemux
+    "folke/tokyonight.nvim",
+    cond = false,
   },
   -- {
   --   "folke/noice.nvim",
