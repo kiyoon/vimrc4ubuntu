@@ -39,7 +39,7 @@ require("nvim-treesitter.configs").setup {
       init_selection = "gnn", -- set to `false` to disable one of the mappings
       node_incremental = "<cr>",
       scope_incremental = "grc",
-      node_decremental = ".",
+      node_decremental = "<bs>",
     },
   },
 
