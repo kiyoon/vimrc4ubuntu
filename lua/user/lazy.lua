@@ -31,9 +31,9 @@ return {
   },
   {
     "kiyoon/jupynium.nvim",
-    build = "conda run --no-capture-output -n jupynium pip install .",
-    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/bin/miniconda3/envs/jupynium"),
-    enabled = vim.fn.system "conda env list | grep /envs/jupynium$" ~= "",
+    -- build = "conda run --no-capture-output -n jupynium pip install .",
+    build = "~/bin/miniconda3/envs/jupynium/bin/pip install .[extra]",
+    enabled = vim.fn.isdirectory(vim.fn.expand "~/bin/miniconda3/envs/jupynium"),
     config = function()
       require "user.jupynium"
     end,
