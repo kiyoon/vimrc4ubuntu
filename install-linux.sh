@@ -53,3 +53,5 @@ then
 else
 	echo "ripgrep found at $(which rg). Skipping installation."
 fi
+
+cargo install viu
