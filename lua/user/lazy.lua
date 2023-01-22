@@ -516,28 +516,6 @@ return {
   --     "rcarriga/nvim-notify",
   --   },
   -- },
-  {
-    "quarto-dev/quarto-nvim",
-    dependencies = {
-      "jmbuhr/otter.nvim",
-      "neovim/nvim-lspconfig",
-    },
-    config = function()
-      require("quarto").setup {
-        lspFeatures = {
-          enabled = true,
-          languages = { "r", "python", "julia" },
-          diagnostics = {
-            enabled = true,
-            triggers = { "BufWrite" },
-          },
-          completion = {
-            enabled = true,
-          },
-        },
-      }
-    end,
-  },
   "folke/lsp-colors.nvim",
   {
     "folke/which-key.nvim",
@@ -664,5 +642,17 @@ return {
         { noremap = true, silent = true, expr = false }
       )
     end,
+  },
+  {
+    "metakirby5/codi.vim",
+    init = function()
+      vim.g["codi#interpreters"] = {
+        python = {
+          bin = "python3",
+        },
+      }
+      vim.g["codi#virtual_text_pos"] = "right_align"
+    end,
+    cmd = "Codi",
   },
 }
