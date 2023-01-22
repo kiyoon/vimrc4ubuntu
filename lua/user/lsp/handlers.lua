@@ -61,26 +61,34 @@ end
 
 local function lsp_keymaps(bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
-  local keymap = vim.keymap.set
-  keymap("n", "gD", vim.lsp.buf.declaration, opts)
-  keymap("n", "gd", vim.lsp.buf.definition, opts)
-  keymap("n", "K", vim.lsp.buf.hover, opts)
-  keymap("n", "gI", vim.lsp.buf.implementation, opts)
-  keymap("n", "gr", vim.lsp.buf.references, opts)
-  keymap("n", "gl", vim.diagnostic.open_float, opts)
-  keymap("n", "<space>pf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
+  local keymap = function(mode, lhs, rhs, opts_, desc)
+    opts_.desc = desc
+    return vim.keymap.set(mode, lhs, rhs, opts_)
+  end
+  keymap("n", "gD", vim.lsp.buf.declaration, opts, "(G)o to (D)eclaration")
+  keymap("n", "gd", vim.lsp.buf.definition, opts, "(G)o to (D)efinition")
+  keymap("n", "K", vim.lsp.buf.hover, opts, "LSP hover")
+  keymap("n", "gI", vim.lsp.buf.implementation, opts, "(G)o to (I)mplementation")
+  keymap("n", "gr", vim.lsp.buf.references, opts, "(G)o to (R)eferences")
+  keymap("n", "gl", vim.diagnostic.open_float, opts, "Show Diagnostics")
+  keymap("n", "<space>pf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts, "Format")
   keymap("n", "<space>pi", "<cmd>LspInfo<cr>", opts)
   keymap("n", "<space>pI", "<cmd>LspInstallInfo<cr>", opts)
-  keymap("n", "<space>pa", vim.lsp.buf.code_action, opts)
+  keymap("n", "<space>pa", vim.lsp.buf.code_action, opts, "Code Action")
   keymap({ "n", "x", "o", "i" }, "<A-l>", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", opts)
   keymap({ "n", "x", "o", "i" }, "<A-h>", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", opts)
-  -- keymr, "n", "<space>pr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-  keymap("n", "<space>ps", vim.lsp.buf.signature_help, opts)
-  keymap("n", "<space>pq", vim.diagnostic.setqflist, opts)
+  -- keymap("n", "<space>pr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+  keymap("n", "<space>ps", vim.lsp.buf.signature_help, opts, "(S)ignature Help")
+  keymap("n", "<space>pq", vim.diagnostic.setqflist, opts, "Set (Q)uickfix List")
 
   if vim.o.filetype == "python" then
     keymap("n", "<Tab>", "<cmd>PyrightOrganizeImports<cr>", opts)
   end
+
+  local wk = require "which-key"
+  wk.register {
+    ["<space>p"] = { name = "LSP" },
+  }
 end
 
 M.on_attach = function(client, bufnr)

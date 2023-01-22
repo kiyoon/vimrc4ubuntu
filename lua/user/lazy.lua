@@ -22,11 +22,11 @@ return {
   {
     "kiyoon/tmuxsend.vim",
     keys = {
-      { "-", "<Plug>(tmuxsend-smart)", mode = { "n", "x" } },
-      { "_", "<Plug>(tmuxsend-plain)", mode = { "n", "x" } },
-      { "<space>-", "<Plug>(tmuxsend-uid-smart)", mode = { "n", "x" } },
-      { "<space>_", "<Plug>(tmuxsend-uid-plain)", mode = { "n", "x" } },
-      { "<C-_>", "<Plug>(tmuxsend-tmuxbuffer)", mode = { "n", "x" } },
+      { "-", "<Plug>(tmuxsend-smart)", mode = { "n", "x" }, desc = "Send to tmux (smart)" },
+      { "_", "<Plug>(tmuxsend-plain)", mode = { "n", "x" }, desc = "Send to tmux (plain)" },
+      { "<space>-", "<Plug>(tmuxsend-uid-smart)", mode = { "n", "x" }, desc = "Send to tmux w/ pane uid (smart)" },
+      { "<space>_", "<Plug>(tmuxsend-uid-plain)", mode = { "n", "x" }, desc = "Send to tmux w/ pane uid (plain)" },
+      { "<C-_>", "<Plug>(tmuxsend-tmuxbuffer)", mode = { "n", "x", desc = "Yank to tmux buffer" } },
     },
   },
   {
@@ -103,11 +103,12 @@ return {
     "smjonas/inc-rename.nvim",
     keys = {
       {
-        "<space>rn",
+        "<space>pr",
         function()
           return ":IncRename " .. vim.fn.expand "<cword>"
         end,
         expr = true,
+        desc = "LSP (R)ename",
       },
     },
     config = function()
@@ -118,7 +119,60 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     config = function()
-      require("gitsigns").setup()
+      require("gitsigns").setup {
+        on_attach = function(bufnr)
+          local gs = package.loaded.gitsigns
+          local tstext = require "nvim-treesitter.textobjects.repeatable_move"
+
+          local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+          end
+
+          local next_hunk, prev_hunk = tstext.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
+          -- Navigation
+          map("n", "]h", function()
+            if vim.wo.diff then
+              return "]h"
+            end
+            vim.schedule(function()
+              next_hunk()
+            end)
+            return "<Ignore>"
+          end, { expr = true })
+
+          map("n", "[h", function()
+            if vim.wo.diff then
+              return "[h"
+            end
+            vim.schedule(function()
+              prev_hunk()
+            end)
+            return "<Ignore>"
+          end, { expr = true })
+
+          -- Actions
+          map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
+          map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
+          map("n", "<leader>hS", gs.stage_buffer)
+          map("n", "<leader>hu", gs.undo_stage_hunk)
+          map("n", "<leader>hR", gs.reset_buffer)
+          map("n", "<leader>hp", gs.preview_hunk)
+          map("n", "<leader>hb", function()
+            gs.blame_line { full = true }
+          end)
+          map("n", "<leader>tb", gs.toggle_current_line_blame)
+          map("n", "<leader>hd", gs.diffthis)
+          map("n", "<leader>hD", function()
+            gs.diffthis "~"
+          end)
+          map("n", "<leader>td", gs.toggle_deleted)
+
+          -- Text object
+          map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+        end,
+      }
     end,
   },
 
@@ -462,4 +516,153 @@ return {
   --     "rcarriga/nvim-notify",
   --   },
   -- },
+  {
+    "quarto-dev/quarto-nvim",
+    dependencies = {
+      "jmbuhr/otter.nvim",
+      "neovim/nvim-lspconfig",
+    },
+    config = function()
+      require("quarto").setup {
+        lspFeatures = {
+          enabled = true,
+          languages = { "r", "python", "julia" },
+          diagnostics = {
+            enabled = true,
+            triggers = { "BufWrite" },
+          },
+          completion = {
+            enabled = true,
+          },
+        },
+      }
+    end,
+  },
+  "folke/lsp-colors.nvim",
+  {
+    "folke/which-key.nvim",
+    config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 600
+      require("which-key").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end,
+  },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+      vim.keymap.set("n", "]t", function()
+        require("todo-comments").jump_next()
+      end, { desc = "Next todo comment" })
+
+      vim.keymap.set("n", "[t", function()
+        require("todo-comments").jump_prev()
+      end, { desc = "Previous todo comment" })
+
+      -- You can also specify a list of valid jump keywords
+
+      -- vim.keymap.set("n", "]t", function()
+      --   require("todo-comments").jump_next({keywords = { "ERROR", "WARNING" }})
+      -- end, { desc = "Next error/warning todo comment" })
+    end,
+  },
+  -- {
+  --   "toppair/peek.nvim",
+  --   ft = "markdown",
+  --   build = "deno task --quiet build:fast",
+  --   config = function()
+  --     vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+  --     vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
+  --     require("peek").setup {
+  --       auto_load = true, -- whether to automatically load preview when
+  --       -- entering another markdown buffer
+  --       close_on_bdelete = true, -- close preview window on buffer delete
+  --
+  --       syntax = true, -- enable syntax highlighting, affects performance
+  --
+  --       theme = "light", -- 'dark' or 'light'
+  --
+  --       update_on_change = true,
+  --
+  --       -- relevant if update_on_change is true
+  --       throttle_at = 200000, -- start throttling when file exceeds this
+  --       -- amount of bytes in size
+  --       throttle_time = "auto", -- minimum amount of time in milliseconds
+  --       -- that has to pass before starting new render
+  --     }
+  --   end,
+  -- },
+
+  {
+    "iamcco/markdown-preview.nvim",
+    ft = "markdown",
+    -- build = "cd app && yarn install",
+    build = ":call mkdp#util#install()",
+  },
+  {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("refactoring").setup()
+      -- Remaps for the refactoring operations currently offered by the plugin
+      vim.api.nvim_set_keymap(
+        "v",
+        "<space>re",
+        [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
+        { noremap = true, silent = true, expr = false }
+      )
+      vim.api.nvim_set_keymap(
+        "v",
+        "<space>rf",
+        [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
+        { noremap = true, silent = true, expr = false }
+      )
+      vim.api.nvim_set_keymap(
+        "v",
+        "<space>rv",
+        [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+        { noremap = true, silent = true, expr = false }
+      )
+      vim.api.nvim_set_keymap(
+        "v",
+        "<space>ri",
+        [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+        { noremap = true, silent = true, expr = false }
+      )
+
+      -- Extract block doesn't need visual mode
+      vim.api.nvim_set_keymap(
+        "n",
+        "<space>rb",
+        [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
+        { noremap = true, silent = true, expr = false }
+      )
+      vim.api.nvim_set_keymap(
+        "n",
+        "<space>rbf",
+        [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
+        { noremap = true, silent = true, expr = false }
+      )
+
+      -- Inline variable can also pick up the identifier currently under the cursor without visual mode
+      vim.api.nvim_set_keymap(
+        "n",
+        "<space>ri",
+        [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+        { noremap = true, silent = true, expr = false }
+      )
+    end,
+  },
 }

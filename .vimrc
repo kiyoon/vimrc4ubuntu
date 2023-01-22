@@ -64,7 +64,9 @@ set smartcase
 "/copyright\C    : Case sensitive
 "/Copyright\c    : Case insensitive
 
-set timeoutlen=10000	" leader key timeout = 10s
+if !has('nvim')
+  set timeoutlen=10000	" leader key timeout = 10s
+endif
 
 " map common mistakes: :W, :Q, :Wq, :WQ 
 command! -bang -range=% -complete=file -nargs=* W <line1>,<line2>write<bang> <args>
