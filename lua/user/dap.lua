@@ -88,3 +88,8 @@ vim.cmd [[
 	nmap <space>di :lua require"dapui".toggle()<CR>
 	nmap <space>dt :lua require"dap".disconnect()<CR>
 ]]
+
+local wk = require "which-key"
+wk.register {
+  ["<space>d"] = { name = "DAP (Debugger)" },
+}

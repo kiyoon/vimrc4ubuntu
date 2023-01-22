@@ -87,7 +87,7 @@ local function lsp_keymaps(bufnr)
 
   local wk = require "which-key"
   wk.register {
-    ["<space>p"] = { name = "LSP" },
+    ["<space>p"] = { name = "LSP (language server)" },
   }
 end
 
