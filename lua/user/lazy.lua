@@ -83,6 +83,7 @@ return {
   "github/copilot.vim",
   {
     "nvim-lualine/lualine.nvim",
+    cond = (vim.fn.exists "g:started_by_firenvim" or vim.fn.exists "g:vscode") == 0,
     config = function()
       require("lualine").setup()
     end,
@@ -194,6 +195,7 @@ return {
 
   {
     "akinsho/bufferline.nvim",
+    cond = (vim.fn.exists "g:started_by_firenvim" or vim.fn.exists "g:vscode") == 0,
     config = function()
       require "user.bufferline"
     end,
@@ -654,5 +656,21 @@ return {
       vim.g["codi#virtual_text_pos"] = "right_align"
     end,
     cmd = "Codi",
+  },
+  {
+    "glacambre/firenvim",
+    init = function()
+      if vim.fn.exists "g:started_by_firenvim" then
+        vim.o.laststatus = 0
+        vim.cmd [[au BufEnter github.com_*.txt set filetype=markdown]]
+        vim.g.firenvim_config = {
+          globalSettings = {
+            ["<C-w>"] = "noop",
+            ["<C-n>"] = "default",
+          },
+        }
+      end
+    end,
+    build = "firenvim#install(0)",
   },
 }
