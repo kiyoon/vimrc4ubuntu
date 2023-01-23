@@ -6,7 +6,8 @@ TEMPDIR=$(mktemp -d)
 FONTDIR="$HOME/.local/share/fonts"
 
 # fontname="UbuntuMono"
-fontname="FiraCode"
+# fontname="FiraCode"
+fontname="JetBrainsMono"
 
 # nerd fonts
 if [ ! command -v fc-list &> /dev/null ] || ! fc-list | grep -q "$fontname Nerd Font"
