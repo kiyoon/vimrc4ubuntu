@@ -386,10 +386,12 @@ return {
   },
 
   -- Snippets
-  "rafamadriz/friendly-snippets",
   {
     "L3MON4D3/LuaSnip",
     version = "v1.x",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+    },
     config = function()
       require "user.luasnip"
     end,
