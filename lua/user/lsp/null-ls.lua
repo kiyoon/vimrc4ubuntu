@@ -20,7 +20,9 @@ null_ls.setup {
     formatting.black,
     formatting.stylua,
     formatting.google_java_format,
-    diagnostics.flake8,
+    diagnostics.flake8.with {
+      extra_args = { "--ignore=F821" }, -- ignore undefined name errors because pyright handles them
+    },
   },
   -- format on save
   on_attach = function(client, bufnr)
